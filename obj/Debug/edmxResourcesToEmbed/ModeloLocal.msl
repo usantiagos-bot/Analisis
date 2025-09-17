@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ProyectoAnalisisModel1StoreContainer" CdmEntityContainer="ProyectoAnalisisEntities1">
+    <FunctionImportMapping FunctionImportName="sp_LoginUsuario" FunctionName="ProyectoAnalisisModel1.Store.sp_LoginUsuario">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_LoginUsuario_Result">
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="SesionActual" ColumnName="SesionActual" />
+          <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Usuario_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_Usuario_Crear">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Usuario_Crear_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Usuario_CambiarPassword1" FunctionName="ProyectoAnalisisModel1.Store.sp_Usuario_CambiarPassword">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Usuario_CambiarPassword1_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_PasswordQA_ValidarYActualizar1" FunctionName="ProyectoAnalisisModel1.Store.sp_PasswordQA_ValidarYActualizar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_PasswordQA_ValidarYActualizar1_Result">
+          <ScalarProperty Name="Exito" ColumnName="Exito" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Usuario_Actualizar1" FunctionName="ProyectoAnalisisModel1.Store.sp_Usuario_Actualizar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Usuario_Actualizar1_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Usuario_Eliminar1" FunctionName="ProyectoAnalisisModel1.Store.sp_Usuario_Eliminar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Usuario_Eliminar1_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Usuario_Obtener1" FunctionName="ProyectoAnalisisModel1.Store.sp_Usuario_Obtener">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Usuario_Obtener1_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Usuario_Listar1" FunctionName="ProyectoAnalisisModel1.Store.sp_Usuario_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Usuario_Listar1_Result">
+          <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+          <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+          <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+          <ScalarProperty Name="IdStatusUsuario" ColumnName="IdStatusUsuario" />
+          <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+          <ScalarProperty Name="TelefonoMovil" ColumnName="TelefonoMovil" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Password_ObtenerPreguntas1" FunctionName="ProyectoAnalisisModel1.Store.sp_Password_ObtenerPreguntas">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Password_ObtenerPreguntas1_Result">
+          <ScalarProperty Name="Exito" ColumnName="Exito" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Sucursal_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_Sucursal_Actualizar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Sucursal_Actualizar_Result">
+          <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Sucursal_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_Sucursal_Crear" />
+    <FunctionImportMapping FunctionImportName="sp_Sucursal_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_Sucursal_Eliminar" />
+    <FunctionImportMapping FunctionImportName="sp_Sucursal_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_Sucursal_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Sucursal_Listar_Result">
+          <ScalarProperty Name="IdSucursal" ColumnName="IdSucursal" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Empresa_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_Empresa_Actualizar" />
+    <FunctionImportMapping FunctionImportName="sp_Empresa_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_Empresa_Crear" />
+    <FunctionImportMapping FunctionImportName="sp_Empresa_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_Empresa_Eliminar" />
+    <FunctionImportMapping FunctionImportName="sp_Empresa_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_Empresa_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Empresa_Listar_Result">
+          <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+          <ScalarProperty Name="Nit" ColumnName="Nit" />
+          <ScalarProperty Name="PasswordCantidadMayusculas" ColumnName="PasswordCantidadMayusculas" />
+          <ScalarProperty Name="PasswordCantidadMinusculas" ColumnName="PasswordCantidadMinusculas" />
+          <ScalarProperty Name="PasswordCantidadCaracteresEspeciales" ColumnName="PasswordCantidadCaracteresEspeciales" />
+          <ScalarProperty Name="PasswordCantidadCaducidadDias" ColumnName="PasswordCantidadCaducidadDias" />
+          <ScalarProperty Name="PasswordLargo" ColumnName="PasswordLargo" />
+          <ScalarProperty Name="PasswordIntentosAntesDeBloquear" ColumnName="PasswordIntentosAntesDeBloquear" />
+          <ScalarProperty Name="PasswordCantidadNumeros" ColumnName="PasswordCantidadNumeros" />
+          <ScalarProperty Name="PasswordCantidadPreguntasValidar" ColumnName="PasswordCantidadPreguntasValidar" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

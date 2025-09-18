@@ -247,6 +247,42 @@
       <Parameter Name="Page" Mode="In" Type="Int32" />
       <Parameter Name="PageSize" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_Genero_Actualizar">
+      <Parameter Name="IdGenero" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Genero_Crear" ReturnType="Collection(Decimal)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Genero_Eliminar">
+      <Parameter Name="IdGenero" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Genero_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Genero_Listar_Result)">
+      <Parameter Name="IdGenero" Mode="In" Type="Int32" />
+      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusUsuario_Actualizar">
+      <Parameter Name="IdStatusUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusUsuario_Crear" ReturnType="Collection(Decimal)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusUsuario_Eliminar">
+      <Parameter Name="IdStatusUsuario" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusUsuario_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusUsuario_Listar_Result)">
+      <Parameter Name="IdStatusUsuario" Mode="In" Type="Int32" />
+      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_LoginUsuario_Result">
     <Property Type="String" Name="IdUsuario" Nullable="false" MaxLength="100" />
@@ -375,6 +411,22 @@
   <ComplexType Name="sp_Role_Listar_Result">
     <Property Type="Int32" Name="IdRole" Nullable="false" />
     <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Genero_Listar_Result">
+    <Property Type="Int32" Name="IdGenero" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusUsuario_Listar_Result">
+    <Property Type="Int32" Name="IdStatusUsuario" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
     <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
     <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />

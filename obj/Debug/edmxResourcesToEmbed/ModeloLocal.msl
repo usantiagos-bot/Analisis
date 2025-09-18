@@ -139,5 +139,20 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Role_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_Role_Actualizar" />
+    <FunctionImportMapping FunctionImportName="sp_Role_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_Role_Crear" />
+    <FunctionImportMapping FunctionImportName="sp_Role_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_Role_Eliminar" />
+    <FunctionImportMapping FunctionImportName="sp_Role_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_Role_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Role_Listar_Result">
+          <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

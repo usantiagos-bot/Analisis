@@ -864,5 +864,65 @@ namespace Analisis
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Empresa_Listar_Result>("sp_Empresa_Listar", idEmpresaParameter, buscarNombreParameter, nitParameter, pageParameter, pageSizeParameter);
         }
+    
+        public virtual int sp_Role_Actualizar(Nullable<int> idRole, string nombre, string usuario)
+        {
+            var idRoleParameter = idRole.HasValue ?
+                new ObjectParameter("IdRole", idRole) :
+                new ObjectParameter("IdRole", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Role_Actualizar", idRoleParameter, nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> sp_Role_Crear(string nombre, string usuario)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_Role_Crear", nombreParameter, usuarioParameter);
+        }
+    
+        public virtual int sp_Role_Eliminar(Nullable<int> idRole)
+        {
+            var idRoleParameter = idRole.HasValue ?
+                new ObjectParameter("IdRole", idRole) :
+                new ObjectParameter("IdRole", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Role_Eliminar", idRoleParameter);
+        }
+    
+        public virtual ObjectResult<sp_Role_Listar_Result> sp_Role_Listar(Nullable<int> idRole, string buscarNombre, Nullable<int> page, Nullable<int> pageSize)
+        {
+            var idRoleParameter = idRole.HasValue ?
+                new ObjectParameter("IdRole", idRole) :
+                new ObjectParameter("IdRole", typeof(int));
+    
+            var buscarNombreParameter = buscarNombre != null ?
+                new ObjectParameter("BuscarNombre", buscarNombre) :
+                new ObjectParameter("BuscarNombre", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Role_Listar_Result>("sp_Role_Listar", idRoleParameter, buscarNombreParameter, pageParameter, pageSizeParameter);
+        }
     }
 }

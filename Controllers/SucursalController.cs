@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using System.Web.Http;
+using ProyectoAnalisis.Helpers;
+using ProyectoAnalisis.Permissions;
 
 namespace ProyectoAnalisis.Controllers
 {
@@ -12,7 +15,7 @@ namespace ProyectoAnalisis.Controllers
     {
         private static string Cnx => ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString;
 
-        // DTO
+        // ---------- DTO ----------
         public class SucursalDto
         {
             public int IdSucursal { get; set; }
@@ -25,8 +28,14 @@ namespace ProyectoAnalisis.Controllers
             public string UsuarioModificacion { get; set; }
         }
 
+        // Formateador de fechas
         private static string F(DateTime? d) => d.HasValue ? d.Value.ToString("yyyy-MM-ddTHH:mm:ss") : null;
 
+        // Respuesta uniforme para permiso denegado
+        private IHttpActionResult Denegado(PermisoAccion acc)
+            => Ok(new { ok = false, error = $"Permiso denegado ({acc})." });
+
+        // ---------- LISTAR ----------
         // GET /Sucursales/Listar?IdSucursal=&IdEmpresa=&BuscarNombre=&Page=1&PageSize=50
         [HttpGet]
         [Route("Listar")]
@@ -87,13 +96,21 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
+        // ---------- CREAR ----------
         // GET /Sucursales/Crear?Nombre=&Direccion=&IdEmpresa=&Usuario=
         [HttpGet]
         [Route("Crear")]
-        public IHttpActionResult Crear(string Nombre, string Direccion, int IdEmpresa, string Usuario)
+        public async Task<IHttpActionResult> Crear(string Nombre, string Direccion, int IdEmpresa, string Usuario)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(Usuario))
+                    return Ok(new { ok = false, error = "Usuario es requerido." });
+
+                // Permiso: Alta sobre Sucursales
+                if (!await SeguridadHelper.TienePermisoAsync(Usuario, Opciones.Sucursales, PermisoAccion.Alta))
+                    return Denegado(PermisoAccion.Alta);
+
                 int nuevoId;
 
                 using (var cn = new SqlConnection(Cnx))
@@ -106,8 +123,7 @@ namespace ProyectoAnalisis.Controllers
                     cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = Usuario;
 
                     cn.Open();
-                    // Tu SP devuelve un resultset con IdSucursal; usamos ExecuteScalar para leer la 1ª columna de la 1ª fila.
-                    var scalar = cmd.ExecuteScalar();
+                    var scalar = cmd.ExecuteScalar(); // SP devuelve IdSucursal (primera columna/primera fila)
                     nuevoId = Convert.ToInt32(scalar);
                 }
 
@@ -134,34 +150,33 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-        // GET /Sucursales/Actualizar?IdSucursal=&Nombre=&Direccion=&IdEmpresa=&Usuario=
-        // GET /Sucursales/Actualizar?IdSucursal=1&Usuario=admin
-        // GET /Sucursales/Actualizar?IdSucursal=1&Nombre=Nueva&Usuario=admin
-        // GET /Sucursales/Actualizar?IdSucursal=1&Direccion=Calle%20123&Usuario=admin
-        // GET /Sucursales/Actualizar?IdSucursal=1&IdEmpresa=5&Usuario=admin
+        // ---------- ACTUALIZAR ----------
+        // GET /Sucursales/Actualizar?IdSucursal=&Usuario=&Nombre=&Direccion=&IdEmpresa=
+        // Nombre/Direccion/IdEmpresa son OPCIONALES (se actualiza solo lo enviado)
         [HttpGet]
         [Route("Actualizar")]
-        public IHttpActionResult Actualizar(
+        public async Task<IHttpActionResult> Actualizar(
             int IdSucursal,
+            string Usuario,
             string Nombre = null,
             string Direccion = null,
-            int? IdEmpresa = null,
-            string Usuario = null)
+            int? IdEmpresa = null)
         {
             try
             {
-                // Si quieres forzar Usuario requerido, valida aquí:
                 if (string.IsNullOrWhiteSpace(Usuario))
                     return Ok(new { ok = false, error = "Usuario es requerido." });
+
+                // Permiso: Cambio sobre Sucursales
+                if (!await SeguridadHelper.TienePermisoAsync(Usuario, Opciones.Sucursales, PermisoAccion.Cambio))
+                    return Denegado(PermisoAccion.Cambio);
 
                 using (var cn = new SqlConnection(Cnx))
                 using (var cmd = new SqlCommand("dbo.sp_Sucursal_Actualizar", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-
                     cmd.Parameters.Add("@IdSucursal", SqlDbType.Int).Value = IdSucursal;
 
-                    // Si el cliente no lo envía o lo envía vacío, va como NULL
                     cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 100).Value =
                         string.IsNullOrWhiteSpace(Nombre) ? (object)DBNull.Value : Nombre;
 
@@ -169,10 +184,9 @@ namespace ProyectoAnalisis.Controllers
                         string.IsNullOrWhiteSpace(Direccion) ? (object)DBNull.Value : Direccion;
 
                     cmd.Parameters.Add("@IdEmpresa", SqlDbType.Int).Value =
-                        (object)IdEmpresa ?? DBNull.Value;
+                        IdEmpresa.HasValue ? (object)IdEmpresa.Value : DBNull.Value;
 
-                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value =
-                        (object)Usuario ?? DBNull.Value;
+                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = Usuario;
 
                     cn.Open();
                     cmd.ExecuteNonQuery();
@@ -201,14 +215,21 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-
-        // GET /Sucursales/Eliminar?IdSucursal=
+        // ---------- ELIMINAR ----------
+        // GET /Sucursales/Eliminar?IdSucursal=&Usuario=
         [HttpGet]
         [Route("Eliminar")]
-        public IHttpActionResult Eliminar(int IdSucursal)
+        public async Task<IHttpActionResult> Eliminar(int IdSucursal, string Usuario)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(Usuario))
+                    return Ok(new { ok = false, error = "Usuario es requerido." });
+
+                // Permiso: Baja sobre Sucursales
+                if (!await SeguridadHelper.TienePermisoAsync(Usuario, Opciones.Sucursales, PermisoAccion.Baja))
+                    return Denegado(PermisoAccion.Baja);
+
                 using (var cn = new SqlConnection(Cnx))
                 using (var cmd = new SqlCommand("dbo.sp_Sucursal_Eliminar", cn))
                 {
@@ -227,7 +248,7 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-        // -------- Helpers --------
+        // ---------- Helper interno ----------
         private SucursalDto ObtenerPorId(int id)
         {
             using (var cn = new SqlConnection(Cnx))

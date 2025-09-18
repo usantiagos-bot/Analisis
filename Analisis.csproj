@@ -166,6 +166,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ObtenerPreguntaController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\UsuarioActualizarController.cs" />
     <Compile Include="Controllers\UsuarioCambiarPasswordautenticadoController.cs" />
@@ -213,6 +214,9 @@
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_Password_ObtenerPreguntas_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Role_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_Sucursal_Actualizar_Result.cs">
@@ -332,6 +336,7 @@
     <Folder Include="Views\Login\" />
     <Folder Include="Views\ObtenerPregunta\" />
     <Folder Include="Views\prueba\" />
+    <Folder Include="Views\Role\" />
     <Folder Include="Views\Sucursal\" />
     <Folder Include="Views\UsuarioActualizar\" />
     <Folder Include="Views\UsuarioCambiarPasswordautenticado\" />

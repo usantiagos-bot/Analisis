@@ -154,5 +154,35 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Genero_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_Genero_Actualizar" />
+    <FunctionImportMapping FunctionImportName="sp_Genero_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_Genero_Crear" />
+    <FunctionImportMapping FunctionImportName="sp_Genero_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_Genero_Eliminar" />
+    <FunctionImportMapping FunctionImportName="sp_Genero_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_Genero_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Genero_Listar_Result">
+          <ScalarProperty Name="IdGenero" ColumnName="IdGenero" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_StatusUsuario_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusUsuario_Actualizar" />
+    <FunctionImportMapping FunctionImportName="sp_StatusUsuario_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusUsuario_Crear" />
+    <FunctionImportMapping FunctionImportName="sp_StatusUsuario_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusUsuario_Eliminar" />
+    <FunctionImportMapping FunctionImportName="sp_StatusUsuario_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusUsuario_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusUsuario_Listar_Result">
+          <ScalarProperty Name="IdStatusUsuario" ColumnName="IdStatusUsuario" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
+          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
+          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
+          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -2,7 +2,10 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using System.Web.Http;
+using ProyectoAnalisis.Helpers;
+using ProyectoAnalisis.Permissions;
 
 namespace ProyectoAnalisis.Controllers
 {
@@ -14,9 +17,13 @@ namespace ProyectoAnalisis.Controllers
         private static string Fmt(DateTime? dt) =>
             dt.HasValue ? dt.Value.ToString("yyyy-MM-ddTHH:mm:ss") : null;
 
+        private IHttpActionResult Denegado(string detalle)
+            => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({detalle})." });
+
         [HttpGet]
         [Route("Obtener")]
-        public IHttpActionResult Obtener(
+        public async Task<IHttpActionResult> Obtener(
+            string usuarioAccion,                   // <-- requerido para permiso
             string idUsuario = null,
             string correoElectronico = null,
             bool incluirFoto = false,
@@ -24,36 +31,53 @@ namespace ProyectoAnalisis.Controllers
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(usuarioAccion))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
+
                 if (string.IsNullOrWhiteSpace(idUsuario) && string.IsNullOrWhiteSpace(correoElectronico))
                     return Ok(new { Resultado = 0, Mensaje = "Debe enviar idUsuario o correoElectronico." });
+
+                usuarioAccion = usuarioAccion.Trim();
+                idUsuario = string.IsNullOrWhiteSpace(idUsuario) ? null : idUsuario.Trim();
+                correoElectronico = string.IsNullOrWhiteSpace(correoElectronico) ? null : correoElectronico.Trim();
+
+                // Permiso de lectura: con cualquiera de estos es suficiente
+                var puede =
+                    await SeguridadHelper.TienePermisoAsync(usuarioAccion, Opciones.Usuarios, PermisoAccion.Imprimir) ||
+                    await SeguridadHelper.TienePermisoAsync(usuarioAccion, Opciones.Usuarios, PermisoAccion.Exportar) ||
+                    await SeguridadHelper.TienePermisoAsync(usuarioAccion, Opciones.Usuarios, PermisoAccion.Cambio) ||
+                    await SeguridadHelper.TienePermisoAsync(usuarioAccion, Opciones.Usuarios, PermisoAccion.Alta) ||
+                    await SeguridadHelper.TienePermisoAsync(usuarioAccion, Opciones.Usuarios, PermisoAccion.Baja);
+
+                if (!puede) return Denegado("lectura");
 
                 using (var conn = new SqlConnection(Cnx))
                 using (var cmd = new SqlCommand("dbo.sp_Usuario_Obtener", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@IdUsuario", SqlDbType.VarChar, 100).Value =
-                        (object)(string.IsNullOrWhiteSpace(idUsuario) ? null : idUsuario.Trim()) ?? DBNull.Value;
+                        (object)idUsuario ?? DBNull.Value;
                     cmd.Parameters.Add("@CorreoElectronico", SqlDbType.VarChar, 100).Value =
-                        (object)(string.IsNullOrWhiteSpace(correoElectronico) ? null : correoElectronico.Trim()) ?? DBNull.Value;
+                        (object)correoElectronico ?? DBNull.Value;
                     cmd.Parameters.Add("@IncluirFoto", SqlDbType.Bit).Value = incluirFoto;
                     cmd.Parameters.Add("@IncluirAuditoria", SqlDbType.Bit).Value = incluirAuditoria;
 
                     conn.Open();
-                    using (var rd = cmd.ExecuteReader())
+                    using (var rd = await cmd.ExecuteReaderAsync())
                     {
                         if (!rd.HasRows)
                             return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
 
-                        // 1er resultset: Resultado / Mensaje
-                        rd.Read();
+                        // RS #1: Resultado / Mensaje
+                        await rd.ReadAsync();
                         int resultado = rd["Resultado"] != DBNull.Value ? Convert.ToInt32(rd["Resultado"]) : 0;
                         string mensaje = rd["Mensaje"] as string ?? "";
 
                         if (resultado != 1)
                             return Ok(new { Resultado = resultado, Mensaje = mensaje });
 
-                        // 2do resultset: datos del usuario
-                        if (!rd.NextResult() || !rd.Read())
+                        // RS #2: datos del usuario
+                        if (!await rd.NextResultAsync() || !await rd.ReadAsync())
                             return Ok(new { Resultado = 0, Mensaje = "No se encontraron datos del usuario." });
 
                         // Helpers de lectura segura

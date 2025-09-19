@@ -240,12 +240,11 @@
     </FunctionImport>
     <FunctionImport Name="sp_Role_Eliminar">
       <Parameter Name="IdRole" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_Role_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Role_Listar_Result)">
       <Parameter Name="IdRole" Mode="In" Type="Int32" />
-      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
-      <Parameter Name="Page" Mode="In" Type="Int32" />
-      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_Genero_Actualizar">
       <Parameter Name="IdGenero" Mode="In" Type="Int32" />
@@ -258,12 +257,12 @@
     </FunctionImport>
     <FunctionImport Name="sp_Genero_Eliminar">
       <Parameter Name="IdGenero" Mode="In" Type="Int32" />
+      <Parameter Name="HardDelete" Mode="In" Type="Boolean" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_Genero_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Genero_Listar_Result)">
       <Parameter Name="IdGenero" Mode="In" Type="Int32" />
-      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
-      <Parameter Name="Page" Mode="In" Type="Int32" />
-      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_StatusUsuario_Actualizar">
       <Parameter Name="IdStatusUsuario" Mode="In" Type="Int32" />
@@ -282,6 +281,118 @@
       <Parameter Name="BuscarNombre" Mode="In" Type="String" />
       <Parameter Name="Page" Mode="In" Type="Int32" />
       <Parameter Name="PageSize" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Genero_Listar_conBusqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Genero_Listar_conBusqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Role_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Role_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Actualizar">
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Pagina" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Crear" ReturnType="Collection(Decimal)">
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Pagina" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Eliminar">
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Opcion_Listar_Result)">
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
+      <Parameter Name="BuscarPagina" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Opcion_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Actualizar_Result)">
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Crear_Result)">
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Eliminar_Result)">
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Listar_Result)">
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Actualizar_Result)">
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Crear_Result)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Eliminar_Result)">
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Listar_Result)">
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_LoginUsuario_Result">
@@ -431,5 +542,83 @@
     <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
     <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Genero_Listar_conBusqueda_Result">
+    <Property Type="Int32" Name="IdGenero" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Role_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="IdRole" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Opcion_Listar_Result">
+    <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+    <Property Type="Int32" Name="IdMenu" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Pagina" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="OrdenMenu" Nullable="false" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Opcion_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+    <Property Type="Int32" Name="IdMenu" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Pagina" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="OrdenMenu" Nullable="false" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="11" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="6" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="9" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="11" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="6" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="9" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
   </ComplexType>
 </Schema>

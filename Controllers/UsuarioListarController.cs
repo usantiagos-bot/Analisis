@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using System.Web.Http;
+using ProyectoAnalisis.Helpers;
+using ProyectoAnalisis.Permissions;
 
 namespace ProyectoAnalisis.Controllers
 {
@@ -13,26 +16,56 @@ namespace ProyectoAnalisis.Controllers
         private static string Cnx => ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString;
 
         private static string Fmt(object dt)
-        {
-            if (dt == DBNull.Value || dt == null) return null;
-            return ((DateTime)dt).ToString("yyyy-MM-ddTHH:mm:ss");
-        }
+            => (dt == DBNull.Value || dt == null) ? null : ((DateTime)dt).ToString("yyyy-MM-ddTHH:mm:ss");
+
+        // lista blanca para ordenamiento
+        private static readonly HashSet<string> CamposOrden =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            { "IdUsuario", "Nombre", "Apellido", "CorreoElectronico", "FechaCreacion" };
+
+        private static string NormalizarOrdenPor(string ordenPor)
+            => CamposOrden.Contains(ordenPor ?? "") ? ordenPor : "FechaCreacion";
+
+        private static string NormalizarOrdenDir(string dir)
+            => string.Equals(dir, "ASC", StringComparison.OrdinalIgnoreCase) ? "ASC" : "DESC";
+
+        private IHttpActionResult Denegado(string detalle)
+            => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({detalle})." });
 
         [HttpGet]
         [Route("Listar")]
-        public IHttpActionResult Listar(
+        public async Task<IHttpActionResult> Listar(
+            string usuarioAccion,              // <-- requerido
             string buscar = null,
             int? idSucursal = null,
             int? idStatusUsuario = null,
             int? idRole = null,
             int pagina = 1,
             int tamanoPagina = 50,
-            string ordenPor = "FechaCreacion",   // IdUsuario|Nombre|Apellido|CorreoElectronico|FechaCreacion
-            string ordenDir = "DESC"             // ASC|DESC
+            string ordenPor = "FechaCreacion", // IdUsuario|Nombre|Apellido|CorreoElectronico|FechaCreacion
+            string ordenDir = "DESC"           // ASC|DESC
         )
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(usuarioAccion))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
+
+                // Validar “lectura”: basta con que tenga cualquiera de estos permisos
+                var u = usuarioAccion.Trim();
+                var puede =
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Usuarios, PermisoAccion.Imprimir) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Usuarios, PermisoAccion.Exportar) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Usuarios, PermisoAccion.Cambio) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Usuarios, PermisoAccion.Alta) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Usuarios, PermisoAccion.Baja);
+
+                if (!puede) return Denegado("lectura");
+
+                // Normaliza orden
+                ordenPor = NormalizarOrdenPor(ordenPor);
+                ordenDir = NormalizarOrdenDir(ordenDir);
+
                 using (var conn = new SqlConnection(Cnx))
                 using (var cmd = new SqlCommand("dbo.sp_Usuario_Listar", conn))
                 {
@@ -45,8 +78,8 @@ namespace ProyectoAnalisis.Controllers
                     cmd.Parameters.Add("@IdRole", SqlDbType.Int).Value = (object)idRole ?? DBNull.Value;
                     cmd.Parameters.Add("@Pagina", SqlDbType.Int).Value = pagina;
                     cmd.Parameters.Add("@TamanoPagina", SqlDbType.Int).Value = tamanoPagina;
-                    cmd.Parameters.Add("@OrdenPor", SqlDbType.VarChar, 50).Value = (object)ordenPor ?? DBNull.Value;
-                    cmd.Parameters.Add("@OrdenDir", SqlDbType.VarChar, 4).Value = (object)ordenDir ?? DBNull.Value;
+                    cmd.Parameters.Add("@OrdenPor", SqlDbType.VarChar, 50).Value = ordenPor;
+                    cmd.Parameters.Add("@OrdenDir", SqlDbType.VarChar, 4).Value = ordenDir;
 
                     conn.Open();
                     using (var rd = cmd.ExecuteReader())

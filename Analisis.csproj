@@ -166,9 +166,13 @@
     <Compile Include="Controllers\GeneroController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\ModuloController.cs" />
     <Compile Include="Controllers\ObtenerPreguntaController.cs" />
+    <Compile Include="Controllers\OpcionesController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\StatusCuentaController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\UsuarioActualizarController.cs" />
     <Compile Include="Controllers\UsuarioCambiarPasswordautenticadoController.cs" />
@@ -203,10 +207,49 @@
     <Compile Include="sp_Empresa_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_Genero_Listar_conBusqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_Genero_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_LoginUsuario_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Opcion_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Opcion_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_PasswordQA_ValidarYActualizar1_Result.cs">
@@ -221,7 +264,25 @@
     <Compile Include="sp_Password_ObtenerPreguntas_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_Role_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_Role_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_StatusUsuario_Listar_Result.cs">
@@ -343,9 +404,13 @@
     <Folder Include="Views\Empresa\" />
     <Folder Include="Views\Genero\" />
     <Folder Include="Views\Login\" />
+    <Folder Include="Views\Menu\" />
+    <Folder Include="Views\Modulo\" />
     <Folder Include="Views\ObtenerPregunta\" />
+    <Folder Include="Views\Opciones\" />
     <Folder Include="Views\prueba\" />
     <Folder Include="Views\Role\" />
+    <Folder Include="Views\StatusCuenta\" />
     <Folder Include="Views\Status\" />
     <Folder Include="Views\Sucursal\" />
     <Folder Include="Views\UsuarioActualizar\" />

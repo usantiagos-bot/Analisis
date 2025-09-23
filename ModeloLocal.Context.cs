@@ -895,34 +895,30 @@ namespace Analisis
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_Role_Crear", nombreParameter, usuarioParameter);
         }
     
-        public virtual int sp_Role_Eliminar(Nullable<int> idRole)
+        public virtual int sp_Role_Eliminar(Nullable<int> idRole, string usuario)
         {
             var idRoleParameter = idRole.HasValue ?
                 new ObjectParameter("IdRole", idRole) :
                 new ObjectParameter("IdRole", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Role_Eliminar", idRoleParameter);
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Role_Eliminar", idRoleParameter, usuarioParameter);
         }
     
-        public virtual ObjectResult<sp_Role_Listar_Result> sp_Role_Listar(Nullable<int> idRole, string buscarNombre, Nullable<int> page, Nullable<int> pageSize)
+        public virtual ObjectResult<sp_Role_Listar_Result> sp_Role_Listar(Nullable<int> idRole, string nombre)
         {
             var idRoleParameter = idRole.HasValue ?
                 new ObjectParameter("IdRole", idRole) :
                 new ObjectParameter("IdRole", typeof(int));
     
-            var buscarNombreParameter = buscarNombre != null ?
-                new ObjectParameter("BuscarNombre", buscarNombre) :
-                new ObjectParameter("BuscarNombre", typeof(string));
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
     
-            var pageParameter = page.HasValue ?
-                new ObjectParameter("Page", page) :
-                new ObjectParameter("Page", typeof(int));
-    
-            var pageSizeParameter = pageSize.HasValue ?
-                new ObjectParameter("PageSize", pageSize) :
-                new ObjectParameter("PageSize", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Role_Listar_Result>("sp_Role_Listar", idRoleParameter, buscarNombreParameter, pageParameter, pageSizeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Role_Listar_Result>("sp_Role_Listar", idRoleParameter, nombreParameter);
         }
     
         public virtual int sp_Genero_Actualizar(Nullable<int> idGenero, string nombre, string usuario)
@@ -955,34 +951,26 @@ namespace Analisis
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_Genero_Crear", nombreParameter, usuarioParameter);
         }
     
-        public virtual int sp_Genero_Eliminar(Nullable<int> idGenero)
+        public virtual int sp_Genero_Eliminar(Nullable<int> idGenero, Nullable<bool> hardDelete, string usuario)
         {
             var idGeneroParameter = idGenero.HasValue ?
                 new ObjectParameter("IdGenero", idGenero) :
                 new ObjectParameter("IdGenero", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Genero_Eliminar", idGeneroParameter);
+            var hardDeleteParameter = hardDelete.HasValue ?
+                new ObjectParameter("HardDelete", hardDelete) :
+                new ObjectParameter("HardDelete", typeof(bool));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Genero_Eliminar", idGeneroParameter, hardDeleteParameter, usuarioParameter);
         }
     
-        public virtual ObjectResult<sp_Genero_Listar_Result> sp_Genero_Listar(Nullable<int> idGenero, string buscarNombre, Nullable<int> page, Nullable<int> pageSize)
+        public virtual ObjectResult<sp_Genero_Listar_Result> sp_Genero_Listar()
         {
-            var idGeneroParameter = idGenero.HasValue ?
-                new ObjectParameter("IdGenero", idGenero) :
-                new ObjectParameter("IdGenero", typeof(int));
-    
-            var buscarNombreParameter = buscarNombre != null ?
-                new ObjectParameter("BuscarNombre", buscarNombre) :
-                new ObjectParameter("BuscarNombre", typeof(string));
-    
-            var pageParameter = page.HasValue ?
-                new ObjectParameter("Page", page) :
-                new ObjectParameter("Page", typeof(int));
-    
-            var pageSizeParameter = pageSize.HasValue ?
-                new ObjectParameter("PageSize", pageSize) :
-                new ObjectParameter("PageSize", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Genero_Listar_Result>("sp_Genero_Listar", idGeneroParameter, buscarNombreParameter, pageParameter, pageSizeParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Genero_Listar_Result>("sp_Genero_Listar");
         }
     
         public virtual int sp_StatusUsuario_Actualizar(Nullable<int> idStatusUsuario, string nombre, string usuario)
@@ -1043,6 +1031,480 @@ namespace Analisis
                 new ObjectParameter("PageSize", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusUsuario_Listar_Result>("sp_StatusUsuario_Listar", idStatusUsuarioParameter, buscarNombreParameter, pageParameter, pageSizeParameter);
+        }
+    
+        public virtual ObjectResult<sp_Genero_Listar_conBusqueda_Result> sp_Genero_Listar_conBusqueda(string buscar, Nullable<int> pagina, Nullable<int> tamanoPagina, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var paginaParameter = pagina.HasValue ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(int));
+    
+            var tamanoPaginaParameter = tamanoPagina.HasValue ?
+                new ObjectParameter("TamanoPagina", tamanoPagina) :
+                new ObjectParameter("TamanoPagina", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Genero_Listar_conBusqueda_Result>("sp_Genero_Listar_conBusqueda", buscarParameter, paginaParameter, tamanoPaginaParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Role_Listar_Busqueda_Result> sp_Role_Listar_Busqueda(string buscar, Nullable<int> pagina, Nullable<int> tamanoPagina, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var paginaParameter = pagina.HasValue ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(int));
+    
+            var tamanoPaginaParameter = tamanoPagina.HasValue ?
+                new ObjectParameter("TamanoPagina", tamanoPagina) :
+                new ObjectParameter("TamanoPagina", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Role_Listar_Busqueda_Result>("sp_Role_Listar_Busqueda", buscarParameter, paginaParameter, tamanoPaginaParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual int sp_Opcion_Actualizar(Nullable<int> idOpcion, Nullable<int> idMenu, string nombre, string pagina, Nullable<int> ordenMenu, string usuario)
+        {
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            var idMenuParameter = idMenu.HasValue ?
+                new ObjectParameter("IdMenu", idMenu) :
+                new ObjectParameter("IdMenu", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var paginaParameter = pagina != null ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(string));
+    
+            var ordenMenuParameter = ordenMenu.HasValue ?
+                new ObjectParameter("OrdenMenu", ordenMenu) :
+                new ObjectParameter("OrdenMenu", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Opcion_Actualizar", idOpcionParameter, idMenuParameter, nombreParameter, paginaParameter, ordenMenuParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<decimal>> sp_Opcion_Crear(Nullable<int> idMenu, string nombre, string pagina, Nullable<int> ordenMenu, string usuario)
+        {
+            var idMenuParameter = idMenu.HasValue ?
+                new ObjectParameter("IdMenu", idMenu) :
+                new ObjectParameter("IdMenu", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var paginaParameter = pagina != null ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(string));
+    
+            var ordenMenuParameter = ordenMenu.HasValue ?
+                new ObjectParameter("OrdenMenu", ordenMenu) :
+                new ObjectParameter("OrdenMenu", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<decimal>>("sp_Opcion_Crear", idMenuParameter, nombreParameter, paginaParameter, ordenMenuParameter, usuarioParameter);
+        }
+    
+        public virtual int sp_Opcion_Eliminar(Nullable<int> idOpcion)
+        {
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Opcion_Eliminar", idOpcionParameter);
+        }
+    
+        public virtual ObjectResult<sp_Opcion_Listar_Result> sp_Opcion_Listar(Nullable<int> idOpcion, Nullable<int> idMenu, string buscarNombre, string buscarPagina, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            var idMenuParameter = idMenu.HasValue ?
+                new ObjectParameter("IdMenu", idMenu) :
+                new ObjectParameter("IdMenu", typeof(int));
+    
+            var buscarNombreParameter = buscarNombre != null ?
+                new ObjectParameter("BuscarNombre", buscarNombre) :
+                new ObjectParameter("BuscarNombre", typeof(string));
+    
+            var buscarPaginaParameter = buscarPagina != null ?
+                new ObjectParameter("BuscarPagina", buscarPagina) :
+                new ObjectParameter("BuscarPagina", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Opcion_Listar_Result>("sp_Opcion_Listar", idOpcionParameter, idMenuParameter, buscarNombreParameter, buscarPaginaParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Opcion_Listar_Busqueda_Result> sp_Opcion_Listar_Busqueda(string buscar, Nullable<int> idMenu, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var idMenuParameter = idMenu.HasValue ?
+                new ObjectParameter("IdMenu", idMenu) :
+                new ObjectParameter("IdMenu", typeof(int));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Opcion_Listar_Busqueda_Result>("sp_Opcion_Listar_Busqueda", buscarParameter, idMenuParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Menu_Actualizar_Result> sp_Menu_Actualizar(Nullable<int> idMenu, Nullable<int> idModulo, string nombre, Nullable<int> ordenMenu, string usuario)
+        {
+            var idMenuParameter = idMenu.HasValue ?
+                new ObjectParameter("IdMenu", idMenu) :
+                new ObjectParameter("IdMenu", typeof(int));
+    
+            var idModuloParameter = idModulo.HasValue ?
+                new ObjectParameter("IdModulo", idModulo) :
+                new ObjectParameter("IdModulo", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var ordenMenuParameter = ordenMenu.HasValue ?
+                new ObjectParameter("OrdenMenu", ordenMenu) :
+                new ObjectParameter("OrdenMenu", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_Actualizar_Result>("sp_Menu_Actualizar", idMenuParameter, idModuloParameter, nombreParameter, ordenMenuParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_Menu_Crear_Result> sp_Menu_Crear(Nullable<int> idModulo, string nombre, Nullable<int> ordenMenu, string usuario)
+        {
+            var idModuloParameter = idModulo.HasValue ?
+                new ObjectParameter("IdModulo", idModulo) :
+                new ObjectParameter("IdModulo", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var ordenMenuParameter = ordenMenu.HasValue ?
+                new ObjectParameter("OrdenMenu", ordenMenu) :
+                new ObjectParameter("OrdenMenu", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_Crear_Result>("sp_Menu_Crear", idModuloParameter, nombreParameter, ordenMenuParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_Menu_Eliminar_Result> sp_Menu_Eliminar(Nullable<int> idMenu)
+        {
+            var idMenuParameter = idMenu.HasValue ?
+                new ObjectParameter("IdMenu", idMenu) :
+                new ObjectParameter("IdMenu", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_Eliminar_Result>("sp_Menu_Eliminar", idMenuParameter);
+        }
+    
+        public virtual ObjectResult<sp_Menu_Listar_Result> sp_Menu_Listar(Nullable<int> idMenu, Nullable<int> idModulo, string buscarNombre, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var idMenuParameter = idMenu.HasValue ?
+                new ObjectParameter("IdMenu", idMenu) :
+                new ObjectParameter("IdMenu", typeof(int));
+    
+            var idModuloParameter = idModulo.HasValue ?
+                new ObjectParameter("IdModulo", idModulo) :
+                new ObjectParameter("IdModulo", typeof(int));
+    
+            var buscarNombreParameter = buscarNombre != null ?
+                new ObjectParameter("BuscarNombre", buscarNombre) :
+                new ObjectParameter("BuscarNombre", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_Listar_Result>("sp_Menu_Listar", idMenuParameter, idModuloParameter, buscarNombreParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Menu_Listar_Busqueda_Result> sp_Menu_Listar_Busqueda(string buscar, Nullable<int> idModulo, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var idModuloParameter = idModulo.HasValue ?
+                new ObjectParameter("IdModulo", idModulo) :
+                new ObjectParameter("IdModulo", typeof(int));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Menu_Listar_Busqueda_Result>("sp_Menu_Listar_Busqueda", buscarParameter, idModuloParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Modulo_Actualizar_Result> sp_Modulo_Actualizar(Nullable<int> idModulo, string nombre, Nullable<int> ordenMenu, string usuario)
+        {
+            var idModuloParameter = idModulo.HasValue ?
+                new ObjectParameter("IdModulo", idModulo) :
+                new ObjectParameter("IdModulo", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var ordenMenuParameter = ordenMenu.HasValue ?
+                new ObjectParameter("OrdenMenu", ordenMenu) :
+                new ObjectParameter("OrdenMenu", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Modulo_Actualizar_Result>("sp_Modulo_Actualizar", idModuloParameter, nombreParameter, ordenMenuParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_Modulo_Crear_Result> sp_Modulo_Crear(string nombre, Nullable<int> ordenMenu, string usuario)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var ordenMenuParameter = ordenMenu.HasValue ?
+                new ObjectParameter("OrdenMenu", ordenMenu) :
+                new ObjectParameter("OrdenMenu", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Modulo_Crear_Result>("sp_Modulo_Crear", nombreParameter, ordenMenuParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_Modulo_Eliminar_Result> sp_Modulo_Eliminar(Nullable<int> idModulo)
+        {
+            var idModuloParameter = idModulo.HasValue ?
+                new ObjectParameter("IdModulo", idModulo) :
+                new ObjectParameter("IdModulo", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Modulo_Eliminar_Result>("sp_Modulo_Eliminar", idModuloParameter);
+        }
+    
+        public virtual ObjectResult<sp_Modulo_Listar_Result> sp_Modulo_Listar(Nullable<int> idModulo, string buscarNombre, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var idModuloParameter = idModulo.HasValue ?
+                new ObjectParameter("IdModulo", idModulo) :
+                new ObjectParameter("IdModulo", typeof(int));
+    
+            var buscarNombreParameter = buscarNombre != null ?
+                new ObjectParameter("BuscarNombre", buscarNombre) :
+                new ObjectParameter("BuscarNombre", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Modulo_Listar_Result>("sp_Modulo_Listar", idModuloParameter, buscarNombreParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Modulo_Listar_Busqueda_Result> sp_Modulo_Listar_Busqueda(string buscar, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Modulo_Listar_Busqueda_Result>("sp_Modulo_Listar_Busqueda", buscarParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Actualizar_Result> sp_StatusCuenta_Actualizar(Nullable<int> idStatusCuenta, string nombre, string usuario)
+        {
+            var idStatusCuentaParameter = idStatusCuenta.HasValue ?
+                new ObjectParameter("IdStatusCuenta", idStatusCuenta) :
+                new ObjectParameter("IdStatusCuenta", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Actualizar_Result>("sp_StatusCuenta_Actualizar", idStatusCuentaParameter, nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Crear_Result> sp_StatusCuenta_Crear(string nombre, string usuario)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Crear_Result>("sp_StatusCuenta_Crear", nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Eliminar_Result> sp_StatusCuenta_Eliminar(Nullable<int> idStatusCuenta)
+        {
+            var idStatusCuentaParameter = idStatusCuenta.HasValue ?
+                new ObjectParameter("IdStatusCuenta", idStatusCuenta) :
+                new ObjectParameter("IdStatusCuenta", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Eliminar_Result>("sp_StatusCuenta_Eliminar", idStatusCuentaParameter);
+        }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Listar_Result> sp_StatusCuenta_Listar(Nullable<int> idStatusCuenta, string nombre)
+        {
+            var idStatusCuentaParameter = idStatusCuenta.HasValue ?
+                new ObjectParameter("IdStatusCuenta", idStatusCuenta) :
+                new ObjectParameter("IdStatusCuenta", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Listar_Result>("sp_StatusCuenta_Listar", idStatusCuentaParameter, nombreParameter);
+        }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Listar_Busqueda_Result> sp_StatusCuenta_Listar_Busqueda(string buscar, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Listar_Busqueda_Result>("sp_StatusCuenta_Listar_Busqueda", buscarParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
         }
     }
 }

@@ -36,23 +36,16 @@ namespace ProyectoAnalisis.Controllers
         private static string NormalizarOrdenDir(string dir)
             => string.Equals(dir, "ASC", StringComparison.OrdinalIgnoreCase) ? "ASC" : "DESC";
 
-        // ========= LISTAR (por Id o Nombre) =========
-        // GET /Generos/Listar?usuarioAccion=&IdGenero=&Nombre=&incluirAuditoria=false
+        // ========= LISTAR SIMPLE (sin filtros ni paginación) =========
+        // GET /Generos/Listar?usuarioAccion=Administrador
         [HttpGet]
         [Route("Listar")]
-        public async Task<IHttpActionResult> Listar(
-            string usuarioAccion,
-            int? IdGenero = null,
-            string Nombre = null,
-            bool incluirAuditoria = false)
+        public async Task<IHttpActionResult> Listar(string usuarioAccion)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(usuarioAccion))
                     return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
-
-                if (IdGenero == null && string.IsNullOrWhiteSpace(Nombre))
-                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar IdGenero o Nombre." });
 
                 var u = usuarioAccion.Trim();
                 var puede =
@@ -62,43 +55,31 @@ namespace ProyectoAnalisis.Controllers
                     await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Alta) ||
                     await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Baja);
 
-                if (!puede) return Denegado("lectura");
+                if (!puede) return Ok(new { Resultado = 0, Mensaje = "Permiso denegado (lectura)." });
 
                 using (var conn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_Genero_Listar", conn)) // tu SP de “Listar (1 registro)”
+                using (var cmd = new SqlCommand("dbo.sp_Genero_Listar", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@IdGenero", SqlDbType.Int).Value = (object)IdGenero ?? DBNull.Value;
-                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 100).Value =
-                        (object)(string.IsNullOrWhiteSpace(Nombre) ? null : Nombre.Trim()) ?? DBNull.Value;
 
                     conn.Open();
                     using (var rd = await cmd.ExecuteReaderAsync())
                     {
-                        if (!rd.HasRows)
-                            return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
-
-                        await rd.ReadAsync();
-                        int resultado = rd["Resultado"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Resultado"]);
-                        string mensaje = rd["Mensaje"] as string ?? "";
-
-                        if (resultado != 1)
-                            return Ok(new { Resultado = resultado, Mensaje = mensaje });
-
-                        if (!await rd.NextResultAsync() || !await rd.ReadAsync())
-                            return Ok(new { Resultado = 0, Mensaje = "No se encontraron datos." });
-
-                        var data = new
+                        var items = new List<object>();
+                        while (await rd.ReadAsync())
                         {
-                            IdGenero = rd["IdGenero"] == DBNull.Value ? (int?)null : Convert.ToInt32(rd["IdGenero"]),
-                            Nombre = rd["Nombre"] as string,
-                            FechaCreacion = Fmt(rd["FechaCreacion"]),
-                            UsuarioCreacion = incluirAuditoria ? rd["UsuarioCreacion"] as string : null,
-                            FechaModificacion = incluirAuditoria ? Fmt(rd["FechaModificacion"]) : null,
-                            UsuarioModificacion = incluirAuditoria ? rd["UsuarioModificacion"] as string : null
-                        };
+                            items.Add(new
+                            {
+                                IdGenero = Convert.ToInt32(rd["IdGenero"]),
+                                Nombre = rd["Nombre"] as string,
+                                FechaCreacion = Fmt(rd["FechaCreacion"]),
+                                UsuarioCreacion = rd["UsuarioCreacion"] as string,
+                                FechaModificacion = Fmt(rd["FechaModificacion"]),
+                                UsuarioModificacion = rd["UsuarioModificacion"] as string
+                            });
+                        }
 
-                        return Ok(new { Resultado = 1, Mensaje = "OK", Data = data });
+                        return Ok(new { Resultado = 1, Mensaje = "OK", Items = items });
                     }
                 }
             }
@@ -107,6 +88,7 @@ namespace ProyectoAnalisis.Controllers
                 return InternalServerError(new Exception("Error interno: " + e.Message));
             }
         }
+
 
         // ========= LISTAR CON BÚSQUEDA/PAGINACIÓN =========
         // GET /Generos/ListarBusqueda?usuarioAccion=&Buscar=&Pagina=1&TamanoPagina=50&OrdenPor=Nombre&OrdenDir=ASC

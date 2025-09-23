@@ -196,18 +196,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_Role_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_Role_Listar_Busqueda">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Role_Listar_Busqueda_Result">
-          <ScalarProperty Name="IdRole" ColumnName="IdRole" />
-          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-          <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-          <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
-          <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-          <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_Opcion_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_Opcion_Actualizar" />
     <FunctionImportMapping FunctionImportName="sp_Opcion_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_Opcion_Crear" />
     <FunctionImportMapping FunctionImportName="sp_Opcion_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_Opcion_Eliminar" />

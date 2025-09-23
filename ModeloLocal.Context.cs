@@ -968,17 +968,9 @@ namespace Analisis
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Genero_Eliminar", idGeneroParameter, hardDeleteParameter, usuarioParameter);
         }
     
-        public virtual ObjectResult<sp_Genero_Listar_Result> sp_Genero_Listar(Nullable<int> idGenero, string nombre)
+        public virtual ObjectResult<sp_Genero_Listar_Result> sp_Genero_Listar()
         {
-            var idGeneroParameter = idGenero.HasValue ?
-                new ObjectParameter("IdGenero", idGenero) :
-                new ObjectParameter("IdGenero", typeof(int));
-    
-            var nombreParameter = nombre != null ?
-                new ObjectParameter("Nombre", nombre) :
-                new ObjectParameter("Nombre", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Genero_Listar_Result>("sp_Genero_Listar", idGeneroParameter, nombreParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Genero_Listar_Result>("sp_Genero_Listar");
         }
     
         public virtual int sp_StatusUsuario_Actualizar(Nullable<int> idStatusUsuario, string nombre, string usuario)

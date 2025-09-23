@@ -58,10 +58,7 @@
           <Parameter Name="HardDelete" Type="bit" Mode="In" />
           <Parameter Name="Usuario" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_Genero_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="IdGenero" Type="int" Mode="In" />
-          <Parameter Name="Nombre" Type="varchar" Mode="In" />
-        </Function>
+        <Function Name="sp_Genero_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_Genero_Listar_conBusqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Buscar" Type="varchar" Mode="In" />
           <Parameter Name="Pagina" Type="int" Mode="In" />
@@ -202,13 +199,6 @@
         <Function Name="sp_Role_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdRole" Type="int" Mode="In" />
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="sp_Role_Listar_Busqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Buscar" Type="varchar" Mode="In" />
-          <Parameter Name="Pagina" Type="int" Mode="In" />
-          <Parameter Name="TamanoPagina" Type="int" Mode="In" />
-          <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
-          <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_StatusUsuario_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdStatusUsuario" Type="int" Mode="In" />
@@ -582,9 +572,7 @@
             <Parameter Name="Usuario" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_Genero_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Genero_Listar_Result)">
-            <Parameter Name="IdGenero" Mode="In" Type="Int32" />
-            <Parameter Name="Nombre" Mode="In" Type="String" />
-          </FunctionImport>
+            </FunctionImport>
           <FunctionImport Name="sp_StatusUsuario_Actualizar">
             <Parameter Name="IdStatusUsuario" Mode="In" Type="Int32" />
             <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -698,7 +686,7 @@
             <Parameter Name="Usuario" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_Modulo_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Eliminar_Result)">
-            <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+          <Parameter Name="IdModulo" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Modulo_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Listar_Result)">
             <Parameter Name="IdModulo" Mode="In" Type="Int32" />
@@ -1135,18 +1123,6 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Genero_Listar_conBusqueda_Result">
                 <ScalarProperty Name="IdGenero" ColumnName="IdGenero" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
-                <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />
-                <ScalarProperty Name="FechaModificacion" ColumnName="FechaModificacion" />
-                <ScalarProperty Name="UsuarioModificacion" ColumnName="UsuarioModificacion" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_Role_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_Role_Listar_Busqueda">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Role_Listar_Busqueda_Result">
-                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="FechaCreacion" ColumnName="FechaCreacion" />
                 <ScalarProperty Name="UsuarioCreacion" ColumnName="UsuarioCreacion" />

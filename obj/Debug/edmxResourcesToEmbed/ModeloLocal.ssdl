@@ -53,10 +53,7 @@
     <Parameter Name="HardDelete" Type="bit" Mode="In" />
     <Parameter Name="Usuario" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="sp_Genero_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="IdGenero" Type="int" Mode="In" />
-    <Parameter Name="Nombre" Type="varchar" Mode="In" />
-  </Function>
+  <Function Name="sp_Genero_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="sp_Genero_Listar_conBusqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Buscar" Type="varchar" Mode="In" />
     <Parameter Name="Pagina" Type="int" Mode="In" />
@@ -197,13 +194,6 @@
   <Function Name="sp_Role_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdRole" Type="int" Mode="In" />
     <Parameter Name="Nombre" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="sp_Role_Listar_Busqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="Buscar" Type="varchar" Mode="In" />
-    <Parameter Name="Pagina" Type="int" Mode="In" />
-    <Parameter Name="TamanoPagina" Type="int" Mode="In" />
-    <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
-    <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_StatusUsuario_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdStatusUsuario" Type="int" Mode="In" />

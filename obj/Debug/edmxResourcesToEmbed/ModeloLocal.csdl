@@ -260,10 +260,7 @@
       <Parameter Name="HardDelete" Mode="In" Type="Boolean" />
       <Parameter Name="Usuario" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_Genero_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Genero_Listar_Result)">
-      <Parameter Name="IdGenero" Mode="In" Type="Int32" />
-      <Parameter Name="Nombre" Mode="In" Type="String" />
-    </FunctionImport>
+    <FunctionImport Name="sp_Genero_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Genero_Listar_Result)" />
     <FunctionImport Name="sp_StatusUsuario_Actualizar">
       <Parameter Name="IdStatusUsuario" Mode="In" Type="Int32" />
       <Parameter Name="Nombre" Mode="In" Type="String" />

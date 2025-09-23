@@ -1429,5 +1429,82 @@ namespace Analisis
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Modulo_Listar_Busqueda_Result>("sp_Modulo_Listar_Busqueda", buscarParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
         }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Actualizar_Result> sp_StatusCuenta_Actualizar(Nullable<int> idStatusCuenta, string nombre, string usuario)
+        {
+            var idStatusCuentaParameter = idStatusCuenta.HasValue ?
+                new ObjectParameter("IdStatusCuenta", idStatusCuenta) :
+                new ObjectParameter("IdStatusCuenta", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Actualizar_Result>("sp_StatusCuenta_Actualizar", idStatusCuentaParameter, nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Crear_Result> sp_StatusCuenta_Crear(string nombre, string usuario)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Crear_Result>("sp_StatusCuenta_Crear", nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Eliminar_Result> sp_StatusCuenta_Eliminar(Nullable<int> idStatusCuenta)
+        {
+            var idStatusCuentaParameter = idStatusCuenta.HasValue ?
+                new ObjectParameter("IdStatusCuenta", idStatusCuenta) :
+                new ObjectParameter("IdStatusCuenta", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Eliminar_Result>("sp_StatusCuenta_Eliminar", idStatusCuentaParameter);
+        }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Listar_Result> sp_StatusCuenta_Listar(Nullable<int> idStatusCuenta, string nombre)
+        {
+            var idStatusCuentaParameter = idStatusCuenta.HasValue ?
+                new ObjectParameter("IdStatusCuenta", idStatusCuenta) :
+                new ObjectParameter("IdStatusCuenta", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Listar_Result>("sp_StatusCuenta_Listar", idStatusCuentaParameter, nombreParameter);
+        }
+    
+        public virtual ObjectResult<sp_StatusCuenta_Listar_Busqueda_Result> sp_StatusCuenta_Listar_Busqueda(string buscar, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Listar_Busqueda_Result>("sp_StatusCuenta_Listar_Busqueda", buscarParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
     }
 }

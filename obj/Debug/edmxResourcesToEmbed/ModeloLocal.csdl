@@ -391,6 +391,29 @@
       <Parameter Name="OrdenPor" Mode="In" Type="String" />
       <Parameter Name="OrdenDir" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Actualizar_Result)">
+      <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Crear_Result)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Eliminar_Result)">
+      <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Result)">
+      <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_LoginUsuario_Result">
     <Property Type="String" Name="IdUsuario" Nullable="false" MaxLength="100" />
@@ -616,6 +639,26 @@
   </ComplexType>
   <ComplexType Name="sp_Modulo_Listar_Busqueda_Result">
     <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="35" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="36" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
     <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
   </ComplexType>
 </Schema>

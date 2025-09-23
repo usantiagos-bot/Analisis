@@ -309,5 +309,45 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Actualizar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Actualizar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Crear">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Crear_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Eliminar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Eliminar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Listar_Busqueda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Busqueda_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

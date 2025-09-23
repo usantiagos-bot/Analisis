@@ -200,6 +200,29 @@
           <Parameter Name="IdRole" Type="int" Mode="In" />
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_StatusCuenta_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_StatusCuenta_Crear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_StatusCuenta_Eliminar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_StatusCuenta_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_StatusCuenta_Listar_Busqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Buscar" Type="varchar" Mode="In" />
+          <Parameter Name="Page" Type="int" Mode="In" />
+          <Parameter Name="PageSize" Type="int" Mode="In" />
+          <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
+          <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_StatusUsuario_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdStatusUsuario" Type="int" Mode="In" />
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
@@ -703,6 +726,29 @@
             <Parameter Name="OrdenPor" Mode="In" Type="String" />
             <Parameter Name="OrdenDir" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="sp_StatusCuenta_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Actualizar_Result)">
+            <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_StatusCuenta_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Crear_Result)">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_StatusCuenta_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Eliminar_Result)">
+            <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_StatusCuenta_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Result)">
+            <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_StatusCuenta_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Busqueda_Result)">
+            <Parameter Name="Buscar" Mode="In" Type="String" />
+            <Parameter Name="Page" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="OrdenPor" Mode="In" Type="String" />
+            <Parameter Name="OrdenDir" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_LoginUsuario_Result">
           <Property Type="String" Name="IdUsuario" Nullable="false" MaxLength="100" />
@@ -928,6 +974,26 @@
         </ComplexType>
         <ComplexType Name="sp_Modulo_Listar_Busqueda_Result">
           <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+        </ComplexType>
+        <ComplexType Name="sp_StatusCuenta_Actualizar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="true" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="sp_StatusCuenta_Crear_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="true" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="35" />
+        </ComplexType>
+        <ComplexType Name="sp_StatusCuenta_Eliminar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="true" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="sp_StatusCuenta_Listar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="true" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="36" />
+        </ComplexType>
+        <ComplexType Name="sp_StatusCuenta_Listar_Busqueda_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="true" />
           <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
         </ComplexType>
       </Schema>
@@ -1239,6 +1305,46 @@
           <FunctionImportMapping FunctionImportName="sp_Modulo_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_Modulo_Listar_Busqueda">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Modulo_Listar_Busqueda_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Actualizar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Actualizar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Crear">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Crear_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Eliminar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Eliminar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Listar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_StatusCuenta_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_StatusCuenta_Listar_Busqueda">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Busqueda_Result">
                 <ScalarProperty Name="Resultado" ColumnName="Resultado" />
                 <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
               </ComplexTypeMapping>

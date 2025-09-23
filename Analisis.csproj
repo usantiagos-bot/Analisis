@@ -172,6 +172,7 @@
     <Compile Include="Controllers\OpcionesController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\StatusCuentaController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
     <Compile Include="Controllers\UsuarioActualizarController.cs" />
     <Compile Include="Controllers\UsuarioCambiarPasswordautenticadoController.cs" />
@@ -267,6 +268,21 @@
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_Role_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_StatusUsuario_Listar_Result.cs">
@@ -394,6 +410,7 @@
     <Folder Include="Views\Opciones\" />
     <Folder Include="Views\prueba\" />
     <Folder Include="Views\Role\" />
+    <Folder Include="Views\StatusCuenta\" />
     <Folder Include="Views\Status\" />
     <Folder Include="Views\Sucursal\" />
     <Folder Include="Views\UsuarioActualizar\" />

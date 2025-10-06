@@ -14,10 +14,9 @@ namespace ProyectoAnalisis.Permissions
         public const int Roles = 5;
         public const int Modulos = 6;
         public const int Menus = 7;
-        public const int CatalogoOpciones = 8; // <- antes: Opciones (RENOMBRADA)
+        public const int CatalogoOpciones = 8; 
         public const int Usuarios = 9;
 
-        // (Opcional) Otros IdOpcion que se ven en tu tabla:
         public const int AsignarOpcionesARol = 10;
         public const int StatusDeCuentas = 11;
         public const int EstadoCivilDePersonas = 12;

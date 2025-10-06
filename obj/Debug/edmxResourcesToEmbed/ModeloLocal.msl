@@ -349,5 +349,205 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_EstadoCivil_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_EstadoCivil_Actualizar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_EstadoCivil_Actualizar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_EstadoCivil_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_EstadoCivil_Crear">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_EstadoCivil_Crear_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_EstadoCivil_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_EstadoCivil_Eliminar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_EstadoCivil_Eliminar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_EstadoCivil_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_EstadoCivil_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_EstadoCivil_Listar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_EstadoCivil_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_EstadoCivil_Listar_Busqueda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_EstadoCivil_Listar_Busqueda_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoDocumento_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoDocumento_Actualizar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoDocumento_Actualizar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoDocumento_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoDocumento_Crear">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoDocumento_Crear_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoDocumento_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoDocumento_Eliminar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoDocumento_Eliminar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoDocumento_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoDocumento_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoDocumento_Listar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoDocumento_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoDocumento_Listar_Busqueda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoDocumento_Listar_Busqueda_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoMovimientoCXC_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoMovimientoCXC_Actualizar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Actualizar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoMovimientoCXC_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoMovimientoCXC_Crear">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Crear_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoMovimientoCXC_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoMovimientoCXC_Eliminar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Eliminar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoMovimientoCXC_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoMovimientoCXC_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Listar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoMovimientoCXC_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoMovimientoCXC_Listar_Busqueda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Listar_Busqueda_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoSaldoCuenta_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoSaldoCuenta_Actualizar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Actualizar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoSaldoCuenta_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoSaldoCuenta_Crear">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Crear_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoSaldoCuenta_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoSaldoCuenta_Eliminar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Eliminar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoSaldoCuenta_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoSaldoCuenta_Listar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Listar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TipoSaldoCuenta_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_TipoSaldoCuenta_Listar_Busqueda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Listar_Busqueda_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Persona_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_Persona_Actualizar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Persona_Actualizar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Persona_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_Persona_Crear">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Persona_Crear_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Persona_Eliminar" FunctionName="ProyectoAnalisisModel1.Store.sp_Persona_Eliminar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Persona_Eliminar_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Persona_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_Persona_Listar_Busqueda">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Persona_Listar_Busqueda_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_Persona_Obtener" FunctionName="ProyectoAnalisisModel1.Store.sp_Persona_Obtener">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Persona_Obtener_Result">
+          <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+          <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

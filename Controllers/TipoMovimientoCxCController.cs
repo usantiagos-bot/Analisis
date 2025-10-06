@@ -10,55 +10,42 @@ using ProyectoAnalisis.Permissions;
 
 namespace ProyectoAnalisis.Controllers
 {
-    [RoutePrefix("StatusDeCuentas")]
-    public class StatusCuentasController : ApiController
+    [RoutePrefix("TiposMovimientoCXC")]
+    public class TiposMovimientoCXCController : ApiController
     {
         private static string Cnx => ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString;
+        private static string F(object dt) => (dt == DBNull.Value || dt == null) ? null : ((DateTime)dt).ToString("yyyy-MM-ddTHH:mm:ss");
 
-        private static string Fmt(object dt)
-            => (dt == DBNull.Value || dt == null) ? null : ((DateTime)dt).ToString("yyyy-MM-ddTHH:mm:ss");
+        private IHttpActionResult Denegado(PermisoAccion acc) => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({acc})." });
 
-        private IHttpActionResult Denegado(PermisoAccion acc)
-            => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({acc})." });
-
-        private IHttpActionResult Denegado(string detalle)
-            => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({detalle})." });
-
-        // ========== LISTAR (1 registro por filtro) ==========
-        // GET /StatusCuentas/Listar?usuarioAccion=&IdStatusCuenta=&Nombre=&incluirAuditoria=false
+        // ===== LISTAR (1 registro) =====
+        // GET /TiposMovimientoCXC/Listar?usuarioAccion=&IdTipoMovimientoCXC=&Nombre=&incluirAuditoria=false
         [HttpGet]
         [Route("Listar")]
-        public async Task<IHttpActionResult> Listar(
-            string usuarioAccion,
-            int? IdStatusCuenta = null,
-            string Nombre = null,
-            bool incluirAuditoria = false)
+        public async Task<IHttpActionResult> Listar(string usuarioAccion, int? IdTipoMovimientoCXC = null, string Nombre = null, bool incluirAuditoria = false)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(usuarioAccion))
                     return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
 
-                if (IdStatusCuenta == null && string.IsNullOrWhiteSpace(Nombre))
-                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar IdStatusCuenta o Nombre." });
-
                 var u = usuarioAccion.Trim();
                 var puede =
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Imprimir) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Exportar) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Cambio) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Alta) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Baja);
-
-                if (!puede) return Denegado("lectura");
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Imprimir) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Exportar) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Cambio) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Alta) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Baja);
+                if (!puede) return Denegado(PermisoAccion.Imprimir);
 
                 using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_StatusCuenta_Listar", cn))
+                using (var cmd = new SqlCommand("dbo.sp_TipoMovimientoCXC_Listar", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@IdStatusCuenta", SqlDbType.Int).Value = (object)IdStatusCuenta ?? DBNull.Value;
-                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value =
+                    cmd.Parameters.Add("@IdTipoMovimientoCXC", SqlDbType.Int).Value = (object)IdTipoMovimientoCXC ?? DBNull.Value;
+                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 75).Value =
                         (object)(string.IsNullOrWhiteSpace(Nombre) ? null : Nombre.Trim()) ?? DBNull.Value;
+                    cmd.Parameters.Add("@IncluirAuditoria", SqlDbType.Bit).Value = incluirAuditoria;
 
                     cn.Open();
                     using (var rd = await cmd.ExecuteReaderAsync())
@@ -75,11 +62,12 @@ namespace ProyectoAnalisis.Controllers
 
                         var data = new
                         {
-                            IdStatusCuenta = Convert.ToInt32(rd["IdStatusCuenta"]),
+                            IdTipoMovimientoCXC = Convert.ToInt32(rd["IdTipoMovimientoCXC"]),
                             Nombre = rd["Nombre"] as string,
-                            FechaCreacion = Fmt(rd["FechaCreacion"]),
+                            OperacionCuentaCorriente = Convert.ToInt32(rd["OperacionCuentaCorriente"]),
+                            FechaCreacion = F(rd["FechaCreacion"]),
                             UsuarioCreacion = incluirAuditoria ? rd["UsuarioCreacion"] as string : null,
-                            FechaModificacion = incluirAuditoria ? Fmt(rd["FechaModificacion"]) : null,
+                            FechaModificacion = incluirAuditoria ? F(rd["FechaModificacion"]) : null,
                             UsuarioModificacion = incluirAuditoria ? rd["UsuarioModificacion"] as string : null
                         };
 
@@ -93,17 +81,11 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-        // ========== LISTAR BUSQUEDA (paginado) ==========
-        // GET /StatusCuentas/ListarBusqueda?usuarioAccion=&Buscar=&Pagina=1&TamanoPagina=50&OrdenPor=Nombre&OrdenDir=ASC
+        // ===== LISTAR BUSQUEDA =====
+        // GET /TiposMovimientoCXC/ListarBusqueda?usuarioAccion=&Buscar=&Pagina=1&TamanoPagina=20&OrdenPor=Nombre&OrdenDir=ASC
         [HttpGet]
         [Route("ListarBusqueda")]
-        public async Task<IHttpActionResult> ListarBusqueda(
-            string usuarioAccion,
-            string Buscar = null,
-            int Pagina = 1,
-            int TamanoPagina = 50,
-            string OrdenPor = "Nombre",
-            string OrdenDir = "ASC")
+        public async Task<IHttpActionResult> ListarBusqueda(string usuarioAccion, string Buscar = null, int Pagina = 1, int TamanoPagina = 20, string OrdenPor = "Nombre", string OrdenDir = "ASC")
         {
             try
             {
@@ -112,33 +94,27 @@ namespace ProyectoAnalisis.Controllers
 
                 var u = usuarioAccion.Trim();
                 var puede =
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Imprimir) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Exportar) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Cambio) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Alta) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Baja);
-
-                if (!puede) return Denegado("lectura");
-
-                // Normalizaciones (el SP también valida)
-                OrdenPor = string.IsNullOrWhiteSpace(OrdenPor) ? "Nombre" : OrdenPor.Trim();
-                OrdenDir = string.Equals(OrdenDir, "ASC", StringComparison.OrdinalIgnoreCase) ? "ASC" : "DESC";
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Imprimir) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Exportar) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Cambio) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Alta) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Baja);
+                if (!puede) return Denegado(PermisoAccion.Imprimir);
 
                 using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_StatusCuenta_Listar_Busqueda", cn))
+                using (var cmd = new SqlCommand("dbo.sp_TipoMovimientoCXC_Listar_Busqueda", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@Buscar", SqlDbType.VarChar, 100).Value =
                         (object)(string.IsNullOrWhiteSpace(Buscar) ? null : Buscar.Trim()) ?? DBNull.Value;
                     cmd.Parameters.Add("@Page", SqlDbType.Int).Value = Pagina;
                     cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = TamanoPagina;
-                    cmd.Parameters.Add("@OrdenPor", SqlDbType.VarChar, 20).Value = OrdenPor;
+                    cmd.Parameters.Add("@OrdenPor", SqlDbType.VarChar, 30).Value = OrdenPor;
                     cmd.Parameters.Add("@OrdenDir", SqlDbType.VarChar, 4).Value = OrdenDir;
 
                     cn.Open();
                     using (var rd = await cmd.ExecuteReaderAsync())
                     {
-                        // RS#1
                         if (!await rd.ReadAsync())
                             return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
 
@@ -146,7 +122,6 @@ namespace ProyectoAnalisis.Controllers
                         string mensaje = rd["Mensaje"] as string ?? "OK";
                         if (resultado != 1) return Ok(new { Resultado = resultado, Mensaje = mensaje });
 
-                        // RS#2: items
                         if (!await rd.NextResultAsync())
                             return Ok(new { Resultado = 0, Mensaje = "Sin datos." });
 
@@ -155,16 +130,16 @@ namespace ProyectoAnalisis.Controllers
                         {
                             items.Add(new
                             {
-                                IdStatusCuenta = Convert.ToInt32(rd["IdStatusCuenta"]),
+                                IdTipoMovimientoCXC = Convert.ToInt32(rd["IdTipoMovimientoCXC"]),
                                 Nombre = rd["Nombre"] as string,
-                                FechaCreacion = Fmt(rd["FechaCreacion"]),
+                                OperacionCuentaCorriente = Convert.ToInt32(rd["OperacionCuentaCorriente"]),
+                                FechaCreacion = F(rd["FechaCreacion"]),
                                 UsuarioCreacion = rd["UsuarioCreacion"] as string,
-                                FechaModificacion = Fmt(rd["FechaModificacion"]),
+                                FechaModificacion = F(rd["FechaModificacion"]),
                                 UsuarioModificacion = rd["UsuarioModificacion"] as string
                             });
                         }
 
-                        // RS#3: total
                         int total = 0;
                         if (await rd.NextResultAsync() && await rd.ReadAsync())
                             total = rd["Total"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Total"]);
@@ -179,26 +154,27 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-        // ========== CREAR ==========
-        // GET /StatusCuentas/Crear?Usuario=&Nombre=
+        // ===== CREAR =====
+        // GET /TiposMovimientoCXC/Crear?Usuario=&Nombre=&OperacionCuentaCorriente=
         [HttpGet]
         [Route("Crear")]
-        public async Task<IHttpActionResult> Crear(string Usuario, string Nombre)
+        public async Task<IHttpActionResult> Crear(string Usuario, string Nombre, int OperacionCuentaCorriente)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(Usuario) || string.IsNullOrWhiteSpace(Nombre))
-                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario y Nombre." });
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario, Nombre y OperacionCuentaCorriente." });
 
                 var u = Usuario.Trim();
-                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Alta))
+                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Alta))
                     return Denegado(PermisoAccion.Alta);
 
                 using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_StatusCuenta_Crear", cn))
+                using (var cmd = new SqlCommand("dbo.sp_TipoMovimientoCXC_Crear", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value = Nombre.Trim();
+                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 75).Value = Nombre.Trim();
+                    cmd.Parameters.Add("@OperacionCuentaCorriente", SqlDbType.Int).Value = OperacionCuentaCorriente;
                     cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = u;
 
                     cn.Open();
@@ -216,11 +192,12 @@ namespace ProyectoAnalisis.Controllers
                         {
                             data = new
                             {
-                                IdStatusCuenta = Convert.ToInt32(rd["IdStatusCuenta"]),
+                                IdTipoMovimientoCXC = Convert.ToInt32(rd["IdTipoMovimientoCXC"]),
                                 Nombre = rd["Nombre"] as string,
-                                FechaCreacion = Fmt(rd["FechaCreacion"]),
+                                OperacionCuentaCorriente = Convert.ToInt32(rd["OperacionCuentaCorriente"]),
+                                FechaCreacion = F(rd["FechaCreacion"]),
                                 UsuarioCreacion = rd["UsuarioCreacion"] as string,
-                                FechaModificacion = Fmt(rd["FechaModificacion"]),
+                                FechaModificacion = F(rd["FechaModificacion"]),
                                 UsuarioModificacion = rd["UsuarioModificacion"] as string
                             };
                         }
@@ -235,11 +212,11 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-        // ========== ACTUALIZAR ==========
-        // GET /StatusCuentas/Actualizar?Usuario=&IdStatusCuenta=&Nombre=
+        // ===== ACTUALIZAR =====
+        // GET /TiposMovimientoCXC/Actualizar?Usuario=&IdTipoMovimientoCXC=&Nombre=&OperacionCuentaCorriente=
         [HttpGet]
         [Route("Actualizar")]
-        public async Task<IHttpActionResult> Actualizar(string Usuario, int IdStatusCuenta, string Nombre = null)
+        public async Task<IHttpActionResult> Actualizar(string Usuario, int IdTipoMovimientoCXC, string Nombre = null, int? OperacionCuentaCorriente = null)
         {
             try
             {
@@ -247,16 +224,17 @@ namespace ProyectoAnalisis.Controllers
                     return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario." });
 
                 var u = Usuario.Trim();
-                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Cambio))
+                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Cambio))
                     return Denegado(PermisoAccion.Cambio);
 
                 using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_StatusCuenta_Actualizar", cn))
+                using (var cmd = new SqlCommand("dbo.sp_TipoMovimientoCXC_Actualizar", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@IdStatusCuenta", SqlDbType.Int).Value = IdStatusCuenta;
-                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value =
+                    cmd.Parameters.Add("@IdTipoMovimientoCXC", SqlDbType.Int).Value = IdTipoMovimientoCXC;
+                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 75).Value =
                         (object)(string.IsNullOrWhiteSpace(Nombre) ? null : Nombre.Trim()) ?? DBNull.Value;
+                    cmd.Parameters.Add("@OperacionCuentaCorriente", SqlDbType.Int).Value = (object)OperacionCuentaCorriente ?? DBNull.Value;
                     cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = u;
 
                     cn.Open();
@@ -274,11 +252,12 @@ namespace ProyectoAnalisis.Controllers
                         {
                             data = new
                             {
-                                IdStatusCuenta = Convert.ToInt32(rd["IdStatusCuenta"]),
+                                IdTipoMovimientoCXC = Convert.ToInt32(rd["IdTipoMovimientoCXC"]),
                                 Nombre = rd["Nombre"] as string,
-                                FechaCreacion = Fmt(rd["FechaCreacion"]),
+                                OperacionCuentaCorriente = Convert.ToInt32(rd["OperacionCuentaCorriente"]),
+                                FechaCreacion = F(rd["FechaCreacion"]),
                                 UsuarioCreacion = rd["UsuarioCreacion"] as string,
-                                FechaModificacion = Fmt(rd["FechaModificacion"]),
+                                FechaModificacion = F(rd["FechaModificacion"]),
                                 UsuarioModificacion = rd["UsuarioModificacion"] as string
                             };
                         }
@@ -293,11 +272,11 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-        // ========== ELIMINAR ==========
-        // GET /StatusCuentas/Eliminar?Usuario=&IdStatusCuenta=
+        // ===== ELIMINAR =====
+        // GET /TiposMovimientoCXC/Eliminar?Usuario=&IdTipoMovimientoCXC=
         [HttpGet]
         [Route("Eliminar")]
-        public async Task<IHttpActionResult> Eliminar(string Usuario, int IdStatusCuenta)
+        public async Task<IHttpActionResult> Eliminar(string Usuario, int IdTipoMovimientoCXC)
         {
             try
             {
@@ -305,14 +284,14 @@ namespace ProyectoAnalisis.Controllers
                     return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario." });
 
                 var u = Usuario.Trim();
-                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.StatusDeCuentas, PermisoAccion.Baja))
+                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.TiposMovimientoCxc, PermisoAccion.Baja))
                     return Denegado(PermisoAccion.Baja);
 
                 using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_StatusCuenta_Eliminar", cn))
+                using (var cmd = new SqlCommand("dbo.sp_TipoMovimientoCXC_Eliminar", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@IdStatusCuenta", SqlDbType.Int).Value = IdStatusCuenta;
+                    cmd.Parameters.Add("@IdTipoMovimientoCXC", SqlDbType.Int).Value = IdTipoMovimientoCXC;
 
                     cn.Open();
                     using (var rd = await cmd.ExecuteReaderAsync())

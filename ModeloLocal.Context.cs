@@ -1506,5 +1506,486 @@ namespace Analisis
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_StatusCuenta_Listar_Busqueda_Result>("sp_StatusCuenta_Listar_Busqueda", buscarParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
         }
+    
+        public virtual ObjectResult<sp_EstadoCivil_Actualizar_Result> sp_EstadoCivil_Actualizar(Nullable<int> idEstadoCivil, string nombre, string usuario)
+        {
+            var idEstadoCivilParameter = idEstadoCivil.HasValue ?
+                new ObjectParameter("IdEstadoCivil", idEstadoCivil) :
+                new ObjectParameter("IdEstadoCivil", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EstadoCivil_Actualizar_Result>("sp_EstadoCivil_Actualizar", idEstadoCivilParameter, nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_EstadoCivil_Crear_Result> sp_EstadoCivil_Crear(string nombre, string usuario)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EstadoCivil_Crear_Result>("sp_EstadoCivil_Crear", nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_EstadoCivil_Eliminar_Result> sp_EstadoCivil_Eliminar(Nullable<int> idEstadoCivil)
+        {
+            var idEstadoCivilParameter = idEstadoCivil.HasValue ?
+                new ObjectParameter("IdEstadoCivil", idEstadoCivil) :
+                new ObjectParameter("IdEstadoCivil", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EstadoCivil_Eliminar_Result>("sp_EstadoCivil_Eliminar", idEstadoCivilParameter);
+        }
+    
+        public virtual ObjectResult<sp_EstadoCivil_Listar_Result> sp_EstadoCivil_Listar(Nullable<int> idEstadoCivil, string nombre)
+        {
+            var idEstadoCivilParameter = idEstadoCivil.HasValue ?
+                new ObjectParameter("IdEstadoCivil", idEstadoCivil) :
+                new ObjectParameter("IdEstadoCivil", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EstadoCivil_Listar_Result>("sp_EstadoCivil_Listar", idEstadoCivilParameter, nombreParameter);
+        }
+    
+        public virtual ObjectResult<sp_EstadoCivil_Listar_Busqueda_Result> sp_EstadoCivil_Listar_Busqueda(string buscar, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EstadoCivil_Listar_Busqueda_Result>("sp_EstadoCivil_Listar_Busqueda", buscarParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoDocumento_Actualizar_Result> sp_TipoDocumento_Actualizar(Nullable<int> idTipoDocumento, string nombre, string usuario)
+        {
+            var idTipoDocumentoParameter = idTipoDocumento.HasValue ?
+                new ObjectParameter("IdTipoDocumento", idTipoDocumento) :
+                new ObjectParameter("IdTipoDocumento", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoDocumento_Actualizar_Result>("sp_TipoDocumento_Actualizar", idTipoDocumentoParameter, nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoDocumento_Crear_Result> sp_TipoDocumento_Crear(string nombre, string usuario)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoDocumento_Crear_Result>("sp_TipoDocumento_Crear", nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoDocumento_Eliminar_Result> sp_TipoDocumento_Eliminar(Nullable<int> idTipoDocumento)
+        {
+            var idTipoDocumentoParameter = idTipoDocumento.HasValue ?
+                new ObjectParameter("IdTipoDocumento", idTipoDocumento) :
+                new ObjectParameter("IdTipoDocumento", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoDocumento_Eliminar_Result>("sp_TipoDocumento_Eliminar", idTipoDocumentoParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoDocumento_Listar_Result> sp_TipoDocumento_Listar(Nullable<int> idTipoDocumento, string nombre, Nullable<bool> incluirAuditoria)
+        {
+            var idTipoDocumentoParameter = idTipoDocumento.HasValue ?
+                new ObjectParameter("IdTipoDocumento", idTipoDocumento) :
+                new ObjectParameter("IdTipoDocumento", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var incluirAuditoriaParameter = incluirAuditoria.HasValue ?
+                new ObjectParameter("IncluirAuditoria", incluirAuditoria) :
+                new ObjectParameter("IncluirAuditoria", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoDocumento_Listar_Result>("sp_TipoDocumento_Listar", idTipoDocumentoParameter, nombreParameter, incluirAuditoriaParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoDocumento_Listar_Busqueda_Result> sp_TipoDocumento_Listar_Busqueda(string buscar, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoDocumento_Listar_Busqueda_Result>("sp_TipoDocumento_Listar_Busqueda", buscarParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoMovimientoCXC_Actualizar_Result> sp_TipoMovimientoCXC_Actualizar(Nullable<int> idTipoMovimientoCXC, string nombre, Nullable<int> operacionCuentaCorriente, string usuario)
+        {
+            var idTipoMovimientoCXCParameter = idTipoMovimientoCXC.HasValue ?
+                new ObjectParameter("IdTipoMovimientoCXC", idTipoMovimientoCXC) :
+                new ObjectParameter("IdTipoMovimientoCXC", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var operacionCuentaCorrienteParameter = operacionCuentaCorriente.HasValue ?
+                new ObjectParameter("OperacionCuentaCorriente", operacionCuentaCorriente) :
+                new ObjectParameter("OperacionCuentaCorriente", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoMovimientoCXC_Actualizar_Result>("sp_TipoMovimientoCXC_Actualizar", idTipoMovimientoCXCParameter, nombreParameter, operacionCuentaCorrienteParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoMovimientoCXC_Crear_Result> sp_TipoMovimientoCXC_Crear(string nombre, Nullable<int> operacionCuentaCorriente, string usuario)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var operacionCuentaCorrienteParameter = operacionCuentaCorriente.HasValue ?
+                new ObjectParameter("OperacionCuentaCorriente", operacionCuentaCorriente) :
+                new ObjectParameter("OperacionCuentaCorriente", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoMovimientoCXC_Crear_Result>("sp_TipoMovimientoCXC_Crear", nombreParameter, operacionCuentaCorrienteParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoMovimientoCXC_Eliminar_Result> sp_TipoMovimientoCXC_Eliminar(Nullable<int> idTipoMovimientoCXC)
+        {
+            var idTipoMovimientoCXCParameter = idTipoMovimientoCXC.HasValue ?
+                new ObjectParameter("IdTipoMovimientoCXC", idTipoMovimientoCXC) :
+                new ObjectParameter("IdTipoMovimientoCXC", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoMovimientoCXC_Eliminar_Result>("sp_TipoMovimientoCXC_Eliminar", idTipoMovimientoCXCParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoMovimientoCXC_Listar_Result> sp_TipoMovimientoCXC_Listar(Nullable<int> idTipoMovimientoCXC, string nombre, Nullable<bool> incluirAuditoria)
+        {
+            var idTipoMovimientoCXCParameter = idTipoMovimientoCXC.HasValue ?
+                new ObjectParameter("IdTipoMovimientoCXC", idTipoMovimientoCXC) :
+                new ObjectParameter("IdTipoMovimientoCXC", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var incluirAuditoriaParameter = incluirAuditoria.HasValue ?
+                new ObjectParameter("IncluirAuditoria", incluirAuditoria) :
+                new ObjectParameter("IncluirAuditoria", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoMovimientoCXC_Listar_Result>("sp_TipoMovimientoCXC_Listar", idTipoMovimientoCXCParameter, nombreParameter, incluirAuditoriaParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoMovimientoCXC_Listar_Busqueda_Result> sp_TipoMovimientoCXC_Listar_Busqueda(string buscar, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoMovimientoCXC_Listar_Busqueda_Result>("sp_TipoMovimientoCXC_Listar_Busqueda", buscarParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoSaldoCuenta_Actualizar_Result> sp_TipoSaldoCuenta_Actualizar(Nullable<int> idTipoSaldoCuenta, string nombre, string usuario)
+        {
+            var idTipoSaldoCuentaParameter = idTipoSaldoCuenta.HasValue ?
+                new ObjectParameter("IdTipoSaldoCuenta", idTipoSaldoCuenta) :
+                new ObjectParameter("IdTipoSaldoCuenta", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoSaldoCuenta_Actualizar_Result>("sp_TipoSaldoCuenta_Actualizar", idTipoSaldoCuentaParameter, nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoSaldoCuenta_Crear_Result> sp_TipoSaldoCuenta_Crear(string nombre, string usuario)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoSaldoCuenta_Crear_Result>("sp_TipoSaldoCuenta_Crear", nombreParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoSaldoCuenta_Eliminar_Result> sp_TipoSaldoCuenta_Eliminar(Nullable<int> idTipoSaldoCuenta)
+        {
+            var idTipoSaldoCuentaParameter = idTipoSaldoCuenta.HasValue ?
+                new ObjectParameter("IdTipoSaldoCuenta", idTipoSaldoCuenta) :
+                new ObjectParameter("IdTipoSaldoCuenta", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoSaldoCuenta_Eliminar_Result>("sp_TipoSaldoCuenta_Eliminar", idTipoSaldoCuentaParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoSaldoCuenta_Listar_Result> sp_TipoSaldoCuenta_Listar(Nullable<int> idTipoSaldoCuenta, string nombre)
+        {
+            var idTipoSaldoCuentaParameter = idTipoSaldoCuenta.HasValue ?
+                new ObjectParameter("IdTipoSaldoCuenta", idTipoSaldoCuenta) :
+                new ObjectParameter("IdTipoSaldoCuenta", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoSaldoCuenta_Listar_Result>("sp_TipoSaldoCuenta_Listar", idTipoSaldoCuentaParameter, nombreParameter);
+        }
+    
+        public virtual ObjectResult<sp_TipoSaldoCuenta_Listar_Busqueda_Result> sp_TipoSaldoCuenta_Listar_Busqueda(string buscar, Nullable<int> page, Nullable<int> pageSize, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("Page", page) :
+                new ObjectParameter("Page", typeof(int));
+    
+            var pageSizeParameter = pageSize.HasValue ?
+                new ObjectParameter("PageSize", pageSize) :
+                new ObjectParameter("PageSize", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_TipoSaldoCuenta_Listar_Busqueda_Result>("sp_TipoSaldoCuenta_Listar_Busqueda", buscarParameter, pageParameter, pageSizeParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Persona_Actualizar_Result> sp_Persona_Actualizar(Nullable<int> idPersona, string nombre, string apellido, Nullable<System.DateTime> fechaNacimiento, Nullable<int> idGenero, string direccion, string telefono, string correoElectronico, Nullable<int> idEstadoCivil, string usuario, Nullable<bool> reemplazarDocumentos, string documentosJson)
+        {
+            var idPersonaParameter = idPersona.HasValue ?
+                new ObjectParameter("IdPersona", idPersona) :
+                new ObjectParameter("IdPersona", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var apellidoParameter = apellido != null ?
+                new ObjectParameter("Apellido", apellido) :
+                new ObjectParameter("Apellido", typeof(string));
+    
+            var fechaNacimientoParameter = fechaNacimiento.HasValue ?
+                new ObjectParameter("FechaNacimiento", fechaNacimiento) :
+                new ObjectParameter("FechaNacimiento", typeof(System.DateTime));
+    
+            var idGeneroParameter = idGenero.HasValue ?
+                new ObjectParameter("IdGenero", idGenero) :
+                new ObjectParameter("IdGenero", typeof(int));
+    
+            var direccionParameter = direccion != null ?
+                new ObjectParameter("Direccion", direccion) :
+                new ObjectParameter("Direccion", typeof(string));
+    
+            var telefonoParameter = telefono != null ?
+                new ObjectParameter("Telefono", telefono) :
+                new ObjectParameter("Telefono", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var idEstadoCivilParameter = idEstadoCivil.HasValue ?
+                new ObjectParameter("IdEstadoCivil", idEstadoCivil) :
+                new ObjectParameter("IdEstadoCivil", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            var reemplazarDocumentosParameter = reemplazarDocumentos.HasValue ?
+                new ObjectParameter("ReemplazarDocumentos", reemplazarDocumentos) :
+                new ObjectParameter("ReemplazarDocumentos", typeof(bool));
+    
+            var documentosJsonParameter = documentosJson != null ?
+                new ObjectParameter("DocumentosJson", documentosJson) :
+                new ObjectParameter("DocumentosJson", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Persona_Actualizar_Result>("sp_Persona_Actualizar", idPersonaParameter, nombreParameter, apellidoParameter, fechaNacimientoParameter, idGeneroParameter, direccionParameter, telefonoParameter, correoElectronicoParameter, idEstadoCivilParameter, usuarioParameter, reemplazarDocumentosParameter, documentosJsonParameter);
+        }
+    
+        public virtual ObjectResult<sp_Persona_Crear_Result> sp_Persona_Crear(string nombre, string apellido, Nullable<System.DateTime> fechaNacimiento, Nullable<int> idGenero, string direccion, string telefono, string correoElectronico, Nullable<int> idEstadoCivil, string usuario, string documentosJson)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var apellidoParameter = apellido != null ?
+                new ObjectParameter("Apellido", apellido) :
+                new ObjectParameter("Apellido", typeof(string));
+    
+            var fechaNacimientoParameter = fechaNacimiento.HasValue ?
+                new ObjectParameter("FechaNacimiento", fechaNacimiento) :
+                new ObjectParameter("FechaNacimiento", typeof(System.DateTime));
+    
+            var idGeneroParameter = idGenero.HasValue ?
+                new ObjectParameter("IdGenero", idGenero) :
+                new ObjectParameter("IdGenero", typeof(int));
+    
+            var direccionParameter = direccion != null ?
+                new ObjectParameter("Direccion", direccion) :
+                new ObjectParameter("Direccion", typeof(string));
+    
+            var telefonoParameter = telefono != null ?
+                new ObjectParameter("Telefono", telefono) :
+                new ObjectParameter("Telefono", typeof(string));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var idEstadoCivilParameter = idEstadoCivil.HasValue ?
+                new ObjectParameter("IdEstadoCivil", idEstadoCivil) :
+                new ObjectParameter("IdEstadoCivil", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            var documentosJsonParameter = documentosJson != null ?
+                new ObjectParameter("DocumentosJson", documentosJson) :
+                new ObjectParameter("DocumentosJson", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Persona_Crear_Result>("sp_Persona_Crear", nombreParameter, apellidoParameter, fechaNacimientoParameter, idGeneroParameter, direccionParameter, telefonoParameter, correoElectronicoParameter, idEstadoCivilParameter, usuarioParameter, documentosJsonParameter);
+        }
+    
+        public virtual ObjectResult<sp_Persona_Eliminar_Result> sp_Persona_Eliminar(Nullable<int> idPersona)
+        {
+            var idPersonaParameter = idPersona.HasValue ?
+                new ObjectParameter("IdPersona", idPersona) :
+                new ObjectParameter("IdPersona", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Persona_Eliminar_Result>("sp_Persona_Eliminar", idPersonaParameter);
+        }
+    
+        public virtual ObjectResult<sp_Persona_Listar_Busqueda_Result> sp_Persona_Listar_Busqueda(string buscar, Nullable<int> idGenero, Nullable<int> idEstadoCivil, Nullable<int> pagina, Nullable<int> tamanoPagina, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var idGeneroParameter = idGenero.HasValue ?
+                new ObjectParameter("IdGenero", idGenero) :
+                new ObjectParameter("IdGenero", typeof(int));
+    
+            var idEstadoCivilParameter = idEstadoCivil.HasValue ?
+                new ObjectParameter("IdEstadoCivil", idEstadoCivil) :
+                new ObjectParameter("IdEstadoCivil", typeof(int));
+    
+            var paginaParameter = pagina.HasValue ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(int));
+    
+            var tamanoPaginaParameter = tamanoPagina.HasValue ?
+                new ObjectParameter("TamanoPagina", tamanoPagina) :
+                new ObjectParameter("TamanoPagina", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Persona_Listar_Busqueda_Result>("sp_Persona_Listar_Busqueda", buscarParameter, idGeneroParameter, idEstadoCivilParameter, paginaParameter, tamanoPaginaParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Persona_Obtener_Result> sp_Persona_Obtener(Nullable<int> idPersona, string correoElectronico, Nullable<bool> incluirDocumentos)
+        {
+            var idPersonaParameter = idPersona.HasValue ?
+                new ObjectParameter("IdPersona", idPersona) :
+                new ObjectParameter("IdPersona", typeof(int));
+    
+            var correoElectronicoParameter = correoElectronico != null ?
+                new ObjectParameter("CorreoElectronico", correoElectronico) :
+                new ObjectParameter("CorreoElectronico", typeof(string));
+    
+            var incluirDocumentosParameter = incluirDocumentos.HasValue ?
+                new ObjectParameter("IncluirDocumentos", incluirDocumentos) :
+                new ObjectParameter("IncluirDocumentos", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Persona_Obtener_Result>("sp_Persona_Obtener", idPersonaParameter, correoElectronicoParameter, incluirDocumentosParameter);
+        }
     }
 }

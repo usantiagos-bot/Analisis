@@ -4,9 +4,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Data.Entity.Core.EntityClient;
 using System.Globalization;
+using System.Threading.Tasks;
 using System.Web.Http;
+using ProyectoAnalisis.Helpers;
+using ProyectoAnalisis.Permissions;
 
-namespace ProyectoAnalisis.Controllers
+
+namespace ProyectoAnalis.Controllers
 {
     // ===== DTO =====
     public class UsuarioActualizarRequest
@@ -26,13 +30,13 @@ namespace ProyectoAnalisis.Controllers
         public int? IdRole { get; set; }
         public string FotografiaBase64 { get; set; }    // puede traer "data:image/...;base64,"
         public bool LimpiarFoto { get; set; } = false;
-        public string UsuarioAccion { get; set; }
+        public string UsuarioAccion { get; set; }       // requerido para auditar/validar permiso
     }
 
     [RoutePrefix("Usuarios")]
     public class UsuariosActualizarController : ApiController
     {
-        // Conexión robusta: usa ConexionBD; si no existe, toma EF (Entities o ProyectoAnalisisEntities1)
+        // Conexión robusta
         private static string Cnx
         {
             get
@@ -63,14 +67,24 @@ namespace ProyectoAnalisis.Controllers
             return Convert.FromBase64String(s);
         }
 
+        private IHttpActionResult Denegado(PermisoAccion acc)
+            => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({acc})." });
+
         [HttpPost]
         [Route("Actualizar")]
-        public IHttpActionResult ActualizarPost([FromBody] UsuarioActualizarRequest req)
+        public async Task<IHttpActionResult> ActualizarPost([FromBody] UsuarioActualizarRequest req)
         {
             try
             {
                 if (req == null || string.IsNullOrWhiteSpace(req.IdUsuario))
                     return Ok(new { Resultado = 0, Mensaje = "Body inválido o falta IdUsuario." });
+
+                // UsuarioAccion requerido para validar permiso
+                var usuarioAccion = string.IsNullOrWhiteSpace(req.UsuarioAccion) ? "system" : req.UsuarioAccion.Trim();
+
+                // Validar permiso: CAMBIO sobre la opción "Usuarios"
+                if (!await SeguridadHelper.TienePermisoAsync(usuarioAccion, Opciones.Usuarios, PermisoAccion.Cambio))
+                    return Denegado(PermisoAccion.Cambio);
 
                 // Fecha (opcional)
                 DateTime? fechaNac = null;
@@ -104,7 +118,7 @@ namespace ProyectoAnalisis.Controllers
                     cmd.Parameters.Add("@Apellido", SqlDbType.VarChar, 100).Value = (object)req.Apellido ?? DBNull.Value;
                     cmd.Parameters.Add("@FechaNacimiento", SqlDbType.Date).Value = (object)fechaNac ?? DBNull.Value;
                     cmd.Parameters.Add("@IdStatusUsuario", SqlDbType.Int).Value = (object)req.IdStatusUsuario ?? DBNull.Value;
-                    cmd.Parameters.Add("@Password", SqlDbType.NVarChar, 200).Value = (object)req.Password ?? DBNull.Value;
+                    cmd.Parameters.Add("@Password", SqlDbType.VarChar, 100).Value = (object)req.Password ?? DBNull.Value; // VarChar
                     cmd.Parameters.Add("@IdGenero", SqlDbType.Int).Value = (object)req.IdGenero ?? DBNull.Value;
                     cmd.Parameters.Add("@CorreoElectronico", SqlDbType.VarChar, 100).Value = (object)req.CorreoElectronico ?? DBNull.Value;
                     cmd.Parameters.Add("@TelefonoMovil", SqlDbType.VarChar, 30).Value = (object)req.TelefonoMovil ?? DBNull.Value;
@@ -119,8 +133,7 @@ namespace ProyectoAnalisis.Controllers
                     cmd.Parameters.Add("@LimpiarFoto", SqlDbType.Bit).Value = req.LimpiarFoto;
 
                     // Auditoría
-                    cmd.Parameters.Add("@UsuarioAccion", SqlDbType.VarChar, 100).Value =
-                        (object)req.UsuarioAccion ?? DBNull.Value;
+                    cmd.Parameters.Add("@UsuarioAccion", SqlDbType.VarChar, 100).Value = usuarioAccion;
 
                     conn.Open();
                     using (var rd = cmd.ExecuteReader())

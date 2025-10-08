@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using System.Web.Http;
+using ProyectoAnalisis.Helpers;
+using ProyectoAnalisis.Permissions;
 
 namespace ProyectoAnalisis.Controllers
 {
@@ -12,66 +15,73 @@ namespace ProyectoAnalisis.Controllers
     {
         private static string Cnx => ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString;
 
-        // DTO
-        public class GeneroDto
-        {
-            public int IdGenero { get; set; }
-            public string Nombre { get; set; }
-            public DateTime FechaCreacion { get; set; }
-            public string UsuarioCreacion { get; set; }
-            public DateTime? FechaModificacion { get; set; }
-            public string UsuarioModificacion { get; set; }
-        }
+        private static string Fmt(object dt)
+            => (dt == DBNull.Value || dt == null) ? null : ((DateTime)dt).ToString("yyyy-MM-ddTHH:mm:ss");
 
-        private static string F(DateTime? d) => d.HasValue ? d.Value.ToString("yyyy-MM-ddTHH:mm:ss") : null;
+        // — Helpers para “permiso denegado”
+        private IHttpActionResult Denegado(PermisoAccion acc)
+            => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({acc})." });
 
-        // GET /Generos/Listar?IdGenero=&BuscarNombre=&Page=1&PageSize=50
+        private IHttpActionResult Denegado(string detalle)
+            => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({detalle})." });
+
+        // Campos válidos para ordenar en ListarBusqueda
+        private static readonly HashSet<string> CamposOrden =
+            new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            { "IdGenero", "Nombre", "FechaCreacion" };
+
+        private static string NormalizarOrdenPor(string ordenPor)
+            => CamposOrden.Contains(ordenPor ?? "") ? ordenPor : "Nombre";
+
+        private static string NormalizarOrdenDir(string dir)
+            => string.Equals(dir, "ASC", StringComparison.OrdinalIgnoreCase) ? "ASC" : "DESC";
+
+        // ========= LISTAR SIMPLE (sin filtros ni paginación) =========
+        // GET /Generos/Listar?usuarioAccion=Administrador
         [HttpGet]
         [Route("Listar")]
-        public IHttpActionResult Listar(int? IdGenero = null, string BuscarNombre = null, int Page = 1, int PageSize = 50)
+        public async Task<IHttpActionResult> Listar(string usuarioAccion)
         {
             try
             {
-                var lista = new List<GeneroDto>();
+                if (string.IsNullOrWhiteSpace(usuarioAccion))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
 
-                using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_Genero_Listar", cn))
+                var u = usuarioAccion.Trim();
+                var puede =
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Imprimir) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Exportar) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Cambio) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Alta) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Baja);
+
+                if (!puede) return Ok(new { Resultado = 0, Mensaje = "Permiso denegado (lectura)." });
+
+                using (var conn = new SqlConnection(Cnx))
+                using (var cmd = new SqlCommand("dbo.sp_Genero_Listar", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@IdGenero", SqlDbType.Int).Value = (object)IdGenero ?? DBNull.Value;
-                    cmd.Parameters.Add("@BuscarNombre", SqlDbType.VarChar, 100).Value = (object)BuscarNombre ?? DBNull.Value;
-                    cmd.Parameters.Add("@Page", SqlDbType.Int).Value = Page;
-                    cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = PageSize;
 
-                    cn.Open();
-                    using (var rd = cmd.ExecuteReader())
+                    conn.Open();
+                    using (var rd = await cmd.ExecuteReaderAsync())
                     {
-                        while (rd.Read())
+                        var items = new List<object>();
+                        while (await rd.ReadAsync())
                         {
-                            lista.Add(new GeneroDto
+                            items.Add(new
                             {
                                 IdGenero = Convert.ToInt32(rd["IdGenero"]),
                                 Nombre = rd["Nombre"] as string,
-                                FechaCreacion = Convert.ToDateTime(rd["FechaCreacion"]),
+                                FechaCreacion = Fmt(rd["FechaCreacion"]),
                                 UsuarioCreacion = rd["UsuarioCreacion"] as string,
-                                FechaModificacion = rd["FechaModificacion"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rd["FechaModificacion"]),
+                                FechaModificacion = Fmt(rd["FechaModificacion"]),
                                 UsuarioModificacion = rd["UsuarioModificacion"] as string
                             });
                         }
+
+                        return Ok(new { Resultado = 1, Mensaje = "OK", Items = items });
                     }
                 }
-
-                var data = lista.ConvertAll(g => new
-                {
-                    g.IdGenero,
-                    g.Nombre,
-                    FechaCreacion = F(g.FechaCreacion),
-                    FechaModificacion = F(g.FechaModificacion),
-                    g.UsuarioCreacion,
-                    g.UsuarioModificacion
-                });
-
-                return Ok(new { ok = true, data });
             }
             catch (Exception e)
             {
@@ -79,44 +89,80 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-        // GET /Generos/Crear?Nombre=&Usuario=
+
+        // ========= LISTAR CON BÚSQUEDA/PAGINACIÓN =========
+        // GET /Generos/ListarBusqueda?usuarioAccion=&Buscar=&Pagina=1&TamanoPagina=50&OrdenPor=Nombre&OrdenDir=ASC
         [HttpGet]
-        [Route("Crear")]
-        public IHttpActionResult Crear(string Nombre, string Usuario)
+        [Route("ListarBusqueda")]
+        public async Task<IHttpActionResult> ListarBusqueda(
+            string usuarioAccion,
+            string Buscar = null,
+            int Pagina = 1,
+            int TamanoPagina = 50,
+            string OrdenPor = "Nombre",
+            string OrdenDir = "ASC")
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(Usuario))
-                    return Ok(new { ok = false, error = "Usuario es requerido." });
+                if (string.IsNullOrWhiteSpace(usuarioAccion))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
 
-                int nuevoId;
+                var u = usuarioAccion.Trim();
+                var puede =
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Imprimir) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Exportar) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Cambio) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Alta) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Baja);
 
-                using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_Genero_Crear", cn))
+                if (!puede) return Denegado("lectura");
+
+                OrdenPor = NormalizarOrdenPor(OrdenPor);
+                OrdenDir = NormalizarOrdenDir(OrdenDir);
+
+                using (var conn = new SqlConnection(Cnx))
+                using (var cmd = new SqlCommand("dbo.sp_Genero_Listar_Busqueda", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 100).Value = Nombre;
-                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = Usuario;
+                    cmd.Parameters.Add("@Buscar", SqlDbType.VarChar, 100).Value =
+                        (object)(string.IsNullOrWhiteSpace(Buscar) ? null : Buscar.Trim()) ?? DBNull.Value;
+                    cmd.Parameters.Add("@Pagina", SqlDbType.Int).Value = Pagina;
+                    cmd.Parameters.Add("@TamanoPagina", SqlDbType.Int).Value = TamanoPagina;
+                    cmd.Parameters.Add("@OrdenPor", SqlDbType.VarChar, 50).Value = OrdenPor;
+                    cmd.Parameters.Add("@OrdenDir", SqlDbType.VarChar, 4).Value = OrdenDir;
 
-                    cn.Open();
-                    var scalar = cmd.ExecuteScalar();
-                    nuevoId = Convert.ToInt32(scalar);
+                    conn.Open();
+                    using (var rd = await cmd.ExecuteReaderAsync())
+                    {
+                        var items = new List<object>();
+                        while (await rd.ReadAsync())
+                        {
+                            items.Add(new
+                            {
+                                IdGenero = rd["IdGenero"] == DBNull.Value ? (int?)null : Convert.ToInt32(rd["IdGenero"]),
+                                Nombre = rd["Nombre"] as string,
+                                FechaCreacion = Fmt(rd["FechaCreacion"]),
+                                UsuarioCreacion = rd["UsuarioCreacion"] as string,
+                                FechaModificacion = Fmt(rd["FechaModificacion"]),
+                                UsuarioModificacion = rd["UsuarioModificacion"] as string
+                            });
+                        }
+
+                        int total = 0;
+                        if (await rd.NextResultAsync() && await rd.ReadAsync())
+                            total = rd["Total"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Total"]);
+
+                        return Ok(new
+                        {
+                            Resultado = 1,
+                            Mensaje = "OK",
+                            Pagina,
+                            TamanoPagina,
+                            Total = total,
+                            Items = items
+                        });
+                    }
                 }
-
-                var genero = ObtenerPorId(nuevoId);
-                if (genero == null) return Ok(new { ok = false, error = "No se pudo leer el registro recién creado." });
-
-                var data = new
-                {
-                    genero.IdGenero,
-                    genero.Nombre,
-                    FechaCreacion = F(genero.FechaCreacion),
-                    FechaModificacion = F(genero.FechaModificacion),
-                    genero.UsuarioCreacion,
-                    genero.UsuarioModificacion
-                };
-
-                return Ok(new { ok = true, data });
             }
             catch (Exception e)
             {
@@ -124,43 +170,119 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-        // GET /Generos/Actualizar?IdGenero=&Nombre=&Usuario=
+        // ========= CREAR =========
+        // GET /Generos/Crear?Usuario=&Nombre=
+        [HttpGet]
+        [Route("Crear")]
+        public async Task<IHttpActionResult> Crear(string Usuario, string Nombre)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(Usuario) || string.IsNullOrWhiteSpace(Nombre))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario y Nombre." });
+
+                var u = Usuario.Trim();
+                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Alta))
+                    return Denegado(PermisoAccion.Alta);
+
+                using (var conn = new SqlConnection(Cnx))
+                using (var cmd = new SqlCommand("dbo.sp_Genero_Crear", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 100).Value = Nombre.Trim();
+                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = u;
+
+                    conn.Open();
+                    using (var rd = await cmd.ExecuteReaderAsync())
+                    {
+                        if (!rd.HasRows)
+                            return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
+
+                        await rd.ReadAsync();
+                        int resultado = rd["Resultado"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Resultado"]);
+                        string mensaje = rd["Mensaje"] as string ?? "";
+
+                        if (resultado != 1)
+                            return Ok(new { Resultado = resultado, Mensaje = mensaje });
+
+                        object data = null;
+                        if (await rd.NextResultAsync() && await rd.ReadAsync())
+                        {
+                            data = new
+                            {
+                                IdGenero = rd["IdGenero"] == DBNull.Value ? (int?)null : Convert.ToInt32(rd["IdGenero"]),
+                                Nombre = rd["Nombre"] as string,
+                                FechaCreacion = Fmt(rd["FechaCreacion"]),
+                                UsuarioCreacion = rd["UsuarioCreacion"] as string,
+                                FechaModificacion = Fmt(rd["FechaModificacion"]),
+                                UsuarioModificacion = rd["UsuarioModificacion"] as string
+                            };
+                        }
+
+                        return Ok(new { Resultado = 1, Mensaje = mensaje, Data = data });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(new Exception("Error interno: " + e.Message));
+            }
+        }
+
+        // ========= ACTUALIZAR =========
+        // GET /Generos/Actualizar?Usuario=&IdGenero=&Nombre=
         [HttpGet]
         [Route("Actualizar")]
-        public IHttpActionResult Actualizar(int IdGenero, string Nombre = null, string Usuario = null)
+        public async Task<IHttpActionResult> Actualizar(string Usuario, int IdGenero, string Nombre = null)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(Usuario))
-                    return Ok(new { ok = false, error = "Usuario es requerido." });
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario." });
 
-                using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_Genero_Actualizar", cn))
+                var u = Usuario.Trim();
+                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Cambio))
+                    return Denegado(PermisoAccion.Cambio);
+
+                using (var conn = new SqlConnection(Cnx))
+                using (var cmd = new SqlCommand("dbo.sp_Genero_Actualizar", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@IdGenero", SqlDbType.Int).Value = IdGenero;
                     cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 100).Value =
-                        string.IsNullOrWhiteSpace(Nombre) ? (object)DBNull.Value : Nombre;
-                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = Usuario;
+                        (object)(string.IsNullOrWhiteSpace(Nombre) ? null : Nombre.Trim()) ?? DBNull.Value;
+                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = u;
 
-                    cn.Open();
-                    cmd.ExecuteNonQuery();
+                    conn.Open();
+                    using (var rd = await cmd.ExecuteReaderAsync())
+                    {
+                        if (!rd.HasRows)
+                            return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
+
+                        await rd.ReadAsync();
+                        int resultado = rd["Resultado"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Resultado"]);
+                        string mensaje = rd["Mensaje"] as string ?? "";
+
+                        if (resultado != 1)
+                            return Ok(new { Resultado = resultado, Mensaje = mensaje });
+
+                        object data = null;
+                        if (await rd.NextResultAsync() && await rd.ReadAsync())
+                        {
+                            data = new
+                            {
+                                IdGenero = rd["IdGenero"] == DBNull.Value ? (int?)null : Convert.ToInt32(rd["IdGenero"]),
+                                Nombre = rd["Nombre"] as string,
+                                FechaCreacion = Fmt(rd["FechaCreacion"]),
+                                UsuarioCreacion = rd["UsuarioCreacion"] as string,
+                                FechaModificacion = Fmt(rd["FechaModificacion"]),
+                                UsuarioModificacion = rd["UsuarioModificacion"] as string
+                            };
+                        }
+
+                        return Ok(new { Resultado = 1, Mensaje = mensaje, Data = data });
+                    }
                 }
-
-                var genero = ObtenerPorId(IdGenero);
-                if (genero == null) return Ok(new { ok = false, error = "No encontrado" });
-
-                var data = new
-                {
-                    genero.IdGenero,
-                    genero.Nombre,
-                    FechaCreacion = F(genero.FechaCreacion),
-                    FechaModificacion = F(genero.FechaModificacion),
-                    genero.UsuarioCreacion,
-                    genero.UsuarioModificacion
-                };
-
-                return Ok(new { ok = true, data });
             }
             catch (Exception e)
             {
@@ -168,58 +290,50 @@ namespace ProyectoAnalisis.Controllers
             }
         }
 
-        // GET /Generos/Eliminar?IdGenero=
+        // ========= ELIMINAR =========
+        // GET /Generos/Eliminar?Usuario=&IdGenero=&HardDelete=false
         [HttpGet]
         [Route("Eliminar")]
-        public IHttpActionResult Eliminar(int IdGenero)
+        public async Task<IHttpActionResult> Eliminar(string Usuario, int IdGenero, bool HardDelete = false)
         {
             try
             {
-                using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand("dbo.sp_Genero_Eliminar", cn))
+                if (string.IsNullOrWhiteSpace(Usuario))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario." });
+
+                var u = Usuario.Trim();
+                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.Generos, PermisoAccion.Baja))
+                    return Denegado(PermisoAccion.Baja);
+
+                using (var conn = new SqlConnection(Cnx))
+                using (var cmd = new SqlCommand("dbo.sp_Genero_Eliminar", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@IdGenero", SqlDbType.Int).Value = IdGenero;
+                    cmd.Parameters.Add("@HardDelete", SqlDbType.Bit).Value = HardDelete;
+                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = u;
 
-                    cn.Open();
-                    cmd.ExecuteNonQuery();
+                    conn.Open();
+                    using (var rd = await cmd.ExecuteReaderAsync())
+                    {
+                        if (!rd.HasRows)
+                            return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
+
+                        await rd.ReadAsync();
+                        int resultado = rd["Resultado"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Resultado"]);
+                        string mensaje = rd["Mensaje"] as string ?? "";
+
+                        if (resultado != 1)
+                            return Ok(new { Resultado = resultado, Mensaje = mensaje });
+
+                        // Si implementas soft-delete, aquí podrías leer un RS#2 con el registro afectado
+                        return Ok(new { Resultado = 1, Mensaje = mensaje });
+                    }
                 }
-
-                return Ok(new { ok = true, message = "Eliminado correctamente", id = IdGenero });
             }
             catch (Exception e)
             {
                 return InternalServerError(new Exception("Error interno: " + e.Message));
-            }
-        }
-
-        // -------- Helpers --------
-        private GeneroDto ObtenerPorId(int id)
-        {
-            using (var cn = new SqlConnection(Cnx))
-            using (var cmd = new SqlCommand("dbo.sp_Genero_Listar", cn))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@IdGenero", SqlDbType.Int).Value = id;
-                cmd.Parameters.Add("@BuscarNombre", SqlDbType.VarChar, 100).Value = DBNull.Value;
-                cmd.Parameters.Add("@Page", SqlDbType.Int).Value = 1;
-                cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = 1;
-
-                cn.Open();
-                using (var rd = cmd.ExecuteReader())
-                {
-                    if (!rd.Read()) return null;
-
-                    return new GeneroDto
-                    {
-                        IdGenero = Convert.ToInt32(rd["IdGenero"]),
-                        Nombre = rd["Nombre"] as string,
-                        FechaCreacion = Convert.ToDateTime(rd["FechaCreacion"]),
-                        UsuarioCreacion = rd["UsuarioCreacion"] as string,
-                        FechaModificacion = rd["FechaModificacion"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rd["FechaModificacion"]),
-                        UsuarioModificacion = rd["UsuarioModificacion"] as string
-                    };
-                }
             }
         }
     }

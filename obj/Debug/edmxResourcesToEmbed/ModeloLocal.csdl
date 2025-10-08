@@ -240,12 +240,11 @@
     </FunctionImport>
     <FunctionImport Name="sp_Role_Eliminar">
       <Parameter Name="IdRole" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_Role_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Role_Listar_Result)">
       <Parameter Name="IdRole" Mode="In" Type="Int32" />
-      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
-      <Parameter Name="Page" Mode="In" Type="Int32" />
-      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_Genero_Actualizar">
       <Parameter Name="IdGenero" Mode="In" Type="Int32" />
@@ -258,13 +257,10 @@
     </FunctionImport>
     <FunctionImport Name="sp_Genero_Eliminar">
       <Parameter Name="IdGenero" Mode="In" Type="Int32" />
+      <Parameter Name="HardDelete" Mode="In" Type="Boolean" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
     </FunctionImport>
-    <FunctionImport Name="sp_Genero_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Genero_Listar_Result)">
-      <Parameter Name="IdGenero" Mode="In" Type="Int32" />
-      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
-      <Parameter Name="Page" Mode="In" Type="Int32" />
-      <Parameter Name="PageSize" Mode="In" Type="Int32" />
-    </FunctionImport>
+    <FunctionImport Name="sp_Genero_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Genero_Listar_Result)" />
     <FunctionImport Name="sp_StatusUsuario_Actualizar">
       <Parameter Name="IdStatusUsuario" Mode="In" Type="Int32" />
       <Parameter Name="Nombre" Mode="In" Type="String" />
@@ -282,6 +278,280 @@
       <Parameter Name="BuscarNombre" Mode="In" Type="String" />
       <Parameter Name="Page" Mode="In" Type="Int32" />
       <Parameter Name="PageSize" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Genero_Listar_conBusqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Genero_Listar_conBusqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Role_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Role_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Actualizar">
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Pagina" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Crear" ReturnType="Collection(Decimal)">
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Pagina" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Eliminar">
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Opcion_Listar_Result)">
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
+      <Parameter Name="BuscarPagina" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Opcion_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Opcion_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Actualizar_Result)">
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Crear_Result)">
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Eliminar_Result)">
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Listar_Result)">
+      <Parameter Name="IdMenu" Mode="In" Type="Int32" />
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Menu_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Menu_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Actualizar_Result)">
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Crear_Result)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OrdenMenu" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Eliminar_Result)">
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Listar_Result)">
+      <Parameter Name="IdModulo" Mode="In" Type="Int32" />
+      <Parameter Name="BuscarNombre" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Modulo_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Modulo_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Actualizar_Result)">
+      <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Crear_Result)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Eliminar_Result)">
+      <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Result)">
+      <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_StatusCuenta_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_StatusCuenta_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_EstadoCivil_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_EstadoCivil_Actualizar_Result)">
+      <Parameter Name="IdEstadoCivil" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_EstadoCivil_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_EstadoCivil_Crear_Result)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_EstadoCivil_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_EstadoCivil_Eliminar_Result)">
+      <Parameter Name="IdEstadoCivil" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_EstadoCivil_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_EstadoCivil_Listar_Result)">
+      <Parameter Name="IdEstadoCivil" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_EstadoCivil_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_EstadoCivil_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoDocumento_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoDocumento_Actualizar_Result)">
+      <Parameter Name="IdTipoDocumento" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoDocumento_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoDocumento_Crear_Result)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoDocumento_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoDocumento_Eliminar_Result)">
+      <Parameter Name="IdTipoDocumento" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoDocumento_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoDocumento_Listar_Result)">
+      <Parameter Name="IdTipoDocumento" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="IncluirAuditoria" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoDocumento_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoDocumento_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoMovimientoCXC_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Actualizar_Result)">
+      <Parameter Name="IdTipoMovimientoCXC" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OperacionCuentaCorriente" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoMovimientoCXC_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Crear_Result)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="OperacionCuentaCorriente" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoMovimientoCXC_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Eliminar_Result)">
+      <Parameter Name="IdTipoMovimientoCXC" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoMovimientoCXC_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Listar_Result)">
+      <Parameter Name="IdTipoMovimientoCXC" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="IncluirAuditoria" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoMovimientoCXC_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoMovimientoCXC_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoSaldoCuenta_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Actualizar_Result)">
+      <Parameter Name="IdTipoSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoSaldoCuenta_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Crear_Result)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoSaldoCuenta_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Eliminar_Result)">
+      <Parameter Name="IdTipoSaldoCuenta" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoSaldoCuenta_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Listar_Result)">
+      <Parameter Name="IdTipoSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_TipoSaldoCuenta_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_TipoSaldoCuenta_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="Page" Mode="In" Type="Int32" />
+      <Parameter Name="PageSize" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Persona_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Persona_Actualizar_Result)">
+      <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Apellido" Mode="In" Type="String" />
+      <Parameter Name="FechaNacimiento" Mode="In" Type="DateTime" />
+      <Parameter Name="IdGenero" Mode="In" Type="Int32" />
+      <Parameter Name="Direccion" Mode="In" Type="String" />
+      <Parameter Name="Telefono" Mode="In" Type="String" />
+      <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="IdEstadoCivil" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+      <Parameter Name="ReemplazarDocumentos" Mode="In" Type="Boolean" />
+      <Parameter Name="DocumentosJson" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Persona_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_Persona_Crear_Result)">
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Apellido" Mode="In" Type="String" />
+      <Parameter Name="FechaNacimiento" Mode="In" Type="DateTime" />
+      <Parameter Name="IdGenero" Mode="In" Type="Int32" />
+      <Parameter Name="Direccion" Mode="In" Type="String" />
+      <Parameter Name="Telefono" Mode="In" Type="String" />
+      <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="IdEstadoCivil" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+      <Parameter Name="DocumentosJson" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Persona_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Persona_Eliminar_Result)">
+      <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Persona_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Persona_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="IdGenero" Mode="In" Type="Int32" />
+      <Parameter Name="IdEstadoCivil" Mode="In" Type="Int32" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Persona_Obtener" ReturnType="Collection(ProyectoAnalisisModel1.sp_Persona_Obtener_Result)">
+      <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+      <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
+      <Parameter Name="IncluirDocumentos" Mode="In" Type="Boolean" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_LoginUsuario_Result">
@@ -431,5 +701,203 @@
     <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
     <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
     <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Genero_Listar_conBusqueda_Result">
+    <Property Type="Int32" Name="IdGenero" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Role_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="IdRole" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Opcion_Listar_Result">
+    <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+    <Property Type="Int32" Name="IdMenu" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Pagina" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="OrdenMenu" Nullable="false" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Opcion_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+    <Property Type="Int32" Name="IdMenu" Nullable="false" />
+    <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Pagina" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="OrdenMenu" Nullable="false" />
+    <Property Type="DateTime" Name="FechaCreacion" Nullable="false" Precision="23" />
+    <Property Type="String" Name="UsuarioCreacion" Nullable="false" MaxLength="100" />
+    <Property Type="DateTime" Name="FechaModificacion" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UsuarioModificacion" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="11" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="6" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="9" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_Menu_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="11" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="6" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="9" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_Modulo_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="35" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="36" />
+  </ComplexType>
+  <ComplexType Name="sp_StatusCuenta_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_EstadoCivil_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="22" />
+  </ComplexType>
+  <ComplexType Name="sp_EstadoCivil_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="sp_EstadoCivil_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="22" />
+  </ComplexType>
+  <ComplexType Name="sp_EstadoCivil_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="35" />
+  </ComplexType>
+  <ComplexType Name="sp_EstadoCivil_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoDocumento_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="22" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoDocumento_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="23" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoDocumento_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="22" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoDocumento_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="37" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoDocumento_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoMovimientoCXC_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="22" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoMovimientoCXC_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoMovimientoCXC_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="22" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoMovimientoCXC_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="41" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoMovimientoCXC_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoSaldoCuenta_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="28" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoSaldoCuenta_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="43" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoSaldoCuenta_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="28" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoSaldoCuenta_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="39" />
+  </ComplexType>
+  <ComplexType Name="sp_TipoSaldoCuenta_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_Persona_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="32" />
+  </ComplexType>
+  <ComplexType Name="sp_Persona_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="26" />
+  </ComplexType>
+  <ComplexType Name="sp_Persona_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="22" />
+  </ComplexType>
+  <ComplexType Name="sp_Persona_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_Persona_Obtener_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="true" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="42" />
   </ComplexType>
 </Schema>

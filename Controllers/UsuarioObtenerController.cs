@@ -2,7 +2,10 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using System.Web.Http;
+using ProyectoAnalisis.Helpers;
+using ProyectoAnalisis.Permissions;
 
 namespace ProyectoAnalisis.Controllers
 {
@@ -10,13 +13,11 @@ namespace ProyectoAnalisis.Controllers
     public class UsuariosObtenerController : ApiController
     {
         private static string Cnx => ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString;
-
-        private static string Fmt(DateTime? dt) =>
-            dt.HasValue ? dt.Value.ToString("yyyy-MM-ddTHH:mm:ss") : null;
+        private static string Fmt(DateTime? dt) => dt?.ToString("yyyy-MM-ddTHH:mm:ss");
 
         [HttpGet]
         [Route("Obtener")]
-        public IHttpActionResult Obtener(
+        public async Task<IHttpActionResult> Obtener(
             string idUsuario = null,
             string correoElectronico = null,
             bool incluirFoto = false,
@@ -38,36 +39,28 @@ namespace ProyectoAnalisis.Controllers
                     cmd.Parameters.Add("@IncluirFoto", SqlDbType.Bit).Value = incluirFoto;
                     cmd.Parameters.Add("@IncluirAuditoria", SqlDbType.Bit).Value = incluirAuditoria;
 
-                    conn.Open();
-                    using (var rd = cmd.ExecuteReader())
+                    await conn.OpenAsync();
+                    using (var rd = await cmd.ExecuteReaderAsync())
                     {
-                        if (!rd.HasRows)
+                        if (!await rd.ReadAsync())
                             return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
 
-                        // 1er resultset: Resultado / Mensaje
-                        rd.Read();
                         int resultado = rd["Resultado"] != DBNull.Value ? Convert.ToInt32(rd["Resultado"]) : 0;
                         string mensaje = rd["Mensaje"] as string ?? "";
 
                         if (resultado != 1)
                             return Ok(new { Resultado = resultado, Mensaje = mensaje });
 
-                        // 2do resultset: datos del usuario
-                        if (!rd.NextResult() || !rd.Read())
+                        if (!await rd.NextResultAsync() || !await rd.ReadAsync())
                             return Ok(new { Resultado = 0, Mensaje = "No se encontraron datos del usuario." });
 
-                        // Helpers de lectura segura
-                        Func<string, string> S = name => rd[name] == DBNull.Value ? null : (string)rd[name];
-                        Func<string, int?> I = name => rd[name] == DBNull.Value ? (int?)null : Convert.ToInt32(rd[name]);
-                        Func<string, DateTime?> D = name => rd[name] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rd[name]);
+                        Func<string, string> S = n => rd[n] == DBNull.Value ? null : (string)rd[n];
+                        Func<string, int?> I = n => rd[n] == DBNull.Value ? (int?)null : Convert.ToInt32(rd[n]);
+                        Func<string, DateTime?> D = n => rd[n] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rd[n]);
 
-                        // Foto en base64 si viene
                         string fotoBase64 = null;
                         if (incluirFoto && rd["Fotografia"] != DBNull.Value)
-                        {
-                            var bytes = (byte[])rd["Fotografia"];
-                            fotoBase64 = Convert.ToBase64String(bytes);
-                        }
+                            fotoBase64 = Convert.ToBase64String((byte[])rd["Fotografia"]);
 
                         var data = new
                         {
@@ -86,9 +79,7 @@ namespace ProyectoAnalisis.Controllers
                             IntentosDeAcceso = I("IntentosDeAcceso"),
                             SesionActual = S("SesionActual"),
                             UltimaFechaCambioPassword = Fmt(D("UltimaFechaCambioPassword")),
-                            FotografiaBase64 = fotoBase64,   // solo si incluirFoto=true habrá valor
-
-                            // Auditoría (vienen NULL si incluirAuditoria=false)
+                            FotografiaBase64 = fotoBase64,
                             FechaCreacion = Fmt(D("FechaCreacion")),
                             UsuarioCreacion = S("UsuarioCreacion"),
                             FechaModificacion = Fmt(D("FechaModificacion")),
@@ -105,4 +96,5 @@ namespace ProyectoAnalisis.Controllers
             }
         }
     }
+
 }

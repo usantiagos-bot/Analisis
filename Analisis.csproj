@@ -163,13 +163,22 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\EmpresaController.cs" />
+    <Compile Include="Controllers\EstadoCivilController.cs" />
     <Compile Include="Controllers\GeneroController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\ModuloController.cs" />
     <Compile Include="Controllers\ObtenerPreguntaController.cs" />
+    <Compile Include="Controllers\OpcionesController.cs" />
+    <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
+    <Compile Include="Controllers\StatusCuentaController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
+    <Compile Include="Controllers\TipoCuentaController.cs" />
+    <Compile Include="Controllers\TipoDocumentoController.cs" />
+    <Compile Include="Controllers\TipoMovimientoCxCController.cs" />
     <Compile Include="Controllers\UsuarioActualizarController.cs" />
     <Compile Include="Controllers\UsuarioCambiarPasswordautenticadoController.cs" />
     <Compile Include="Controllers\UsuarioCrearController.cs" />
@@ -203,10 +212,64 @@
     <Compile Include="sp_Empresa_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_EstadoCivil_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_EstadoCivil_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_EstadoCivil_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_EstadoCivil_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_EstadoCivil_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Genero_Listar_conBusqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_Genero_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_LoginUsuario_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Menu_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Modulo_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Opcion_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Opcion_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_PasswordQA_ValidarYActualizar1_Result.cs">
@@ -221,7 +284,40 @@
     <Compile Include="sp_Password_ObtenerPreguntas_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_Persona_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Persona_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Persona_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Persona_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Persona_Obtener_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_Role_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_Role_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_StatusCuenta_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_StatusUsuario_Listar_Result.cs">
@@ -231,6 +327,51 @@
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_Sucursal_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoDocumento_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoDocumento_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoDocumento_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoDocumento_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoDocumento_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoMovimientoCXC_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoMovimientoCXC_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoMovimientoCXC_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoMovimientoCXC_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoMovimientoCXC_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoSaldoCuenta_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoSaldoCuenta_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoSaldoCuenta_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoSaldoCuenta_Listar_Busqueda_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_TipoSaldoCuenta_Listar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_Usuario_Actualizar1_Result.cs">
@@ -341,13 +482,22 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Empresa\" />
+    <Folder Include="Views\EstadoCivil\" />
     <Folder Include="Views\Genero\" />
     <Folder Include="Views\Login\" />
+    <Folder Include="Views\Menu\" />
+    <Folder Include="Views\Modulo\" />
     <Folder Include="Views\ObtenerPregunta\" />
+    <Folder Include="Views\Opciones\" />
+    <Folder Include="Views\Persona\" />
     <Folder Include="Views\prueba\" />
     <Folder Include="Views\Role\" />
+    <Folder Include="Views\StatusCuenta\" />
     <Folder Include="Views\Status\" />
     <Folder Include="Views\Sucursal\" />
+    <Folder Include="Views\TipoCuenta\" />
+    <Folder Include="Views\TipoDocumento\" />
+    <Folder Include="Views\TipoMovimientoCxC\" />
     <Folder Include="Views\UsuarioActualizar\" />
     <Folder Include="Views\UsuarioCambiarPasswordautenticado\" />
     <Folder Include="Views\UsuarioCrear\" />

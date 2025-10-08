@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using System.Web.Http;
+using ProyectoAnalisis.Helpers;
+using ProyectoAnalisis.Permissions;
 
 namespace ProyectoAnalisis.Controllers
 {
@@ -12,127 +15,145 @@ namespace ProyectoAnalisis.Controllers
     {
         private static string Cnx => ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString;
 
-        // DTO
-        public class RolDto
-        {
-            public int IdRole { get; set; }
-            public string Nombre { get; set; }
-            public DateTime FechaCreacion { get; set; }
-            public string UsuarioCreacion { get; set; }
-            public DateTime? FechaModificacion { get; set; }
-            public string UsuarioModificacion { get; set; }
-        }
+        private static string Fmt(object dt) =>
+            (dt == DBNull.Value || dt == null) ? null : ((DateTime)dt).ToString("yyyy-MM-ddTHH:mm:ss");
 
-        private static string F(DateTime? d) => d.HasValue ? d.Value.ToString("yyyy-MM-ddTHH:mm:ss") : null;
+        private IHttpActionResult Denegado(PermisoAccion acc) =>
+            Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({acc})." });
 
-        // GET /Roles/Listar?IdRole=&BuscarNombre=&Page=1&PageSize=50
+        private IHttpActionResult Denegado(string detalle) =>
+            Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({detalle})." });
+
+        // ========= LISTAR =========
+        // GET /Roles/Listar?usuarioAccion=&IdRole=&Nombre=
+        // - Sin IdRole/Nombre: devuelve TODOS (según el SP)
+        // - Con Nombre: devuelve TOP 1 del nombre exacto (según el SP)
+        // - Con IdRole: se envía al SP (si tu SP lo ignora, simplemente no filtrará)
         [HttpGet]
         [Route("Listar")]
-        public IHttpActionResult Listar(int? IdRole = null, string BuscarNombre = null, int Page = 1, int PageSize = 50)
+        public async Task<IHttpActionResult> Listar(
+            string usuarioAccion,
+            int? IdRole = null,
+            string Nombre = null)
         {
             try
             {
-                var lista = new List<RolDto>();
+                if (string.IsNullOrWhiteSpace(usuarioAccion))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
+
+                var u = usuarioAccion.Trim();
+                var puede =
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Roles, PermisoAccion.Imprimir) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Roles, PermisoAccion.Exportar) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Roles, PermisoAccion.Cambio) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Roles, PermisoAccion.Alta) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.Roles, PermisoAccion.Baja);
+
+                if (!puede) return Denegado("lectura");
 
                 using (var cn = new SqlConnection(Cnx))
                 using (var cmd = new SqlCommand("dbo.sp_Role_Listar", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@IdRole", SqlDbType.Int).Value = (object)IdRole ?? DBNull.Value;
-                    cmd.Parameters.Add("@BuscarNombre", SqlDbType.VarChar, 100).Value = (object)BuscarNombre ?? DBNull.Value;
-                    cmd.Parameters.Add("@Page", SqlDbType.Int).Value = Page;
-                    cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = PageSize;
+                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value =
+                        (object)(string.IsNullOrWhiteSpace(Nombre) ? null : Nombre.Trim()) ?? DBNull.Value;
 
                     cn.Open();
-                    using (var rd = cmd.ExecuteReader())
+                    using (var rd = await cmd.ExecuteReaderAsync())
                     {
-                        while (rd.Read())
+                        // RS#1: meta
+                        if (!await rd.ReadAsync())
+                            return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
+
+                        int resultado = rd["Resultado"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Resultado"]);
+                        string mensaje = rd["Mensaje"] as string ?? "OK";
+                        if (resultado != 1) return Ok(new { Resultado = resultado, Mensaje = mensaje });
+
+                        // RS#2: datos
+                        var items = new List<object>();
+                        if (await rd.NextResultAsync())
                         {
-                            lista.Add(new RolDto
+                            while (await rd.ReadAsync())
                             {
-                                IdRole = Convert.ToInt32(rd["IdRole"]),
-                                Nombre = rd["Nombre"] as string,
-                                FechaCreacion = Convert.ToDateTime(rd["FechaCreacion"]),
-                                UsuarioCreacion = rd["UsuarioCreacion"] as string,
-                                FechaModificacion = rd["FechaModificacion"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rd["FechaModificacion"]),
-                                UsuarioModificacion = rd["UsuarioModificacion"] as string
-                            });
+                                items.Add(new
+                                {
+                                    IdRole = Convert.ToInt32(rd["IdRole"]),
+                                    Nombre = rd["Nombre"] as string,
+                                    FechaCreacion = Fmt(rd["FechaCreacion"]),
+                                    UsuarioCreacion = rd["UsuarioCreacion"] as string,
+                                    FechaModificacion = Fmt(rd["FechaModificacion"]),
+                                    UsuarioModificacion = rd["UsuarioModificacion"] as string
+                                });
+                            }
                         }
+
+                        return Ok(new
+                        {
+                            Resultado = 1,
+                            Mensaje = "OK",
+                            Items = items
+                        });
                     }
                 }
-
-                var data = lista.ConvertAll(r => new
-                {
-                    r.IdRole,
-                    r.Nombre,
-                    FechaCreacion = F(r.FechaCreacion),
-                    FechaModificacion = F(r.FechaModificacion),
-                    r.UsuarioCreacion,
-                    r.UsuarioModificacion
-                });
-
-                return Ok(new { ok = true, data });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return InternalServerError(new Exception("Error interno: " + e.Message));
+                return InternalServerError(new Exception("Error interno: " + ex.Message));
             }
         }
 
-        // GET /Roles/Crear?Nombre=&Usuario=
+        // ========= CREAR =========
+        // GET /Roles/Crear?Usuario=&Nombre=
         [HttpGet]
         [Route("Crear")]
-        public IHttpActionResult Crear(string Nombre, string Usuario)
+        public async Task<IHttpActionResult> Crear(string Usuario, string Nombre)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(Usuario))
-                    return Ok(new { ok = false, error = "Usuario es requerido." });
+                if (string.IsNullOrWhiteSpace(Usuario) || string.IsNullOrWhiteSpace(Nombre))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario y Nombre." });
+
+                var u = Usuario.Trim();
+                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.Roles, PermisoAccion.Alta))
+                    return Denegado(PermisoAccion.Alta);
 
                 int nuevoId;
-
                 using (var cn = new SqlConnection(Cnx))
                 using (var cmd = new SqlCommand("dbo.sp_Role_Crear", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value = Nombre;
-                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = Usuario;
+                    cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value = Nombre.Trim();
+                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = u;
 
                     cn.Open();
-                    var scalar = cmd.ExecuteScalar();
+                    var scalar = await cmd.ExecuteScalarAsync();
                     nuevoId = Convert.ToInt32(scalar);
                 }
 
-                var rol = ObtenerPorId(nuevoId);
-                if (rol == null) return Ok(new { ok = false, error = "No se pudo leer el registro recién creado." });
-
-                var data = new
-                {
-                    rol.IdRole,
-                    rol.Nombre,
-                    FechaCreacion = F(rol.FechaCreacion),
-                    FechaModificacion = F(rol.FechaModificacion),
-                    rol.UsuarioCreacion,
-                    rol.UsuarioModificacion
-                };
-
-                return Ok(new { ok = true, data });
+                var creado = await ObtenerPorIdAsync(nuevoId);
+                return Ok(new { Resultado = 1, Mensaje = "Creado", Data = creado });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return InternalServerError(new Exception("Error interno: " + e.Message));
+                return InternalServerError(new Exception("Error interno: " + ex.Message));
             }
         }
 
-        // GET /Roles/Actualizar?IdRole=&Nombre=&Usuario=
+        // ========= ACTUALIZAR =========
+        // GET /Roles/Actualizar?Usuario=&IdRole=&Nombre=
         [HttpGet]
         [Route("Actualizar")]
-        public IHttpActionResult Actualizar(int IdRole, string Nombre = null, string Usuario = null)
+        public async Task<IHttpActionResult> Actualizar(string Usuario, int IdRole, string Nombre = null)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(Usuario))
-                    return Ok(new { ok = false, error = "Usuario es requerido." });
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario." });
+
+                var u = Usuario.Trim();
+                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.Roles, PermisoAccion.Cambio))
+                    return Denegado(PermisoAccion.Cambio);
 
                 using (var cn = new SqlConnection(Cnx))
                 using (var cmd = new SqlCommand("dbo.sp_Role_Actualizar", cn))
@@ -140,41 +161,37 @@ namespace ProyectoAnalisis.Controllers
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@IdRole", SqlDbType.Int).Value = IdRole;
                     cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value =
-                        string.IsNullOrWhiteSpace(Nombre) ? (object)DBNull.Value : Nombre;
-                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = Usuario;
+                        (object)(string.IsNullOrWhiteSpace(Nombre) ? null : Nombre.Trim()) ?? DBNull.Value;
+                    cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = u;
 
                     cn.Open();
-                    cmd.ExecuteNonQuery();
+                    await cmd.ExecuteNonQueryAsync();
                 }
 
-                var rol = ObtenerPorId(IdRole);
-                if (rol == null) return Ok(new { ok = false, error = "No encontrado" });
-
-                var data = new
-                {
-                    rol.IdRole,
-                    rol.Nombre,
-                    FechaCreacion = F(rol.FechaCreacion),
-                    FechaModificacion = F(rol.FechaModificacion),
-                    rol.UsuarioCreacion,
-                    rol.UsuarioModificacion
-                };
-
-                return Ok(new { ok = true, data });
+                var actualizado = await ObtenerPorIdAsync(IdRole);
+                return Ok(new { Resultado = 1, Mensaje = "Actualizado", Data = actualizado });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return InternalServerError(new Exception("Error interno: " + e.Message));
+                return InternalServerError(new Exception("Error interno: " + ex.Message));
             }
         }
 
-        // GET /Roles/Eliminar?IdRole=
+        // ========= ELIMINAR =========
+        // GET /Roles/Eliminar?Usuario=&IdRole=
         [HttpGet]
         [Route("Eliminar")]
-        public IHttpActionResult Eliminar(int IdRole)
+        public async Task<IHttpActionResult> Eliminar(string Usuario, int IdRole)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(Usuario))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario." });
+
+                var u = Usuario.Trim();
+                if (!await SeguridadHelper.TienePermisoAsync(u, Opciones.Roles, PermisoAccion.Baja))
+                    return Denegado(PermisoAccion.Baja);
+
                 using (var cn = new SqlConnection(Cnx))
                 using (var cmd = new SqlCommand("dbo.sp_Role_Eliminar", cn))
                 {
@@ -182,41 +199,45 @@ namespace ProyectoAnalisis.Controllers
                     cmd.Parameters.Add("@IdRole", SqlDbType.Int).Value = IdRole;
 
                     cn.Open();
-                    cmd.ExecuteNonQuery();
+                    await cmd.ExecuteNonQueryAsync();
                 }
 
-                return Ok(new { ok = true, message = "Eliminado correctamente", id = IdRole });
+                return Ok(new { Resultado = 1, Mensaje = "Eliminado" });
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return InternalServerError(new Exception("Error interno: " + e.Message));
+                return InternalServerError(new Exception("Error interno: " + ex.Message));
             }
         }
 
-        // -------- Helpers --------
-        private RolDto ObtenerPorId(int id)
+        // ===== Helper: re-lectura por Id usando el SP (RS#1 + RS#2) =====
+        private async Task<object> ObtenerPorIdAsync(int idRole)
         {
             using (var cn = new SqlConnection(Cnx))
             using (var cmd = new SqlCommand("dbo.sp_Role_Listar", cn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@IdRole", SqlDbType.Int).Value = id;
-                cmd.Parameters.Add("@BuscarNombre", SqlDbType.VarChar, 100).Value = DBNull.Value;
-                cmd.Parameters.Add("@Page", SqlDbType.Int).Value = 1;
-                cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = 1;
+                cmd.Parameters.Add("@IdRole", SqlDbType.Int).Value = idRole;
+                cmd.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value = DBNull.Value;
 
                 cn.Open();
-                using (var rd = cmd.ExecuteReader())
+                using (var rd = await cmd.ExecuteReaderAsync())
                 {
-                    if (!rd.Read()) return null;
+                    // RS#1 meta
+                    if (!await rd.ReadAsync()) return null;
+                    int resultado = rd["Resultado"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Resultado"]);
+                    if (resultado != 1) return null;
 
-                    return new RolDto
+                    // RS#2 datos (puede ser 0..n; para IdRole esperamos 1)
+                    if (!await rd.NextResultAsync() || !await rd.ReadAsync()) return null;
+
+                    return new
                     {
                         IdRole = Convert.ToInt32(rd["IdRole"]),
                         Nombre = rd["Nombre"] as string,
-                        FechaCreacion = Convert.ToDateTime(rd["FechaCreacion"]),
+                        FechaCreacion = Fmt(rd["FechaCreacion"]),
                         UsuarioCreacion = rd["UsuarioCreacion"] as string,
-                        FechaModificacion = rd["FechaModificacion"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(rd["FechaModificacion"]),
+                        FechaModificacion = Fmt(rd["FechaModificacion"]),
                         UsuarioModificacion = rd["UsuarioModificacion"] as string
                     };
                 }

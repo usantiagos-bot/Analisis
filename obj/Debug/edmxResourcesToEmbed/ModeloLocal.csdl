@@ -553,6 +553,103 @@
       <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
       <Parameter Name="IncluirDocumentos" Mode="In" Type="Boolean" />
     </FunctionImport>
+    <FunctionImport Name="sp_EstadoCuenta_Consultar" ReturnType="Collection(ProyectoAnalisisModel1.sp_EstadoCuenta_Consultar_Result)">
+      <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Apellido" Mode="In" Type="String" />
+      <Parameter Name="Desde" Mode="In" Type="DateTime" />
+      <Parameter Name="Hasta" Mode="In" Type="DateTime" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_EstadoCuenta_Exportar" ReturnType="Collection(ProyectoAnalisisModel1.sp_EstadoCuenta_Exportar_Result)">
+      <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+      <Parameter Name="Nombre" Mode="In" Type="String" />
+      <Parameter Name="Apellido" Mode="In" Type="String" />
+      <Parameter Name="Desde" Mode="In" Type="DateTime" />
+      <Parameter Name="Hasta" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="sp_MovimientoCuenta_Registrar" ReturnType="Collection(ProyectoAnalisisModel1.sp_MovimientoCuenta_Registrar_Result)">
+      <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="IdTipoMovimientoCXC" Mode="In" Type="Int32" />
+      <Parameter Name="FechaMovimiento" Mode="In" Type="DateTime" />
+      <Parameter Name="ValorMovimiento" Mode="In" Type="Decimal" />
+      <Parameter Name="DocumentoRef" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_MovimientoCuenta_Anular" ReturnType="Collection(ProyectoAnalisisModel1.sp_MovimientoCuenta_Anular_Result)">
+      <Parameter Name="IdMovimientoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+      <Parameter Name="Motivo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_CierreMes_Ejecutar" ReturnType="Collection(ProyectoAnalisisModel1.sp_CierreMes_Ejecutar_Result)">
+      <Parameter Name="Anio" Mode="In" Type="Int32" />
+      <Parameter Name="Mes" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Cuenta_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_Actualizar_Result)">
+      <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+      <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="SaldoAnterior" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Cuenta_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_Crear_Result)">
+      <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+      <Parameter Name="IdTipoSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+      <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="SaldoAnterior" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Cuenta_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_Listar_Busqueda_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+      <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="IdTipoSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Cuenta_Obtener" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_Obtener_Result)">
+      <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+      <Parameter Name="IdTipoSaldoCuenta" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Movimiento_Anular" ReturnType="Collection(ProyectoAnalisisModel1.sp_Movimiento_Anular_Result)">
+      <Parameter Name="IdMovimientoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Movimiento_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Movimiento_Listar_Result)">
+      <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Desde" Mode="In" Type="DateTime" />
+      <Parameter Name="Hasta" Mode="In" Type="DateTime" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Movimiento_Registrar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Movimiento_Registrar_Result)">
+      <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="IdTipoMovimientoCXC" Mode="In" Type="Int32" />
+      <Parameter Name="FechaMovimiento" Mode="In" Type="DateTime" />
+      <Parameter Name="Monto" Mode="In" Type="Decimal" />
+      <Parameter Name="Descripcion" Mode="In" Type="String" />
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+      <Parameter Name="GeneradoAutomaticamente" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Seguridad_Navegacion" ReturnType="Collection(String)">
+      <Parameter Name="IdUsuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Seguridad_PermisosUsuario" ReturnType="Collection(ProyectoAnalisisModel1.sp_Seguridad_PermisosUsuario_Result)">
+      <Parameter Name="IdUsuario" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Seguridad_ValidarPermiso" ReturnType="Collection(Int32)">
+      <Parameter Name="IdUsuario" Mode="In" Type="String" />
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+      <Parameter Name="Permiso" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_LoginUsuario_Result">
     <Property Type="String" Name="IdUsuario" Nullable="false" MaxLength="100" />
@@ -899,5 +996,69 @@
   <ComplexType Name="sp_Persona_Obtener_Result">
     <Property Type="Int32" Name="Resultado" Nullable="true" />
     <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="42" />
+  </ComplexType>
+  <ComplexType Name="sp_EstadoCuenta_Consultar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="39" />
+  </ComplexType>
+  <ComplexType Name="sp_EstadoCuenta_Exportar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="34" />
+  </ComplexType>
+  <ComplexType Name="sp_MovimientoCuenta_Registrar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="57" />
+  </ComplexType>
+  <ComplexType Name="sp_MovimientoCuenta_Anular_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="41" />
+  </ComplexType>
+  <ComplexType Name="sp_CierreMes_Ejecutar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="40" />
+  </ComplexType>
+  <ComplexType Name="sp_Cuenta_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="17" />
+  </ComplexType>
+  <ComplexType Name="sp_Cuenta_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="18" />
+  </ComplexType>
+  <ComplexType Name="sp_Cuenta_Listar_Busqueda_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_Cuenta_Obtener_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="54" />
+  </ComplexType>
+  <ComplexType Name="sp_Movimiento_Anular_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="21" />
+  </ComplexType>
+  <ComplexType Name="sp_Movimiento_Listar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="17" />
+  </ComplexType>
+  <ComplexType Name="sp_Movimiento_Registrar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="17" />
+  </ComplexType>
+  <ComplexType Name="sp_Seguridad_PermisosUsuario_Result">
+    <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+    <Property Type="Int32" Name="IdMenu" Nullable="false" />
+    <Property Type="Int32" Name="IdModulo" Nullable="false" />
+    <Property Type="String" Name="Modulo" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Menu" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Opcion" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Pagina" Nullable="false" MaxLength="100" />
+    <Property Type="Int32" Name="OrdenMenu_Menu" Nullable="false" />
+    <Property Type="Int32" Name="OrdenMenu_Opcion" Nullable="false" />
+    <Property Type="Int32" Name="Alta" Nullable="true" />
+    <Property Type="Int32" Name="Baja" Nullable="true" />
+    <Property Type="Int32" Name="Cambio" Nullable="true" />
+    <Property Type="Int32" Name="Imprimir" Nullable="true" />
+    <Property Type="Int32" Name="Exportar" Nullable="true" />
   </ComplexType>
 </Schema>

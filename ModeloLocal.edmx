@@ -5,6 +5,39 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ProyectoAnalisisModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="sp_CierreMes_Ejecutar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Anio" Type="int" Mode="In" />
+          <Parameter Name="Mes" Type="int" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Cuenta_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+          <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
+          <Parameter Name="SaldoAnterior" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="sp_Cuenta_Crear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPersona" Type="int" Mode="In" />
+          <Parameter Name="IdTipoSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+          <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
+          <Parameter Name="SaldoAnterior" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="sp_Cuenta_Listar_Busqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Buscar" Type="varchar" Mode="In" />
+          <Parameter Name="IdPersona" Type="int" Mode="In" />
+          <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
+          <Parameter Name="IdTipoSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="Pagina" Type="int" Mode="In" />
+          <Parameter Name="TamanoPagina" Type="int" Mode="In" />
+          <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
+          <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Cuenta_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="IdPersona" Type="int" Mode="In" />
+          <Parameter Name="IdTipoSaldoCuenta" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_Empresa_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdEmpresa" Type="int" Mode="In" />
           <Parameter Name="Usuario" Type="varchar" Mode="In" />
@@ -66,6 +99,25 @@
           <Parameter Name="PageSize" Type="int" Mode="In" />
           <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
           <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_EstadoCuenta_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="IdPersona" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Apellido" Type="varchar" Mode="In" />
+          <Parameter Name="Desde" Type="date" Mode="In" />
+          <Parameter Name="Hasta" Type="date" Mode="In" />
+          <Parameter Name="Pagina" Type="int" Mode="In" />
+          <Parameter Name="TamanoPagina" Type="int" Mode="In" />
+          <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_EstadoCuenta_Exportar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="IdPersona" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="Apellido" Type="varchar" Mode="In" />
+          <Parameter Name="Desde" Type="date" Mode="In" />
+          <Parameter Name="Hasta" Type="date" Mode="In" />
         </Function>
         <Function Name="sp_Genero_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdGenero" Type="int" Mode="In" />
@@ -159,6 +211,40 @@
           <Parameter Name="PageSize" Type="int" Mode="In" />
           <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
           <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Movimiento_Anular" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdMovimientoCuenta" Type="int" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Movimiento_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="Desde" Type="datetime" Mode="In" />
+          <Parameter Name="Hasta" Type="datetime" Mode="In" />
+          <Parameter Name="Pagina" Type="int" Mode="In" />
+          <Parameter Name="TamanoPagina" Type="int" Mode="In" />
+          <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Movimiento_Registrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="IdTipoMovimientoCXC" Type="int" Mode="In" />
+          <Parameter Name="FechaMovimiento" Type="datetime" Mode="In" />
+          <Parameter Name="Monto" Type="decimal" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+          <Parameter Name="GeneradoAutomaticamente" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="sp_MovimientoCuenta_Anular" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdMovimientoCuenta" Type="int" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+          <Parameter Name="Motivo" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_MovimientoCuenta_Registrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="IdTipoMovimientoCXC" Type="int" Mode="In" />
+          <Parameter Name="FechaMovimiento" Type="datetime" Mode="In" />
+          <Parameter Name="ValorMovimiento" Type="decimal" Mode="In" />
+          <Parameter Name="DocumentoRef" Type="varchar" Mode="In" />
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_Opcion_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdOpcion" Type="int" Mode="In" />
@@ -265,6 +351,17 @@
         <Function Name="sp_Role_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdRole" Type="int" Mode="In" />
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Seguridad_Navegacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Seguridad_PermisosUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_Seguridad_ValidarPermiso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="varchar" Mode="In" />
+          <Parameter Name="IdOpcion" Type="int" Mode="In" />
+          <Parameter Name="Permiso" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_StatusCuenta_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
@@ -1011,7 +1108,7 @@
             <Parameter Name="DocumentosJson" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_Persona_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Persona_Eliminar_Result)">
-            <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+          <Parameter Name="IdPersona" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Persona_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Persona_Listar_Busqueda_Result)">
             <Parameter Name="Buscar" Mode="In" Type="String" />
@@ -1026,6 +1123,103 @@
             <Parameter Name="IdPersona" Mode="In" Type="Int32" />
             <Parameter Name="CorreoElectronico" Mode="In" Type="String" />
             <Parameter Name="IncluirDocumentos" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="sp_EstadoCuenta_Consultar" ReturnType="Collection(ProyectoAnalisisModel1.sp_EstadoCuenta_Consultar_Result)">
+            <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="Desde" Mode="In" Type="DateTime" />
+            <Parameter Name="Hasta" Mode="In" Type="DateTime" />
+            <Parameter Name="Pagina" Mode="In" Type="Int32" />
+            <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+            <Parameter Name="OrdenDir" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_EstadoCuenta_Exportar" ReturnType="Collection(ProyectoAnalisisModel1.sp_EstadoCuenta_Exportar_Result)">
+            <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="Apellido" Mode="In" Type="String" />
+            <Parameter Name="Desde" Mode="In" Type="DateTime" />
+            <Parameter Name="Hasta" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MovimientoCuenta_Registrar" ReturnType="Collection(ProyectoAnalisisModel1.sp_MovimientoCuenta_Registrar_Result)">
+            <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="IdTipoMovimientoCXC" Mode="In" Type="Int32" />
+            <Parameter Name="FechaMovimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="ValorMovimiento" Mode="In" Type="Decimal" />
+            <Parameter Name="DocumentoRef" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_MovimientoCuenta_Anular" ReturnType="Collection(ProyectoAnalisisModel1.sp_MovimientoCuenta_Anular_Result)">
+            <Parameter Name="IdMovimientoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="Motivo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_CierreMes_Ejecutar" ReturnType="Collection(ProyectoAnalisisModel1.sp_CierreMes_Ejecutar_Result)">
+            <Parameter Name="Anio" Mode="In" Type="Int32" />
+            <Parameter Name="Mes" Mode="In" Type="Int32" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Cuenta_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_Actualizar_Result)">
+            <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="SaldoAnterior" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Cuenta_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_Crear_Result)">
+            <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+            <Parameter Name="IdTipoSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="SaldoAnterior" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Cuenta_Listar_Busqueda" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_Listar_Busqueda_Result)">
+            <Parameter Name="Buscar" Mode="In" Type="String" />
+            <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+            <Parameter Name="IdStatusCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="IdTipoSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="Pagina" Mode="In" Type="Int32" />
+            <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+            <Parameter Name="OrdenPor" Mode="In" Type="String" />
+            <Parameter Name="OrdenDir" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Cuenta_Obtener" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_Obtener_Result)">
+            <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+            <Parameter Name="IdTipoSaldoCuenta" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Movimiento_Anular" ReturnType="Collection(ProyectoAnalisisModel1.sp_Movimiento_Anular_Result)">
+            <Parameter Name="IdMovimientoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Movimiento_Listar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Movimiento_Listar_Result)">
+            <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="Desde" Mode="In" Type="DateTime" />
+            <Parameter Name="Hasta" Mode="In" Type="DateTime" />
+            <Parameter Name="Pagina" Mode="In" Type="Int32" />
+            <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+            <Parameter Name="OrdenDir" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Movimiento_Registrar" ReturnType="Collection(ProyectoAnalisisModel1.sp_Movimiento_Registrar_Result)">
+            <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="IdTipoMovimientoCXC" Mode="In" Type="Int32" />
+            <Parameter Name="FechaMovimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Monto" Mode="In" Type="Decimal" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="GeneradoAutomaticamente" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Seguridad_Navegacion" ReturnType="Collection(String)">
+            <Parameter Name="IdUsuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Seguridad_PermisosUsuario" ReturnType="Collection(ProyectoAnalisisModel1.sp_Seguridad_PermisosUsuario_Result)">
+            <Parameter Name="IdUsuario" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_Seguridad_ValidarPermiso" ReturnType="Collection(Int32)">
+            <Parameter Name="IdUsuario" Mode="In" Type="String" />
+            <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+            <Parameter Name="Permiso" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_LoginUsuario_Result">
@@ -1373,6 +1567,70 @@
         <ComplexType Name="sp_Persona_Obtener_Result">
           <Property Type="Int32" Name="Resultado" Nullable="true" />
           <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="42" />
+        </ComplexType>
+        <ComplexType Name="sp_EstadoCuenta_Consultar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="39" />
+        </ComplexType>
+        <ComplexType Name="sp_EstadoCuenta_Exportar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="34" />
+        </ComplexType>
+        <ComplexType Name="sp_MovimientoCuenta_Registrar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="57" />
+        </ComplexType>
+        <ComplexType Name="sp_MovimientoCuenta_Anular_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="41" />
+        </ComplexType>
+        <ComplexType Name="sp_CierreMes_Ejecutar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="40" />
+        </ComplexType>
+        <ComplexType Name="sp_Cuenta_Actualizar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="17" />
+        </ComplexType>
+        <ComplexType Name="sp_Cuenta_Crear_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="18" />
+        </ComplexType>
+        <ComplexType Name="sp_Cuenta_Listar_Busqueda_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+        </ComplexType>
+        <ComplexType Name="sp_Cuenta_Obtener_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="54" />
+        </ComplexType>
+        <ComplexType Name="sp_Movimiento_Anular_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="21" />
+        </ComplexType>
+        <ComplexType Name="sp_Movimiento_Listar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="17" />
+        </ComplexType>
+        <ComplexType Name="sp_Movimiento_Registrar_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="17" />
+        </ComplexType>
+        <ComplexType Name="sp_Seguridad_PermisosUsuario_Result">
+          <Property Type="Int32" Name="IdOpcion" Nullable="false" />
+          <Property Type="Int32" Name="IdMenu" Nullable="false" />
+          <Property Type="Int32" Name="IdModulo" Nullable="false" />
+          <Property Type="String" Name="Modulo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Menu" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Opcion" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Pagina" Nullable="false" MaxLength="100" />
+          <Property Type="Int32" Name="OrdenMenu_Menu" Nullable="false" />
+          <Property Type="Int32" Name="OrdenMenu_Opcion" Nullable="false" />
+          <Property Type="Int32" Name="Alta" Nullable="true" />
+          <Property Type="Int32" Name="Baja" Nullable="true" />
+          <Property Type="Int32" Name="Cambio" Nullable="true" />
+          <Property Type="Int32" Name="Imprimir" Nullable="true" />
+          <Property Type="Int32" Name="Exportar" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1928,6 +2186,124 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_EstadoCuenta_Consultar" FunctionName="ProyectoAnalisisModel1.Store.sp_EstadoCuenta_Consultar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_EstadoCuenta_Consultar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_EstadoCuenta_Exportar" FunctionName="ProyectoAnalisisModel1.Store.sp_EstadoCuenta_Exportar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_EstadoCuenta_Exportar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_MovimientoCuenta_Registrar" FunctionName="ProyectoAnalisisModel1.Store.sp_MovimientoCuenta_Registrar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_MovimientoCuenta_Registrar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_MovimientoCuenta_Anular" FunctionName="ProyectoAnalisisModel1.Store.sp_MovimientoCuenta_Anular">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_MovimientoCuenta_Anular_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_CierreMes_Ejecutar" FunctionName="ProyectoAnalisisModel1.Store.sp_CierreMes_Ejecutar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_CierreMes_Ejecutar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Cuenta_Actualizar" FunctionName="ProyectoAnalisisModel1.Store.sp_Cuenta_Actualizar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Cuenta_Actualizar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Cuenta_Crear" FunctionName="ProyectoAnalisisModel1.Store.sp_Cuenta_Crear">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Cuenta_Crear_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Cuenta_Listar_Busqueda" FunctionName="ProyectoAnalisisModel1.Store.sp_Cuenta_Listar_Busqueda">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Cuenta_Listar_Busqueda_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Cuenta_Obtener" FunctionName="ProyectoAnalisisModel1.Store.sp_Cuenta_Obtener">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Cuenta_Obtener_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Movimiento_Anular" FunctionName="ProyectoAnalisisModel1.Store.sp_Movimiento_Anular">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Movimiento_Anular_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Movimiento_Listar" FunctionName="ProyectoAnalisisModel1.Store.sp_Movimiento_Listar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Movimiento_Listar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Movimiento_Registrar" FunctionName="ProyectoAnalisisModel1.Store.sp_Movimiento_Registrar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Movimiento_Registrar_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Seguridad_Navegacion" FunctionName="ProyectoAnalisisModel1.Store.sp_Seguridad_Navegacion" />
+          <FunctionImportMapping FunctionImportName="sp_Seguridad_PermisosUsuario" FunctionName="ProyectoAnalisisModel1.Store.sp_Seguridad_PermisosUsuario">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Seguridad_PermisosUsuario_Result">
+                <ScalarProperty Name="IdOpcion" ColumnName="IdOpcion" />
+                <ScalarProperty Name="IdMenu" ColumnName="IdMenu" />
+                <ScalarProperty Name="IdModulo" ColumnName="IdModulo" />
+                <ScalarProperty Name="Modulo" ColumnName="Modulo" />
+                <ScalarProperty Name="Menu" ColumnName="Menu" />
+                <ScalarProperty Name="Opcion" ColumnName="Opcion" />
+                <ScalarProperty Name="Pagina" ColumnName="Pagina" />
+                <ScalarProperty Name="OrdenMenu_Menu" ColumnName="OrdenMenu_Menu" />
+                <ScalarProperty Name="OrdenMenu_Opcion" ColumnName="OrdenMenu_Opcion" />
+                <ScalarProperty Name="Alta" ColumnName="Alta" />
+                <ScalarProperty Name="Baja" ColumnName="Baja" />
+                <ScalarProperty Name="Cambio" ColumnName="Cambio" />
+                <ScalarProperty Name="Imprimir" ColumnName="Imprimir" />
+                <ScalarProperty Name="Exportar" ColumnName="Exportar" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Seguridad_ValidarPermiso" FunctionName="ProyectoAnalisisModel1.Store.sp_Seguridad_ValidarPermiso" />
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

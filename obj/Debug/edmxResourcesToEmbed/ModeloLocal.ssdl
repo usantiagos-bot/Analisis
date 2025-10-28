@@ -1,5 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ProyectoAnalisisModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <Function Name="sp_CierreMes_Ejecutar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Anio" Type="int" Mode="In" />
+    <Parameter Name="Mes" Type="int" Mode="In" />
+    <Parameter Name="Usuario" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Cuenta_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="Usuario" Type="varchar" Mode="In" />
+    <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
+    <Parameter Name="SaldoAnterior" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="sp_Cuenta_Crear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdPersona" Type="int" Mode="In" />
+    <Parameter Name="IdTipoSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="Usuario" Type="varchar" Mode="In" />
+    <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
+    <Parameter Name="SaldoAnterior" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="sp_Cuenta_Listar_Busqueda" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Buscar" Type="varchar" Mode="In" />
+    <Parameter Name="IdPersona" Type="int" Mode="In" />
+    <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
+    <Parameter Name="IdTipoSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="Pagina" Type="int" Mode="In" />
+    <Parameter Name="TamanoPagina" Type="int" Mode="In" />
+    <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
+    <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Cuenta_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="IdPersona" Type="int" Mode="In" />
+    <Parameter Name="IdTipoSaldoCuenta" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_Empresa_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdEmpresa" Type="int" Mode="In" />
     <Parameter Name="Usuario" Type="varchar" Mode="In" />
@@ -61,6 +94,25 @@
     <Parameter Name="PageSize" Type="int" Mode="In" />
     <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
     <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_EstadoCuenta_Consultar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="IdPersona" Type="int" Mode="In" />
+    <Parameter Name="Nombre" Type="varchar" Mode="In" />
+    <Parameter Name="Apellido" Type="varchar" Mode="In" />
+    <Parameter Name="Desde" Type="date" Mode="In" />
+    <Parameter Name="Hasta" Type="date" Mode="In" />
+    <Parameter Name="Pagina" Type="int" Mode="In" />
+    <Parameter Name="TamanoPagina" Type="int" Mode="In" />
+    <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_EstadoCuenta_Exportar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="IdPersona" Type="int" Mode="In" />
+    <Parameter Name="Nombre" Type="varchar" Mode="In" />
+    <Parameter Name="Apellido" Type="varchar" Mode="In" />
+    <Parameter Name="Desde" Type="date" Mode="In" />
+    <Parameter Name="Hasta" Type="date" Mode="In" />
   </Function>
   <Function Name="sp_Genero_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdGenero" Type="int" Mode="In" />
@@ -154,6 +206,40 @@
     <Parameter Name="PageSize" Type="int" Mode="In" />
     <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
     <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Movimiento_Anular" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdMovimientoCuenta" Type="int" Mode="In" />
+    <Parameter Name="Usuario" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Movimiento_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="Desde" Type="datetime" Mode="In" />
+    <Parameter Name="Hasta" Type="datetime" Mode="In" />
+    <Parameter Name="Pagina" Type="int" Mode="In" />
+    <Parameter Name="TamanoPagina" Type="int" Mode="In" />
+    <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Movimiento_Registrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="IdTipoMovimientoCXC" Type="int" Mode="In" />
+    <Parameter Name="FechaMovimiento" Type="datetime" Mode="In" />
+    <Parameter Name="Monto" Type="decimal" Mode="In" />
+    <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+    <Parameter Name="Usuario" Type="varchar" Mode="In" />
+    <Parameter Name="GeneradoAutomaticamente" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="sp_MovimientoCuenta_Anular" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdMovimientoCuenta" Type="int" Mode="In" />
+    <Parameter Name="Usuario" Type="varchar" Mode="In" />
+    <Parameter Name="Motivo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_MovimientoCuenta_Registrar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="IdTipoMovimientoCXC" Type="int" Mode="In" />
+    <Parameter Name="FechaMovimiento" Type="datetime" Mode="In" />
+    <Parameter Name="ValorMovimiento" Type="decimal" Mode="In" />
+    <Parameter Name="DocumentoRef" Type="varchar" Mode="In" />
+    <Parameter Name="Usuario" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_Opcion_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdOpcion" Type="int" Mode="In" />
@@ -260,6 +346,17 @@
   <Function Name="sp_Role_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdRole" Type="int" Mode="In" />
     <Parameter Name="Nombre" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Seguridad_Navegacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdUsuario" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Seguridad_PermisosUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdUsuario" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_Seguridad_ValidarPermiso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdUsuario" Type="varchar" Mode="In" />
+    <Parameter Name="IdOpcion" Type="int" Mode="In" />
+    <Parameter Name="Permiso" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_StatusCuenta_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />

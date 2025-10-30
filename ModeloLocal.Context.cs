@@ -1987,5 +1987,348 @@ namespace Analisis
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Persona_Obtener_Result>("sp_Persona_Obtener", idPersonaParameter, correoElectronicoParameter, incluirDocumentosParameter);
         }
+    
+        public virtual ObjectResult<sp_EstadoCuenta_Consultar_Result> sp_EstadoCuenta_Consultar(Nullable<int> idSaldoCuenta, Nullable<int> idPersona, string nombre, string apellido, Nullable<System.DateTime> desde, Nullable<System.DateTime> hasta, Nullable<int> pagina, Nullable<int> tamanoPagina, string ordenDir)
+        {
+            var idSaldoCuentaParameter = idSaldoCuenta.HasValue ?
+                new ObjectParameter("IdSaldoCuenta", idSaldoCuenta) :
+                new ObjectParameter("IdSaldoCuenta", typeof(int));
+    
+            var idPersonaParameter = idPersona.HasValue ?
+                new ObjectParameter("IdPersona", idPersona) :
+                new ObjectParameter("IdPersona", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var apellidoParameter = apellido != null ?
+                new ObjectParameter("Apellido", apellido) :
+                new ObjectParameter("Apellido", typeof(string));
+    
+            var desdeParameter = desde.HasValue ?
+                new ObjectParameter("Desde", desde) :
+                new ObjectParameter("Desde", typeof(System.DateTime));
+    
+            var hastaParameter = hasta.HasValue ?
+                new ObjectParameter("Hasta", hasta) :
+                new ObjectParameter("Hasta", typeof(System.DateTime));
+    
+            var paginaParameter = pagina.HasValue ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(int));
+    
+            var tamanoPaginaParameter = tamanoPagina.HasValue ?
+                new ObjectParameter("TamanoPagina", tamanoPagina) :
+                new ObjectParameter("TamanoPagina", typeof(int));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EstadoCuenta_Consultar_Result>("sp_EstadoCuenta_Consultar", idSaldoCuentaParameter, idPersonaParameter, nombreParameter, apellidoParameter, desdeParameter, hastaParameter, paginaParameter, tamanoPaginaParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_EstadoCuenta_Exportar_Result> sp_EstadoCuenta_Exportar(Nullable<int> idSaldoCuenta, Nullable<int> idPersona, string nombre, string apellido, Nullable<System.DateTime> desde, Nullable<System.DateTime> hasta)
+        {
+            var idSaldoCuentaParameter = idSaldoCuenta.HasValue ?
+                new ObjectParameter("IdSaldoCuenta", idSaldoCuenta) :
+                new ObjectParameter("IdSaldoCuenta", typeof(int));
+    
+            var idPersonaParameter = idPersona.HasValue ?
+                new ObjectParameter("IdPersona", idPersona) :
+                new ObjectParameter("IdPersona", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var apellidoParameter = apellido != null ?
+                new ObjectParameter("Apellido", apellido) :
+                new ObjectParameter("Apellido", typeof(string));
+    
+            var desdeParameter = desde.HasValue ?
+                new ObjectParameter("Desde", desde) :
+                new ObjectParameter("Desde", typeof(System.DateTime));
+    
+            var hastaParameter = hasta.HasValue ?
+                new ObjectParameter("Hasta", hasta) :
+                new ObjectParameter("Hasta", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_EstadoCuenta_Exportar_Result>("sp_EstadoCuenta_Exportar", idSaldoCuentaParameter, idPersonaParameter, nombreParameter, apellidoParameter, desdeParameter, hastaParameter);
+        }
+    
+        public virtual ObjectResult<sp_MovimientoCuenta_Registrar_Result> sp_MovimientoCuenta_Registrar(Nullable<int> idSaldoCuenta, Nullable<int> idTipoMovimientoCXC, Nullable<System.DateTime> fechaMovimiento, Nullable<decimal> valorMovimiento, string documentoRef, string usuario)
+        {
+            var idSaldoCuentaParameter = idSaldoCuenta.HasValue ?
+                new ObjectParameter("IdSaldoCuenta", idSaldoCuenta) :
+                new ObjectParameter("IdSaldoCuenta", typeof(int));
+    
+            var idTipoMovimientoCXCParameter = idTipoMovimientoCXC.HasValue ?
+                new ObjectParameter("IdTipoMovimientoCXC", idTipoMovimientoCXC) :
+                new ObjectParameter("IdTipoMovimientoCXC", typeof(int));
+    
+            var fechaMovimientoParameter = fechaMovimiento.HasValue ?
+                new ObjectParameter("FechaMovimiento", fechaMovimiento) :
+                new ObjectParameter("FechaMovimiento", typeof(System.DateTime));
+    
+            var valorMovimientoParameter = valorMovimiento.HasValue ?
+                new ObjectParameter("ValorMovimiento", valorMovimiento) :
+                new ObjectParameter("ValorMovimiento", typeof(decimal));
+    
+            var documentoRefParameter = documentoRef != null ?
+                new ObjectParameter("DocumentoRef", documentoRef) :
+                new ObjectParameter("DocumentoRef", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_MovimientoCuenta_Registrar_Result>("sp_MovimientoCuenta_Registrar", idSaldoCuentaParameter, idTipoMovimientoCXCParameter, fechaMovimientoParameter, valorMovimientoParameter, documentoRefParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_MovimientoCuenta_Anular_Result> sp_MovimientoCuenta_Anular(Nullable<int> idMovimientoCuenta, string usuario, string motivo)
+        {
+            var idMovimientoCuentaParameter = idMovimientoCuenta.HasValue ?
+                new ObjectParameter("IdMovimientoCuenta", idMovimientoCuenta) :
+                new ObjectParameter("IdMovimientoCuenta", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            var motivoParameter = motivo != null ?
+                new ObjectParameter("Motivo", motivo) :
+                new ObjectParameter("Motivo", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_MovimientoCuenta_Anular_Result>("sp_MovimientoCuenta_Anular", idMovimientoCuentaParameter, usuarioParameter, motivoParameter);
+        }
+    
+        public virtual ObjectResult<sp_CierreMes_Ejecutar_Result> sp_CierreMes_Ejecutar(Nullable<int> anio, Nullable<int> mes, string usuario)
+        {
+            var anioParameter = anio.HasValue ?
+                new ObjectParameter("Anio", anio) :
+                new ObjectParameter("Anio", typeof(int));
+    
+            var mesParameter = mes.HasValue ?
+                new ObjectParameter("Mes", mes) :
+                new ObjectParameter("Mes", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_CierreMes_Ejecutar_Result>("sp_CierreMes_Ejecutar", anioParameter, mesParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_Cuenta_Actualizar_Result> sp_Cuenta_Actualizar(Nullable<int> idSaldoCuenta, string usuario, Nullable<int> idStatusCuenta, Nullable<decimal> saldoAnterior)
+        {
+            var idSaldoCuentaParameter = idSaldoCuenta.HasValue ?
+                new ObjectParameter("IdSaldoCuenta", idSaldoCuenta) :
+                new ObjectParameter("IdSaldoCuenta", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            var idStatusCuentaParameter = idStatusCuenta.HasValue ?
+                new ObjectParameter("IdStatusCuenta", idStatusCuenta) :
+                new ObjectParameter("IdStatusCuenta", typeof(int));
+    
+            var saldoAnteriorParameter = saldoAnterior.HasValue ?
+                new ObjectParameter("SaldoAnterior", saldoAnterior) :
+                new ObjectParameter("SaldoAnterior", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Cuenta_Actualizar_Result>("sp_Cuenta_Actualizar", idSaldoCuentaParameter, usuarioParameter, idStatusCuentaParameter, saldoAnteriorParameter);
+        }
+    
+        public virtual ObjectResult<sp_Cuenta_Crear_Result> sp_Cuenta_Crear(Nullable<int> idPersona, Nullable<int> idTipoSaldoCuenta, string usuario, Nullable<int> idStatusCuenta, Nullable<decimal> saldoAnterior)
+        {
+            var idPersonaParameter = idPersona.HasValue ?
+                new ObjectParameter("IdPersona", idPersona) :
+                new ObjectParameter("IdPersona", typeof(int));
+    
+            var idTipoSaldoCuentaParameter = idTipoSaldoCuenta.HasValue ?
+                new ObjectParameter("IdTipoSaldoCuenta", idTipoSaldoCuenta) :
+                new ObjectParameter("IdTipoSaldoCuenta", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            var idStatusCuentaParameter = idStatusCuenta.HasValue ?
+                new ObjectParameter("IdStatusCuenta", idStatusCuenta) :
+                new ObjectParameter("IdStatusCuenta", typeof(int));
+    
+            var saldoAnteriorParameter = saldoAnterior.HasValue ?
+                new ObjectParameter("SaldoAnterior", saldoAnterior) :
+                new ObjectParameter("SaldoAnterior", typeof(decimal));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Cuenta_Crear_Result>("sp_Cuenta_Crear", idPersonaParameter, idTipoSaldoCuentaParameter, usuarioParameter, idStatusCuentaParameter, saldoAnteriorParameter);
+        }
+    
+        public virtual ObjectResult<sp_Cuenta_Listar_Busqueda_Result> sp_Cuenta_Listar_Busqueda(string buscar, Nullable<int> idPersona, Nullable<int> idStatusCuenta, Nullable<int> idTipoSaldoCuenta, Nullable<int> pagina, Nullable<int> tamanoPagina, string ordenPor, string ordenDir)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var idPersonaParameter = idPersona.HasValue ?
+                new ObjectParameter("IdPersona", idPersona) :
+                new ObjectParameter("IdPersona", typeof(int));
+    
+            var idStatusCuentaParameter = idStatusCuenta.HasValue ?
+                new ObjectParameter("IdStatusCuenta", idStatusCuenta) :
+                new ObjectParameter("IdStatusCuenta", typeof(int));
+    
+            var idTipoSaldoCuentaParameter = idTipoSaldoCuenta.HasValue ?
+                new ObjectParameter("IdTipoSaldoCuenta", idTipoSaldoCuenta) :
+                new ObjectParameter("IdTipoSaldoCuenta", typeof(int));
+    
+            var paginaParameter = pagina.HasValue ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(int));
+    
+            var tamanoPaginaParameter = tamanoPagina.HasValue ?
+                new ObjectParameter("TamanoPagina", tamanoPagina) :
+                new ObjectParameter("TamanoPagina", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Cuenta_Listar_Busqueda_Result>("sp_Cuenta_Listar_Busqueda", buscarParameter, idPersonaParameter, idStatusCuentaParameter, idTipoSaldoCuentaParameter, paginaParameter, tamanoPaginaParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Cuenta_Obtener_Result> sp_Cuenta_Obtener(Nullable<int> idSaldoCuenta, Nullable<int> idPersona, Nullable<int> idTipoSaldoCuenta)
+        {
+            var idSaldoCuentaParameter = idSaldoCuenta.HasValue ?
+                new ObjectParameter("IdSaldoCuenta", idSaldoCuenta) :
+                new ObjectParameter("IdSaldoCuenta", typeof(int));
+    
+            var idPersonaParameter = idPersona.HasValue ?
+                new ObjectParameter("IdPersona", idPersona) :
+                new ObjectParameter("IdPersona", typeof(int));
+    
+            var idTipoSaldoCuentaParameter = idTipoSaldoCuenta.HasValue ?
+                new ObjectParameter("IdTipoSaldoCuenta", idTipoSaldoCuenta) :
+                new ObjectParameter("IdTipoSaldoCuenta", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Cuenta_Obtener_Result>("sp_Cuenta_Obtener", idSaldoCuentaParameter, idPersonaParameter, idTipoSaldoCuentaParameter);
+        }
+    
+        public virtual ObjectResult<sp_Movimiento_Anular_Result> sp_Movimiento_Anular(Nullable<int> idMovimientoCuenta, string usuario)
+        {
+            var idMovimientoCuentaParameter = idMovimientoCuenta.HasValue ?
+                new ObjectParameter("IdMovimientoCuenta", idMovimientoCuenta) :
+                new ObjectParameter("IdMovimientoCuenta", typeof(int));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Movimiento_Anular_Result>("sp_Movimiento_Anular", idMovimientoCuentaParameter, usuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_Movimiento_Listar_Result> sp_Movimiento_Listar(Nullable<int> idSaldoCuenta, Nullable<System.DateTime> desde, Nullable<System.DateTime> hasta, Nullable<int> pagina, Nullable<int> tamanoPagina, string ordenDir)
+        {
+            var idSaldoCuentaParameter = idSaldoCuenta.HasValue ?
+                new ObjectParameter("IdSaldoCuenta", idSaldoCuenta) :
+                new ObjectParameter("IdSaldoCuenta", typeof(int));
+    
+            var desdeParameter = desde.HasValue ?
+                new ObjectParameter("Desde", desde) :
+                new ObjectParameter("Desde", typeof(System.DateTime));
+    
+            var hastaParameter = hasta.HasValue ?
+                new ObjectParameter("Hasta", hasta) :
+                new ObjectParameter("Hasta", typeof(System.DateTime));
+    
+            var paginaParameter = pagina.HasValue ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(int));
+    
+            var tamanoPaginaParameter = tamanoPagina.HasValue ?
+                new ObjectParameter("TamanoPagina", tamanoPagina) :
+                new ObjectParameter("TamanoPagina", typeof(int));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Movimiento_Listar_Result>("sp_Movimiento_Listar", idSaldoCuentaParameter, desdeParameter, hastaParameter, paginaParameter, tamanoPaginaParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_Movimiento_Registrar_Result> sp_Movimiento_Registrar(Nullable<int> idSaldoCuenta, Nullable<int> idTipoMovimientoCXC, Nullable<System.DateTime> fechaMovimiento, Nullable<decimal> monto, string descripcion, string usuario, Nullable<bool> generadoAutomaticamente)
+        {
+            var idSaldoCuentaParameter = idSaldoCuenta.HasValue ?
+                new ObjectParameter("IdSaldoCuenta", idSaldoCuenta) :
+                new ObjectParameter("IdSaldoCuenta", typeof(int));
+    
+            var idTipoMovimientoCXCParameter = idTipoMovimientoCXC.HasValue ?
+                new ObjectParameter("IdTipoMovimientoCXC", idTipoMovimientoCXC) :
+                new ObjectParameter("IdTipoMovimientoCXC", typeof(int));
+    
+            var fechaMovimientoParameter = fechaMovimiento.HasValue ?
+                new ObjectParameter("FechaMovimiento", fechaMovimiento) :
+                new ObjectParameter("FechaMovimiento", typeof(System.DateTime));
+    
+            var montoParameter = monto.HasValue ?
+                new ObjectParameter("Monto", monto) :
+                new ObjectParameter("Monto", typeof(decimal));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            var generadoAutomaticamenteParameter = generadoAutomaticamente.HasValue ?
+                new ObjectParameter("GeneradoAutomaticamente", generadoAutomaticamente) :
+                new ObjectParameter("GeneradoAutomaticamente", typeof(bool));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Movimiento_Registrar_Result>("sp_Movimiento_Registrar", idSaldoCuentaParameter, idTipoMovimientoCXCParameter, fechaMovimientoParameter, montoParameter, descripcionParameter, usuarioParameter, generadoAutomaticamenteParameter);
+        }
+    
+        public virtual ObjectResult<string> sp_Seguridad_Navegacion(string idUsuario)
+        {
+            var idUsuarioParameter = idUsuario != null ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("sp_Seguridad_Navegacion", idUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<sp_Seguridad_PermisosUsuario_Result> sp_Seguridad_PermisosUsuario(string idUsuario)
+        {
+            var idUsuarioParameter = idUsuario != null ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Seguridad_PermisosUsuario_Result>("sp_Seguridad_PermisosUsuario", idUsuarioParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_Seguridad_ValidarPermiso(string idUsuario, Nullable<int> idOpcion, string permiso)
+        {
+            var idUsuarioParameter = idUsuario != null ?
+                new ObjectParameter("IdUsuario", idUsuario) :
+                new ObjectParameter("IdUsuario", typeof(string));
+    
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            var permisoParameter = permiso != null ?
+                new ObjectParameter("Permiso", permiso) :
+                new ObjectParameter("Permiso", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Seguridad_ValidarPermiso", idUsuarioParameter, idOpcionParameter, permisoParameter);
+        }
     }
 }

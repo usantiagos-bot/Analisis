@@ -347,6 +347,52 @@
     <Parameter Name="IdRole" Type="int" Mode="In" />
     <Parameter Name="Nombre" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="sp_RoleOpcion_Actualizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdRole" Type="int" Mode="In" />
+    <Parameter Name="IdOpcion" Type="int" Mode="In" />
+    <Parameter Name="Alta" Type="int" Mode="In" />
+    <Parameter Name="Baja" Type="int" Mode="In" />
+    <Parameter Name="Cambio" Type="int" Mode="In" />
+    <Parameter Name="Imprimir" Type="int" Mode="In" />
+    <Parameter Name="Exportar" Type="int" Mode="In" />
+    <Parameter Name="UsuarioAccion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_RoleOpcion_Crear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdRole" Type="int" Mode="In" />
+    <Parameter Name="IdOpcion" Type="int" Mode="In" />
+    <Parameter Name="Alta" Type="int" Mode="In" />
+    <Parameter Name="Baja" Type="int" Mode="In" />
+    <Parameter Name="Cambio" Type="int" Mode="In" />
+    <Parameter Name="Imprimir" Type="int" Mode="In" />
+    <Parameter Name="Exportar" Type="int" Mode="In" />
+    <Parameter Name="UsuarioAccion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_RoleOpcion_Eliminar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdRole" Type="int" Mode="In" />
+    <Parameter Name="IdOpcion" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_RoleOpcion_Guardar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdRole" Type="int" Mode="In" />
+    <Parameter Name="IdOpcion" Type="int" Mode="In" />
+    <Parameter Name="Alta" Type="int" Mode="In" />
+    <Parameter Name="Baja" Type="int" Mode="In" />
+    <Parameter Name="Cambio" Type="int" Mode="In" />
+    <Parameter Name="Imprimir" Type="int" Mode="In" />
+    <Parameter Name="Exportar" Type="int" Mode="In" />
+    <Parameter Name="UsuarioAccion" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_RoleOpcion_Listar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdRole" Type="int" Mode="In" />
+    <Parameter Name="IdOpcion" Type="int" Mode="In" />
+    <Parameter Name="Pagina" Type="int" Mode="In" />
+    <Parameter Name="TamanoPagina" Type="int" Mode="In" />
+    <Parameter Name="OrdenPor" Type="nvarchar" Mode="In" />
+    <Parameter Name="OrdenDir" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_RoleOpcion_Obtener" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdRole" Type="int" Mode="In" />
+    <Parameter Name="IdOpcion" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_Seguridad_Navegacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdUsuario" Type="varchar" Mode="In" />
   </Function>

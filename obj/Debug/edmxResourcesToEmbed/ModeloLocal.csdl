@@ -650,6 +650,52 @@
       <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
       <Parameter Name="Permiso" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="sp_RoleOpcion_Actualizar" ReturnType="Collection(ProyectoAnalisisModel1.sp_RoleOpcion_Actualizar_Result)">
+      <Parameter Name="IdRole" Mode="In" Type="Int32" />
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+      <Parameter Name="Alta" Mode="In" Type="Int32" />
+      <Parameter Name="Baja" Mode="In" Type="Int32" />
+      <Parameter Name="Cambio" Mode="In" Type="Int32" />
+      <Parameter Name="Imprimir" Mode="In" Type="Int32" />
+      <Parameter Name="Exportar" Mode="In" Type="Int32" />
+      <Parameter Name="UsuarioAccion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_RoleOpcion_Crear" ReturnType="Collection(ProyectoAnalisisModel1.sp_RoleOpcion_Crear_Result)">
+      <Parameter Name="IdRole" Mode="In" Type="Int32" />
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+      <Parameter Name="Alta" Mode="In" Type="Int32" />
+      <Parameter Name="Baja" Mode="In" Type="Int32" />
+      <Parameter Name="Cambio" Mode="In" Type="Int32" />
+      <Parameter Name="Imprimir" Mode="In" Type="Int32" />
+      <Parameter Name="Exportar" Mode="In" Type="Int32" />
+      <Parameter Name="UsuarioAccion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_RoleOpcion_Eliminar" ReturnType="Collection(ProyectoAnalisisModel1.sp_RoleOpcion_Eliminar_Result)">
+      <Parameter Name="IdRole" Mode="In" Type="Int32" />
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_RoleOpcion_Guardar" ReturnType="Collection(ProyectoAnalisisModel1.sp_RoleOpcion_Guardar_Result)">
+      <Parameter Name="IdRole" Mode="In" Type="Int32" />
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+      <Parameter Name="Alta" Mode="In" Type="Int32" />
+      <Parameter Name="Baja" Mode="In" Type="Int32" />
+      <Parameter Name="Cambio" Mode="In" Type="Int32" />
+      <Parameter Name="Imprimir" Mode="In" Type="Int32" />
+      <Parameter Name="Exportar" Mode="In" Type="Int32" />
+      <Parameter Name="UsuarioAccion" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_RoleOpcion_Listar" ReturnType="Collection(Int32)">
+      <Parameter Name="IdRole" Mode="In" Type="Int32" />
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+      <Parameter Name="OrdenPor" Mode="In" Type="String" />
+      <Parameter Name="OrdenDir" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_RoleOpcion_Obtener" ReturnType="Collection(ProyectoAnalisisModel1.sp_RoleOpcion_Obtener_Result)">
+      <Parameter Name="IdRole" Mode="In" Type="Int32" />
+      <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_LoginUsuario_Result">
     <Property Type="String" Name="IdUsuario" Nullable="false" MaxLength="100" />
@@ -1060,5 +1106,25 @@
     <Property Type="Int32" Name="Cambio" Nullable="true" />
     <Property Type="Int32" Name="Imprimir" Nullable="true" />
     <Property Type="Int32" Name="Exportar" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_RoleOpcion_Actualizar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="21" />
+  </ComplexType>
+  <ComplexType Name="sp_RoleOpcion_Crear_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="21" />
+  </ComplexType>
+  <ComplexType Name="sp_RoleOpcion_Eliminar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="21" />
+  </ComplexType>
+  <ComplexType Name="sp_RoleOpcion_Guardar_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="21" />
+  </ComplexType>
+  <ComplexType Name="sp_RoleOpcion_Obtener_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="21" />
   </ComplexType>
 </Schema>

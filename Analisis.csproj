@@ -176,6 +176,7 @@
     <Compile Include="Controllers\OpcionesController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\RoleOpcionController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\StatusCuentaController.cs" />
     <Compile Include="Controllers\SucursalController.cs" />
@@ -336,6 +337,21 @@
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_Persona_Obtener_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_RoleOpcion_Actualizar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_RoleOpcion_Crear_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_RoleOpcion_Eliminar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_RoleOpcion_Guardar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_RoleOpcion_Obtener_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_Role_Listar_Busqueda_Result.cs">
@@ -537,6 +553,7 @@
     <Folder Include="Views\Opciones\" />
     <Folder Include="Views\Persona\" />
     <Folder Include="Views\prueba\" />
+    <Folder Include="Views\RoleOpcion\" />
     <Folder Include="Views\Role\" />
     <Folder Include="Views\StatusCuenta\" />
     <Folder Include="Views\Status\" />

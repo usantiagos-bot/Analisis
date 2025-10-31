@@ -2330,5 +2330,171 @@ namespace Analisis
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_Seguridad_ValidarPermiso", idUsuarioParameter, idOpcionParameter, permisoParameter);
         }
+    
+        public virtual ObjectResult<sp_RoleOpcion_Actualizar_Result> sp_RoleOpcion_Actualizar(Nullable<int> idRole, Nullable<int> idOpcion, Nullable<int> alta, Nullable<int> baja, Nullable<int> cambio, Nullable<int> imprimir, Nullable<int> exportar, string usuarioAccion)
+        {
+            var idRoleParameter = idRole.HasValue ?
+                new ObjectParameter("IdRole", idRole) :
+                new ObjectParameter("IdRole", typeof(int));
+    
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            var altaParameter = alta.HasValue ?
+                new ObjectParameter("Alta", alta) :
+                new ObjectParameter("Alta", typeof(int));
+    
+            var bajaParameter = baja.HasValue ?
+                new ObjectParameter("Baja", baja) :
+                new ObjectParameter("Baja", typeof(int));
+    
+            var cambioParameter = cambio.HasValue ?
+                new ObjectParameter("Cambio", cambio) :
+                new ObjectParameter("Cambio", typeof(int));
+    
+            var imprimirParameter = imprimir.HasValue ?
+                new ObjectParameter("Imprimir", imprimir) :
+                new ObjectParameter("Imprimir", typeof(int));
+    
+            var exportarParameter = exportar.HasValue ?
+                new ObjectParameter("Exportar", exportar) :
+                new ObjectParameter("Exportar", typeof(int));
+    
+            var usuarioAccionParameter = usuarioAccion != null ?
+                new ObjectParameter("UsuarioAccion", usuarioAccion) :
+                new ObjectParameter("UsuarioAccion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RoleOpcion_Actualizar_Result>("sp_RoleOpcion_Actualizar", idRoleParameter, idOpcionParameter, altaParameter, bajaParameter, cambioParameter, imprimirParameter, exportarParameter, usuarioAccionParameter);
+        }
+    
+        public virtual ObjectResult<sp_RoleOpcion_Crear_Result> sp_RoleOpcion_Crear(Nullable<int> idRole, Nullable<int> idOpcion, Nullable<int> alta, Nullable<int> baja, Nullable<int> cambio, Nullable<int> imprimir, Nullable<int> exportar, string usuarioAccion)
+        {
+            var idRoleParameter = idRole.HasValue ?
+                new ObjectParameter("IdRole", idRole) :
+                new ObjectParameter("IdRole", typeof(int));
+    
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            var altaParameter = alta.HasValue ?
+                new ObjectParameter("Alta", alta) :
+                new ObjectParameter("Alta", typeof(int));
+    
+            var bajaParameter = baja.HasValue ?
+                new ObjectParameter("Baja", baja) :
+                new ObjectParameter("Baja", typeof(int));
+    
+            var cambioParameter = cambio.HasValue ?
+                new ObjectParameter("Cambio", cambio) :
+                new ObjectParameter("Cambio", typeof(int));
+    
+            var imprimirParameter = imprimir.HasValue ?
+                new ObjectParameter("Imprimir", imprimir) :
+                new ObjectParameter("Imprimir", typeof(int));
+    
+            var exportarParameter = exportar.HasValue ?
+                new ObjectParameter("Exportar", exportar) :
+                new ObjectParameter("Exportar", typeof(int));
+    
+            var usuarioAccionParameter = usuarioAccion != null ?
+                new ObjectParameter("UsuarioAccion", usuarioAccion) :
+                new ObjectParameter("UsuarioAccion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RoleOpcion_Crear_Result>("sp_RoleOpcion_Crear", idRoleParameter, idOpcionParameter, altaParameter, bajaParameter, cambioParameter, imprimirParameter, exportarParameter, usuarioAccionParameter);
+        }
+    
+        public virtual ObjectResult<sp_RoleOpcion_Eliminar_Result> sp_RoleOpcion_Eliminar(Nullable<int> idRole, Nullable<int> idOpcion)
+        {
+            var idRoleParameter = idRole.HasValue ?
+                new ObjectParameter("IdRole", idRole) :
+                new ObjectParameter("IdRole", typeof(int));
+    
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RoleOpcion_Eliminar_Result>("sp_RoleOpcion_Eliminar", idRoleParameter, idOpcionParameter);
+        }
+    
+        public virtual ObjectResult<sp_RoleOpcion_Guardar_Result> sp_RoleOpcion_Guardar(Nullable<int> idRole, Nullable<int> idOpcion, Nullable<int> alta, Nullable<int> baja, Nullable<int> cambio, Nullable<int> imprimir, Nullable<int> exportar, string usuarioAccion)
+        {
+            var idRoleParameter = idRole.HasValue ?
+                new ObjectParameter("IdRole", idRole) :
+                new ObjectParameter("IdRole", typeof(int));
+    
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            var altaParameter = alta.HasValue ?
+                new ObjectParameter("Alta", alta) :
+                new ObjectParameter("Alta", typeof(int));
+    
+            var bajaParameter = baja.HasValue ?
+                new ObjectParameter("Baja", baja) :
+                new ObjectParameter("Baja", typeof(int));
+    
+            var cambioParameter = cambio.HasValue ?
+                new ObjectParameter("Cambio", cambio) :
+                new ObjectParameter("Cambio", typeof(int));
+    
+            var imprimirParameter = imprimir.HasValue ?
+                new ObjectParameter("Imprimir", imprimir) :
+                new ObjectParameter("Imprimir", typeof(int));
+    
+            var exportarParameter = exportar.HasValue ?
+                new ObjectParameter("Exportar", exportar) :
+                new ObjectParameter("Exportar", typeof(int));
+    
+            var usuarioAccionParameter = usuarioAccion != null ?
+                new ObjectParameter("UsuarioAccion", usuarioAccion) :
+                new ObjectParameter("UsuarioAccion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RoleOpcion_Guardar_Result>("sp_RoleOpcion_Guardar", idRoleParameter, idOpcionParameter, altaParameter, bajaParameter, cambioParameter, imprimirParameter, exportarParameter, usuarioAccionParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<int>> sp_RoleOpcion_Listar(Nullable<int> idRole, Nullable<int> idOpcion, Nullable<int> pagina, Nullable<int> tamanoPagina, string ordenPor, string ordenDir)
+        {
+            var idRoleParameter = idRole.HasValue ?
+                new ObjectParameter("IdRole", idRole) :
+                new ObjectParameter("IdRole", typeof(int));
+    
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            var paginaParameter = pagina.HasValue ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(int));
+    
+            var tamanoPaginaParameter = tamanoPagina.HasValue ?
+                new ObjectParameter("TamanoPagina", tamanoPagina) :
+                new ObjectParameter("TamanoPagina", typeof(int));
+    
+            var ordenPorParameter = ordenPor != null ?
+                new ObjectParameter("OrdenPor", ordenPor) :
+                new ObjectParameter("OrdenPor", typeof(string));
+    
+            var ordenDirParameter = ordenDir != null ?
+                new ObjectParameter("OrdenDir", ordenDir) :
+                new ObjectParameter("OrdenDir", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("sp_RoleOpcion_Listar", idRoleParameter, idOpcionParameter, paginaParameter, tamanoPaginaParameter, ordenPorParameter, ordenDirParameter);
+        }
+    
+        public virtual ObjectResult<sp_RoleOpcion_Obtener_Result> sp_RoleOpcion_Obtener(Nullable<int> idRole, Nullable<int> idOpcion)
+        {
+            var idRoleParameter = idRole.HasValue ?
+                new ObjectParameter("IdRole", idRole) :
+                new ObjectParameter("IdRole", typeof(int));
+    
+            var idOpcionParameter = idOpcion.HasValue ?
+                new ObjectParameter("IdOpcion", idOpcion) :
+                new ObjectParameter("IdOpcion", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RoleOpcion_Obtener_Result>("sp_RoleOpcion_Obtener", idRoleParameter, idOpcionParameter);
+        }
     }
 }

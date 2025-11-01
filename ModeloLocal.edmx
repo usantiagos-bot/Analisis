@@ -16,6 +16,16 @@
           <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
           <Parameter Name="SaldoAnterior" Type="decimal" Mode="In" />
         </Function>
+        <Function Name="sp_Cuenta_ConsultaSaldos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Buscar" Type="varchar" Mode="In" />
+          <Parameter Name="IdPersona" Type="int" Mode="In" />
+          <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="Desde" Type="datetime" Mode="In" />
+          <Parameter Name="Hasta" Type="datetime" Mode="In" />
+          <Parameter Name="Modo" Type="varchar" Mode="In" />
+          <Parameter Name="Pagina" Type="int" Mode="In" />
+          <Parameter Name="TamanoPagina" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_Cuenta_Crear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdPersona" Type="int" Mode="In" />
           <Parameter Name="IdTipoSaldoCuenta" Type="int" Mode="In" />
@@ -1313,6 +1323,16 @@
             <Parameter Name="IdRole" Mode="In" Type="Int32" />
             <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_Cuenta_ConsultaSaldos" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_ConsultaSaldos_Result)">
+            <Parameter Name="Buscar" Mode="In" Type="String" />
+            <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+            <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="Desde" Mode="In" Type="DateTime" />
+            <Parameter Name="Hasta" Mode="In" Type="DateTime" />
+            <Parameter Name="Modo" Mode="In" Type="String" />
+            <Parameter Name="Pagina" Mode="In" Type="Int32" />
+            <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_LoginUsuario_Result">
           <Property Type="String" Name="IdUsuario" Nullable="false" MaxLength="100" />
@@ -1743,6 +1763,10 @@
         <ComplexType Name="sp_RoleOpcion_Obtener_Result">
           <Property Type="Int32" Name="Resultado" Nullable="false" />
           <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="21" />
+        </ComplexType>
+        <ComplexType Name="sp_Cuenta_ConsultaSaldos_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2452,6 +2476,14 @@
           <FunctionImportMapping FunctionImportName="sp_RoleOpcion_Obtener" FunctionName="ProyectoAnalisisModel1.Store.sp_RoleOpcion_Obtener">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_RoleOpcion_Obtener_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_Cuenta_ConsultaSaldos" FunctionName="ProyectoAnalisisModel1.Store.sp_Cuenta_ConsultaSaldos">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Cuenta_ConsultaSaldos_Result">
                 <ScalarProperty Name="Resultado" ColumnName="Resultado" />
                 <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
               </ComplexTypeMapping>

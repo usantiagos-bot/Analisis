@@ -476,5 +476,113 @@ namespace ProyectoAnalisis.Controllers
                 return InternalServerError(new Exception("Error interno: " + ex.Message));
             }
         }
+
+        // GET /Cuentas/ConsultaSaldos?usuarioAccion=&Buscar=&IdPersona=&IdSaldoCuenta=&Desde=&Hasta=&Modo=porCuenta&Pagina=1&TamanoPagina=50
+        [HttpGet]
+        [Route("ConsultaSaldos")]
+        public async Task<IHttpActionResult> ConsultaSaldos(
+            string usuarioAccion,
+            string Buscar = null,
+            int? IdPersona = null,
+            int? IdSaldoCuenta = null,
+            DateTime? Desde = null,
+            DateTime? Hasta = null,
+            string Modo = "porCuenta",    // 'porCuenta' | 'porCliente'
+            int Pagina = 1,
+            int TamanoPagina = 50)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(usuarioAccion))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
+
+                var u = usuarioAccion.Trim();
+                var puede =
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.GestionDeCuentas, PermisoAccion.Imprimir) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.GestionDeCuentas, PermisoAccion.Exportar) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.GestionDeCuentas, PermisoAccion.Cambio) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.GestionDeCuentas, PermisoAccion.Alta) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.GestionDeCuentas, PermisoAccion.Baja);
+                if (!puede) return Denegado("lectura");
+
+                // Normaliza Modo
+                Modo = string.Equals(Modo, "porCliente", StringComparison.OrdinalIgnoreCase) ? "porCliente" : "porCuenta";
+
+                using (var cn = new SqlConnection(Cnx))
+                using (var cmd = new SqlCommand("dbo.sp_Cuenta_ConsultaSaldos", cn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@Buscar", SqlDbType.VarChar, 100).Value =
+                        (object)(string.IsNullOrWhiteSpace(Buscar) ? null : Buscar.Trim()) ?? DBNull.Value;
+                    cmd.Parameters.Add("@IdPersona", SqlDbType.Int).Value = (object)IdPersona ?? DBNull.Value;
+                    cmd.Parameters.Add("@IdSaldoCuenta", SqlDbType.Int).Value = (object)IdSaldoCuenta ?? DBNull.Value;
+                    cmd.Parameters.Add("@Desde", SqlDbType.DateTime).Value = (object)Desde ?? DBNull.Value;
+                    cmd.Parameters.Add("@Hasta", SqlDbType.DateTime).Value = (object)Hasta ?? DBNull.Value;
+                    cmd.Parameters.Add("@Modo", SqlDbType.VarChar, 12).Value = Modo;
+                    cmd.Parameters.Add("@Pagina", SqlDbType.Int).Value = Pagina;
+                    cmd.Parameters.Add("@TamanoPagina", SqlDbType.Int).Value = TamanoPagina;
+
+                    cn.Open();
+                    using (var rd = await cmd.ExecuteReaderAsync())
+                    {
+                        if (!await rd.ReadAsync())
+                            return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
+
+                        int resultado = rd["Resultado"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Resultado"]);
+                        string mensaje = rd["Mensaje"] as string ?? "OK";
+                        if (resultado != 1) return Ok(new { Resultado = resultado, Mensaje = mensaje });
+
+                        // Resultset 2: filas
+                        if (!await rd.NextResultAsync())
+                            return Ok(new { Resultado = 1, Mensaje = "OK", Pagina, TamanoPagina, Total = 0, Items = new object[0] });
+
+                        var items = new List<object>();
+                        while (await rd.ReadAsync())
+                        {
+                            items.Add(new
+                            {
+                                Modo = rd["Modo"] as string,
+                                IdSaldoCuenta = rd["IdSaldoCuenta"] != DBNull.Value ? Convert.ToInt32(rd["IdSaldoCuenta"]) : (int?)null,
+                                IdPersona = Convert.ToInt32(rd["IdPersona"]),
+                                NombreCompleto = rd["NombreCompleto"] as string,
+                                SaldoInicial = Convert.ToDecimal(rd["SaldoInicial"]),
+                                Cargos = Convert.ToDecimal(rd["Cargos"]),
+                                Abonos = Convert.ToDecimal(rd["Abonos"]),
+                                SaldoFinal = Convert.ToDecimal(rd["SaldoFinal"])
+                            });
+                        }
+
+                        // Resultset 3: total
+                        int total = 0;
+                        if (await rd.NextResultAsync() && await rd.ReadAsync())
+                            total = rd["Total"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Total"]);
+
+                        return Ok(new
+                        {
+                            Resultado = 1,
+                            Mensaje = "OK",
+                            Filtros = new
+                            {
+                                Buscar = string.IsNullOrWhiteSpace(Buscar) ? null : Buscar.Trim(),
+                                IdPersona,
+                                IdSaldoCuenta,
+                                Desde = Fmt(Desde),
+                                Hasta = Fmt(Hasta),
+                                Modo
+                            },
+                            Pagina,
+                            TamanoPagina,
+                            Total = total,
+                            Items = items
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(new Exception("Error interno: " + ex.Message));
+            }
+        }
+
     }
 }

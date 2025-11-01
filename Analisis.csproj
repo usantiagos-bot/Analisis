@@ -219,6 +219,9 @@
     <Compile Include="sp_Cuenta_Actualizar_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_Cuenta_ConsultaSaldos_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_Cuenta_Crear_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>

@@ -696,6 +696,16 @@
       <Parameter Name="IdRole" Mode="In" Type="Int32" />
       <Parameter Name="IdOpcion" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_Cuenta_ConsultaSaldos" ReturnType="Collection(ProyectoAnalisisModel1.sp_Cuenta_ConsultaSaldos_Result)">
+      <Parameter Name="Buscar" Mode="In" Type="String" />
+      <Parameter Name="IdPersona" Mode="In" Type="Int32" />
+      <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="Desde" Mode="In" Type="DateTime" />
+      <Parameter Name="Hasta" Mode="In" Type="DateTime" />
+      <Parameter Name="Modo" Mode="In" Type="String" />
+      <Parameter Name="Pagina" Mode="In" Type="Int32" />
+      <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_LoginUsuario_Result">
     <Property Type="String" Name="IdUsuario" Nullable="false" MaxLength="100" />
@@ -1126,5 +1136,9 @@
   <ComplexType Name="sp_RoleOpcion_Obtener_Result">
     <Property Type="Int32" Name="Resultado" Nullable="false" />
     <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="21" />
+  </ComplexType>
+  <ComplexType Name="sp_Cuenta_ConsultaSaldos_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
   </ComplexType>
 </Schema>

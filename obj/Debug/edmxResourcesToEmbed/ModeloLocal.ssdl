@@ -11,6 +11,16 @@
     <Parameter Name="IdStatusCuenta" Type="int" Mode="In" />
     <Parameter Name="SaldoAnterior" Type="decimal" Mode="In" />
   </Function>
+  <Function Name="sp_Cuenta_ConsultaSaldos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Buscar" Type="varchar" Mode="In" />
+    <Parameter Name="IdPersona" Type="int" Mode="In" />
+    <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="Desde" Type="datetime" Mode="In" />
+    <Parameter Name="Hasta" Type="datetime" Mode="In" />
+    <Parameter Name="Modo" Type="varchar" Mode="In" />
+    <Parameter Name="Pagina" Type="int" Mode="In" />
+    <Parameter Name="TamanoPagina" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_Cuenta_Crear" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="IdPersona" Type="int" Mode="In" />
     <Parameter Name="IdTipoSaldoCuenta" Type="int" Mode="In" />

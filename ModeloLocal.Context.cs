@@ -2496,5 +2496,42 @@ namespace Analisis
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_RoleOpcion_Obtener_Result>("sp_RoleOpcion_Obtener", idRoleParameter, idOpcionParameter);
         }
+    
+        public virtual ObjectResult<sp_Cuenta_ConsultaSaldos_Result> sp_Cuenta_ConsultaSaldos(string buscar, Nullable<int> idPersona, Nullable<int> idSaldoCuenta, Nullable<System.DateTime> desde, Nullable<System.DateTime> hasta, string modo, Nullable<int> pagina, Nullable<int> tamanoPagina)
+        {
+            var buscarParameter = buscar != null ?
+                new ObjectParameter("Buscar", buscar) :
+                new ObjectParameter("Buscar", typeof(string));
+    
+            var idPersonaParameter = idPersona.HasValue ?
+                new ObjectParameter("IdPersona", idPersona) :
+                new ObjectParameter("IdPersona", typeof(int));
+    
+            var idSaldoCuentaParameter = idSaldoCuenta.HasValue ?
+                new ObjectParameter("IdSaldoCuenta", idSaldoCuenta) :
+                new ObjectParameter("IdSaldoCuenta", typeof(int));
+    
+            var desdeParameter = desde.HasValue ?
+                new ObjectParameter("Desde", desde) :
+                new ObjectParameter("Desde", typeof(System.DateTime));
+    
+            var hastaParameter = hasta.HasValue ?
+                new ObjectParameter("Hasta", hasta) :
+                new ObjectParameter("Hasta", typeof(System.DateTime));
+    
+            var modoParameter = modo != null ?
+                new ObjectParameter("Modo", modo) :
+                new ObjectParameter("Modo", typeof(string));
+    
+            var paginaParameter = pagina.HasValue ?
+                new ObjectParameter("Pagina", pagina) :
+                new ObjectParameter("Pagina", typeof(int));
+    
+            var tamanoPaginaParameter = tamanoPagina.HasValue ?
+                new ObjectParameter("TamanoPagina", tamanoPagina) :
+                new ObjectParameter("TamanoPagina", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Cuenta_ConsultaSaldos_Result>("sp_Cuenta_ConsultaSaldos", buscarParameter, idPersonaParameter, idSaldoCuentaParameter, desdeParameter, hastaParameter, modoParameter, paginaParameter, tamanoPaginaParameter);
+        }
     }
 }

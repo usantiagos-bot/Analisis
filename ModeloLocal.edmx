@@ -151,6 +151,15 @@
           <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
           <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="sp_GrabacionMovimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Usuario" Type="varchar" Mode="In" />
+          <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+          <Parameter Name="IdTipoMovimientoCXC" Type="int" Mode="In" />
+          <Parameter Name="FechaMovimiento" Type="datetime" Mode="In" />
+          <Parameter Name="ValorMovimiento" Type="decimal" Mode="In" />
+          <Parameter Name="DocumentoRef" Type="varchar" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="sp_LoginUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Usuario" Type="nvarchar" Mode="In" />
           <Parameter Name="Password" Type="nvarchar" Mode="In" />
@@ -1333,6 +1342,15 @@
             <Parameter Name="Pagina" Mode="In" Type="Int32" />
             <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_GrabacionMovimiento" ReturnType="Collection(ProyectoAnalisisModel1.sp_GrabacionMovimiento_Result)">
+            <Parameter Name="Usuario" Mode="In" Type="String" />
+            <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+            <Parameter Name="IdTipoMovimientoCXC" Mode="In" Type="Int32" />
+            <Parameter Name="FechaMovimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="ValorMovimiento" Mode="In" Type="Decimal" />
+            <Parameter Name="DocumentoRef" Mode="In" Type="String" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_LoginUsuario_Result">
           <Property Type="String" Name="IdUsuario" Nullable="false" MaxLength="100" />
@@ -1767,6 +1785,10 @@
         <ComplexType Name="sp_Cuenta_ConsultaSaldos_Result">
           <Property Type="Int32" Name="Resultado" Nullable="false" />
           <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+        </ComplexType>
+        <ComplexType Name="sp_GrabacionMovimiento_Result">
+          <Property Type="Int32" Name="Resultado" Nullable="false" />
+          <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="32" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2484,6 +2506,14 @@
           <FunctionImportMapping FunctionImportName="sp_Cuenta_ConsultaSaldos" FunctionName="ProyectoAnalisisModel1.Store.sp_Cuenta_ConsultaSaldos">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_Cuenta_ConsultaSaldos_Result">
+                <ScalarProperty Name="Resultado" ColumnName="Resultado" />
+                <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GrabacionMovimiento" FunctionName="ProyectoAnalisisModel1.Store.sp_GrabacionMovimiento">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProyectoAnalisisModel1.sp_GrabacionMovimiento_Result">
                 <ScalarProperty Name="Resultado" ColumnName="Resultado" />
                 <ScalarProperty Name="Mensaje" ColumnName="Mensaje" />
               </ComplexTypeMapping>

@@ -2533,5 +2533,38 @@ namespace Analisis
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_Cuenta_ConsultaSaldos_Result>("sp_Cuenta_ConsultaSaldos", buscarParameter, idPersonaParameter, idSaldoCuentaParameter, desdeParameter, hastaParameter, modoParameter, paginaParameter, tamanoPaginaParameter);
         }
+    
+        public virtual ObjectResult<sp_GrabacionMovimiento_Result> sp_GrabacionMovimiento(string usuario, Nullable<int> idSaldoCuenta, Nullable<int> idTipoMovimientoCXC, Nullable<System.DateTime> fechaMovimiento, Nullable<decimal> valorMovimiento, string documentoRef, string descripcion)
+        {
+            var usuarioParameter = usuario != null ?
+                new ObjectParameter("Usuario", usuario) :
+                new ObjectParameter("Usuario", typeof(string));
+    
+            var idSaldoCuentaParameter = idSaldoCuenta.HasValue ?
+                new ObjectParameter("IdSaldoCuenta", idSaldoCuenta) :
+                new ObjectParameter("IdSaldoCuenta", typeof(int));
+    
+            var idTipoMovimientoCXCParameter = idTipoMovimientoCXC.HasValue ?
+                new ObjectParameter("IdTipoMovimientoCXC", idTipoMovimientoCXC) :
+                new ObjectParameter("IdTipoMovimientoCXC", typeof(int));
+    
+            var fechaMovimientoParameter = fechaMovimiento.HasValue ?
+                new ObjectParameter("FechaMovimiento", fechaMovimiento) :
+                new ObjectParameter("FechaMovimiento", typeof(System.DateTime));
+    
+            var valorMovimientoParameter = valorMovimiento.HasValue ?
+                new ObjectParameter("ValorMovimiento", valorMovimiento) :
+                new ObjectParameter("ValorMovimiento", typeof(decimal));
+    
+            var documentoRefParameter = documentoRef != null ?
+                new ObjectParameter("DocumentoRef", documentoRef) :
+                new ObjectParameter("DocumentoRef", typeof(string));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GrabacionMovimiento_Result>("sp_GrabacionMovimiento", usuarioParameter, idSaldoCuentaParameter, idTipoMovimientoCXCParameter, fechaMovimientoParameter, valorMovimientoParameter, documentoRefParameter, descripcionParameter);
+        }
     }
 }

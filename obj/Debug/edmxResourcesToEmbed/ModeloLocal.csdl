@@ -706,6 +706,15 @@
       <Parameter Name="Pagina" Mode="In" Type="Int32" />
       <Parameter Name="TamanoPagina" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="sp_GrabacionMovimiento" ReturnType="Collection(ProyectoAnalisisModel1.sp_GrabacionMovimiento_Result)">
+      <Parameter Name="Usuario" Mode="In" Type="String" />
+      <Parameter Name="IdSaldoCuenta" Mode="In" Type="Int32" />
+      <Parameter Name="IdTipoMovimientoCXC" Mode="In" Type="Int32" />
+      <Parameter Name="FechaMovimiento" Mode="In" Type="DateTime" />
+      <Parameter Name="ValorMovimiento" Mode="In" Type="Decimal" />
+      <Parameter Name="DocumentoRef" Mode="In" Type="String" />
+      <Parameter Name="Descripcion" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="sp_LoginUsuario_Result">
     <Property Type="String" Name="IdUsuario" Nullable="false" MaxLength="100" />
@@ -1140,5 +1149,9 @@
   <ComplexType Name="sp_Cuenta_ConsultaSaldos_Result">
     <Property Type="Int32" Name="Resultado" Nullable="false" />
     <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="2" />
+  </ComplexType>
+  <ComplexType Name="sp_GrabacionMovimiento_Result">
+    <Property Type="Int32" Name="Resultado" Nullable="false" />
+    <Property Type="String" Name="Mensaje" Nullable="false" MaxLength="32" />
   </ComplexType>
 </Schema>

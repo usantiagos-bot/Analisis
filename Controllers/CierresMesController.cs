@@ -5,8 +5,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Web.Http;
-using ProyectoAnalisis.Helpers;
-using ProyectoAnalisis.Permissions;
+using ProyectoAnalisis.Helpers;      // SeguridadHelper, Opciones, PermisoAccion
+using ProyectoAnalisis.Permissions;  // Enum de permisos
 
 namespace ProyectoAnalisis.Controllers
 {
@@ -14,17 +14,16 @@ namespace ProyectoAnalisis.Controllers
     public class CierreMesController : ApiController
     {
         private static string Cnx => ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString;
+        private static string Fmt(object dt) => (dt == DBNull.Value || dt == null) ? null : ((DateTime)dt).ToString("yyyy-MM-ddTHH:mm:ss");
+        private IHttpActionResult Denegado(string d) => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({d})." });
 
-        private IHttpActionResult Denegado(string detalle)
-            => Ok(new { Resultado = 0, Mensaje = $"Permiso denegado ({detalle})." });
-
-        // =========================
-        // GET /CierreMes/Pendientes
-        // Lista de períodos Anio/Mes con FechaCierre NULL
-        // =========================
-        [HttpGet]
-        [Route("Pendientes")]
-        public async Task<IHttpActionResult> Pendientes(string usuarioAccion)
+        // ============================================================
+        // POST /CierreMes/Ejecutar?usuarioAccion=&Anio=&Mes=
+        // Llama a dbo.sp_CierreMes_Ejecutar (@Anio, @Mes, @Usuario)
+        // ============================================================
+        [HttpPost]
+        [Route("Ejecutar")]
+        public async Task<IHttpActionResult> Ejecutar(string usuarioAccion, int Anio, int Mes)
         {
             try
             {
@@ -32,69 +31,12 @@ namespace ProyectoAnalisis.Controllers
                     return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
 
                 var u = usuarioAccion.Trim();
+
+                // Requiere permiso de proceso/cambio
                 var puede =
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.CierreDeMes, PermisoAccion.Imprimir) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.CierreDeMes, PermisoAccion.Exportar) ||
-                    await SeguridadHelper.TienePermisoAsync(u, Opciones.CierreDeMes, PermisoAccion.Cambio);
-
-                if (!puede) return Denegado("lectura");
-
-                var items = new List<object>();
-
-                using (var cn = new SqlConnection(Cnx))
-                using (var cmd = new SqlCommand(@"
-                        SELECT Anio, Mes, FechaCierre
-                        FROM dbo.PERIODO_CIERRE_MES WITH (NOLOCK)
-                        WHERE FechaCierre IS NULL
-                        ORDER BY Anio DESC, Mes DESC;", cn))
-                {
-                    await cn.OpenAsync();
-                    using (var rd = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await rd.ReadAsync())
-                        {
-                            items.Add(new
-                            {
-                                Anio = Convert.ToInt32(rd["Anio"]),
-                                Mes = Convert.ToInt32(rd["Mes"]),
-                                FechaCierre = rd["FechaCierre"] == DBNull.Value ? null
-                                              : ((DateTime)rd["FechaCierre"]).ToString("yyyy-MM-ddTHH:mm:ss")
-                            });
-                        }
-                    }
-                }
-
-                return Ok(new { Resultado = 1, Mensaje = "OK", Items = items });
-            }
-            catch (Exception ex)
-            {
-                return InternalServerError(new Exception("Error interno: " + ex.Message));
-            }
-        }
-
-        // =========================
-        // POST /CierreMes/Ejecutar
-        // Body (x-www-form-urlencoded o JSON):
-        //   Usuario (req), Anio (req), Mes (req 1..12)
-        // Lee los 2 result sets del SP:
-        //   RS#1: Resultado, Mensaje
-        //   RS#2: { PeriodoAnio, PeriodoMes, HistoricosInsertados, CuentasProcesadas }
-        // =========================
-        [HttpPost]
-        [Route("Ejecutar")]
-        public async Task<IHttpActionResult> Ejecutar(string Usuario, int Anio, int Mes)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(Usuario))
-                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar Usuario." });
-
-                if (Mes < 1 || Mes > 12)
-                    return Ok(new { Resultado = 0, Mensaje = "Mes debe estar entre 1 y 12." });
-
-                var u = Usuario.Trim();
-                var puede = await SeguridadHelper.TienePermisoAsync(u, Opciones.CierreDeMes, PermisoAccion.Cambio);
-                if (!puede) return Denegado(PermisoAccion.Cambio.ToString());
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.CierreDeMes, PermisoAccion.Cambio) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.CierreDeMes, PermisoAccion.Alta);
+                if (!puede) return Denegado("cierre de mes");
 
                 using (var cn = new SqlConnection(Cnx))
                 using (var cmd = new SqlCommand("dbo.sp_CierreMes_Ejecutar", cn))
@@ -104,34 +46,153 @@ namespace ProyectoAnalisis.Controllers
                     cmd.Parameters.Add("@Mes", SqlDbType.Int).Value = Mes;
                     cmd.Parameters.Add("@Usuario", SqlDbType.VarChar, 100).Value = u;
 
-                    await cn.OpenAsync();
+                    cn.Open();
                     using (var rd = await cmd.ExecuteReaderAsync())
                     {
-                        // RS#1: meta
                         if (!await rd.ReadAsync())
                             return Ok(new { Resultado = 0, Mensaje = "Sin respuesta del procedimiento." });
 
-                        var resultado = rd["Resultado"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Resultado"]);
-                        var mensaje = rd["Mensaje"] as string ?? "OK";
+                        int resultado = rd["Resultado"] == DBNull.Value ? 0 : Convert.ToInt32(rd["Resultado"]);
+                        string mensaje = rd["Mensaje"] as string ?? "OK";
 
-                        if (resultado != 1)
-                            return Ok(new { Resultado = resultado, Mensaje = mensaje });
-
-                        // RS#2: detalle
-                        object detalle = null;
+                        // Opcional: segundo resultset con conteo/registros del histórico del período
+                        object resumen = null;
                         if (await rd.NextResultAsync() && await rd.ReadAsync())
                         {
-                            detalle = new
+                            resumen = new
                             {
-                                PeriodoAnio = rd["PeriodoAnio"] == DBNull.Value ? (int?)null : Convert.ToInt32(rd["PeriodoAnio"]),
-                                PeriodoMes = rd["PeriodoMes"] == DBNull.Value ? (int?)null : Convert.ToInt32(rd["PeriodoMes"]),
-                                HistoricosInsertados = rd["HistoricosInsertados"] == DBNull.Value ? 0 : Convert.ToInt32(rd["HistoricosInsertados"]),
-                                CuentasProcesadas = rd["CuentasProcesadas"] == DBNull.Value ? 0 : Convert.ToInt32(rd["CuentasProcesadas"])
+                                Anio = rd["Anio"] != DBNull.Value ? Convert.ToInt32(rd["Anio"]) : Anio,
+                                Mes = rd["Mes"] != DBNull.Value ? Convert.ToInt32(rd["Mes"]) : Mes,
+                                Registros = rd["Registros"] != DBNull.Value ? Convert.ToInt32(rd["Registros"]) : 0
                             };
                         }
 
-                        return Ok(new { Resultado = 1, Mensaje = mensaje, Data = detalle });
+                        return Ok(new { Resultado = resultado, Mensaje = mensaje, Resumen = resumen });
                     }
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(new Exception("Error interno: " + ex.Message));
+            }
+        }
+
+        // ============================================================
+        // GET /CierreMes/PeriodosPendientes
+        // Lista los períodos de PERIODO_CIERRE_MES con FechaCierre = NULL
+        // ============================================================
+        [HttpGet]
+        [Route("PeriodosPendientes")]
+        public async Task<IHttpActionResult> PeriodosPendientes()
+        {
+            try
+            {
+                using (var cn = new SqlConnection(Cnx))
+                using (var cmd = new SqlCommand(@"
+                    SELECT Anio, Mes, FechaCierre = NULL
+                    FROM dbo.PERIODO_CIERRE_MES
+                    WHERE FechaCierre IS NULL
+                    ORDER BY Anio DESC, Mes DESC;", cn))
+                {
+                    cn.Open();
+                    var items = new List<object>();
+                    using (var rd = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await rd.ReadAsync())
+                        {
+                            items.Add(new
+                            {
+                                Anio = Convert.ToInt32(rd["Anio"]),
+                                Mes = Convert.ToInt32(rd["Mes"]),
+                                FechaCierre = (string)null
+                            });
+                        }
+                    }
+                    return Ok(new { Resultado = 1, Mensaje = "OK", Items = items });
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(new Exception("Error interno: " + ex.Message));
+            }
+        }
+
+        // ============================================================
+        // GET /CierreMes/UltimosCierres?top=12
+        // Consulta últimos períodos cerrados (informativo)
+        // ============================================================
+        [HttpGet]
+        [Route("UltimosCierres")]
+        public async Task<IHttpActionResult> UltimosCierres(int top = 12)
+        {
+            try
+            {
+                if (top <= 0) top = 12;
+
+                using (var cn = new SqlConnection(Cnx))
+                using (var cmd = new SqlCommand($@"
+                    SELECT TOP (@top) Anio, Mes, FechaCierre
+                    FROM dbo.PERIODO_CIERRE_MES
+                    WHERE FechaCierre IS NOT NULL
+                    ORDER BY FechaCierre DESC;", cn))
+                {
+                    cmd.Parameters.Add("@top", SqlDbType.Int).Value = top;
+
+                    cn.Open();
+                    var items = new List<object>();
+                    using (var rd = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await rd.ReadAsync())
+                        {
+                            items.Add(new
+                            {
+                                Anio = Convert.ToInt32(rd["Anio"]),
+                                Mes = Convert.ToInt32(rd["Mes"]),
+                                FechaCierre = Fmt(rd["FechaCierre"])
+                            });
+                        }
+                    }
+                    return Ok(new { Resultado = 1, Mensaje = "OK", Items = items });
+                }
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(new Exception("Error interno: " + ex.Message));
+            }
+        }
+
+        // ============================================================
+        // POST /CierreMes/AbrirPeriodo?usuarioAccion=&Anio=&Mes=
+        // (Opcional) Crea un período pendiente si no existe ya.
+        // ============================================================
+        [HttpPost]
+        [Route("AbrirPeriodo")]
+        public async Task<IHttpActionResult> AbrirPeriodo(string usuarioAccion, int Anio, int Mes)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(usuarioAccion))
+                    return Ok(new { Resultado = 0, Mensaje = "Debe enviar usuarioAccion." });
+
+                var u = usuarioAccion.Trim();
+                var puede =
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.CierreDeMes, PermisoAccion.Alta) ||
+                    await SeguridadHelper.TienePermisoAsync(u, Opciones.CierreDeMes, PermisoAccion.Cambio);
+                if (!puede) return Denegado("abrir período");
+
+                using (var cn = new SqlConnection(Cnx))
+                using (var cmd = new SqlCommand(@"
+                    IF NOT EXISTS (SELECT 1 FROM dbo.PERIODO_CIERRE_MES WHERE Anio=@Anio AND Mes=@Mes)
+                      INSERT INTO dbo.PERIODO_CIERRE_MES (Anio, Mes, FechaCierre)
+                      VALUES (@Anio, @Mes, NULL);", cn))
+                {
+                    cmd.Parameters.Add("@Anio", SqlDbType.Int).Value = Anio;
+                    cmd.Parameters.Add("@Mes", SqlDbType.Int).Value = Mes;
+
+                    cn.Open();
+                    await cmd.ExecuteNonQueryAsync();
+
+                    return Ok(new { Resultado = 1, Mensaje = "Período abierto (o ya existía pendiente)." });
                 }
             }
             catch (Exception ex)

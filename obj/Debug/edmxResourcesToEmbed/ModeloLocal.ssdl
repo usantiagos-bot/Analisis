@@ -146,6 +146,15 @@
     <Parameter Name="OrdenPor" Type="varchar" Mode="In" />
     <Parameter Name="OrdenDir" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="sp_GrabacionMovimiento" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Usuario" Type="varchar" Mode="In" />
+    <Parameter Name="IdSaldoCuenta" Type="int" Mode="In" />
+    <Parameter Name="IdTipoMovimientoCXC" Type="int" Mode="In" />
+    <Parameter Name="FechaMovimiento" Type="datetime" Mode="In" />
+    <Parameter Name="ValorMovimiento" Type="decimal" Mode="In" />
+    <Parameter Name="DocumentoRef" Type="varchar" Mode="In" />
+    <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="sp_LoginUsuario" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="Usuario" Type="nvarchar" Mode="In" />
     <Parameter Name="Password" Type="nvarchar" Mode="In" />

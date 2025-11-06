@@ -167,6 +167,7 @@
     <Compile Include="Controllers\EstadoCivilController.cs" />
     <Compile Include="Controllers\EstadoCuentaController.cs" />
     <Compile Include="Controllers\GeneroController.cs" />
+    <Compile Include="Controllers\GrabacionMovimientoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -259,6 +260,9 @@
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_Genero_Listar_Result.cs">
+      <DependentUpon>ModeloLocal.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GrabacionMovimiento_Result.cs">
       <DependentUpon>ModeloLocal.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_LoginUsuario_Result.cs">
@@ -548,6 +552,7 @@
     <Folder Include="Views\EstadoCivil\" />
     <Folder Include="Views\EstadoCuenta\" />
     <Folder Include="Views\Genero\" />
+    <Folder Include="Views\GrabacionMovimiento\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\Menu\" />
     <Folder Include="Views\Modulo\" />
